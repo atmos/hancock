@@ -18,10 +18,10 @@ Hancock::User.fix {{
   :email                 => /\w+@\w+.\w{2,3}/.gen.downcase,
   :first_name            => /\w+/.gen.capitalize,
   :last_name             => /\w+/.gen.capitalize,
-  :password              => 'lolerskates',
-  :password_confirmation => 'lolerskates',
+  :password              => (pass = /\w+/.gen.downcase),
+  :password_confirmation => pass,
   :salt                  => (salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--email--")),
-  :crypted_password      => Hancock::User.encrypt('lolerskates', salt)
+  :crypted_password      => Hancock::User.encrypt(pass, salt)
 }}
 
 Hancock::Consumer.fix(:internal) {{
