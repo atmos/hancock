@@ -4,7 +4,7 @@ describe Hancock::User do
   before(:each) do
     @user = Hancock::User.gen
   end
-  it "should have specs" do 
+  it "should save successfully" do
     @user.save.should be_true
   end
 end
