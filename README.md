@@ -1,7 +1,7 @@
 hancock
 =======
 
-It's like your [johnhancock][John Hancock] for all of your company's apps.
+It's like your [John Hancock][johnhancock] for all of your company's apps.
 
 Installation
 ============
