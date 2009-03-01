@@ -75,6 +75,19 @@ describe "visiting /openid" do
           response.status.should == 403
         end
       end
+      describe "attempting to access from an untrusted consumer" do
+        it "cancel the openid request" do
+          params = {
+            "openid.ns"         => "http://specs.openid.net/auth/2.0",
+            "openid.mode"       => "checkid_setup",
+            "openid.return_to"  => "http://rogueconsumerapp.com/",
+            "openid.identity"   => "http://example.org/users/#{@user.id}",
+            "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+
+          get "/openid", params, :session => {:user_id => @user.id}
+          response.status.should == 403
+        end
+      end
     end
     describe "unauthenticated user" do
       it "should require authentication" do
