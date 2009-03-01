@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__)+'/../../spec_helper')
 describe "visiting /openid" do
   before(:each) do
     @user = Hancock::User.gen
+    @consumer = Hancock::Consumer.gen(:internal)
   end
   it "should throw a bad request if there aren't any openid params" do
     get '/openid'
@@ -39,7 +40,7 @@ describe "visiting /openid" do
         params = {
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_setup",
-            "openid.return_to"  => "http://consumerapp.com/auth/login",
+            "openid.return_to"  => @consumer.url,
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
@@ -52,7 +53,7 @@ describe "visiting /openid" do
         redirect_params['openid.mode'].should             == 'id_res'
         redirect_params['openid.return_to'].should        == 'http://consumerapp.com/auth/login'
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
-        redirect_params['openid.op_endpoint'].should      == 'http://example.org/servers' 
+        redirect_params['openid.op_endpoint'].should      == 'http://example.org/openid' 
         redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"
         redirect_params['openid.identity'].should         == "http://example.org/users/#{@user.id}"
 
@@ -67,25 +68,25 @@ describe "visiting /openid" do
         params = {
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_setup",
-          "openid.return_to"  => "http://consumerapp.com/auth/login",
+          "openid.return_to"  => @consumer.url,
           "openid.identity"   => "http://example.org/users/#{@user.id}",
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
         get "/openid", params
-        response.should be_a_valid_merb_auth_form
-        login_response = login_user
 
-        response = request(login_response.headers['Location'])
-        response.status.should == 302
-        redirected_to = Addressable::URI.parse(response.headers['Location'])
+        # log the user in
+
+        get(login_response.headers['Location'])
+        @response.status.should == 302
+        redirected_to = Addressable::URI.parse(@response.headers['Location'])
         redirected_to.host.should == 'consumerapp.com'
 
         redirect_params = redirected_to.query_values
 
         redirect_params['openid.mode'].should == 'id_res'
         redirect_params['openid.ns'].should == "http://specs.openid.net/auth/2.0"
-        redirect_params['openid.op_endpoint'].should == "http://example.org/servers"
-        redirect_params['openid.return_to'].should == "http://consumerapp.com/auth/login"
+        redirect_params['openid.op_endpoint'].should == "http://example.org/openid"
+        redirect_params['openid.return_to'].should == @consumer.url
         redirect_params['openid.identity'].should == "http://example.org/users/#{@user.id}"
       end
     end
