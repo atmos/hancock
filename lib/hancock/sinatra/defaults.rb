@@ -15,9 +15,9 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Defaults::Helpers)
-        app.enable :sessions
+        app.set :sessions, true
         app.get '/' do
-          "Hello #{session_user}"
+          "Hello #{session_user ? session_user.email : ''}"
         end
       end
     end

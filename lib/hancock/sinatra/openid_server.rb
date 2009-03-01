@@ -31,7 +31,7 @@ module Sinatra
         end
 
         def session_user
-          session[:user_id].nil? ? nil : User.get(session[:user_id])
+          session[:user_id].nil? ? nil : ::Hancock::User.get(session[:user_id])
         end
 
         def url_for_user

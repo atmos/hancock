@@ -4,15 +4,18 @@ describe "visiting /" do
   before(:each) do
     @user = Hancock::User.gen
     @consumer = Hancock::Consumer.gen(:internal)
+    @app = Rack::Builder.new {
+      run Hancock::App
+    }
   end
   describe "when authenticated" do
-    it "should gree the user" do
-      get '/', {}, :session => {:user_id => @user.id}
+    it "should greet the user" do
+      get '/', {:foo => :bar }, :session => {:user_id => @user.id}
       @response.body.should match(/Hello #{@user.email}/)
     end
   end
   describe "when unauthenticated" do
-    it "should gree the user" do
+    it "should greet the user" do
       get '/'
       @response.body.should match(/Hello/)
     end
