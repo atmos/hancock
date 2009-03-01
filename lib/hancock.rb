@@ -7,6 +7,7 @@ gem 'ruby-openid', '~>2.1.2'
 require 'openid'
 require 'openid/store/filesystem'
 gem 'sinatra', '~>0.9.1'
+require 'sinatra'
 require 'sinatra/base'
 gem 'guid', '~>0.1.1'
 require 'guid'
@@ -22,8 +23,5 @@ require File.expand_path(File.dirname(__FILE__)+'/hancock/sinatra/openid_server'
 
 module Hancock
   class App < Sinatra::Default
-    register Sinatra::Hancock::Defaults
-    register Sinatra::Hancock::Users
-    register Sinatra::Hancock::OpenIDServer
   end
 end

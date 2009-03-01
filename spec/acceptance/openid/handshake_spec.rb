@@ -43,7 +43,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-        get "/openid", params, {'rack.session' => {:user_id => @user.id}}
+        get "/openid", params, :session => {:user_id => @user.id}
         @response.status.should == 302
 
         redirect_params = Addressable::URI.parse(response.headers['Location']).query_values
@@ -71,7 +71,7 @@ describe "visiting /openid" do
           "openid.identity"   => "http://example.org/users/#{@user.id}",
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-        get "/openid", params, :session => {:user_id => @user.id}
+        get "/openid", params
         response.should be_a_valid_merb_auth_form
         login_response = login_user
 

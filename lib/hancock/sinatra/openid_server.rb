@@ -35,7 +35,7 @@ module Sinatra
         end
 
         def url_for_user
-          absolute_url(:user, {:id => session_user.id})
+          absolute_url("/users/#{session_user.id}")
         end
 
         def ensure_authenticated
@@ -60,7 +60,7 @@ module Sinatra
           oidresp = nil
           if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
             session[:last_oidreq] = oidreq
-            session[:return_to] = 'http://localhost/openid'
+            session[:return_to] = absolute_url('/openid')
 
             ensure_authenticated
 

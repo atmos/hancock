@@ -27,9 +27,8 @@ end
 Spec::Runner.configure do |config|
   def app
     Hancock::App.tap do |app| 
-      app.set :environment, :test 
+      app.set :environment, :test
       disable :run, :reload
-      set :sessions, false
     end
   end
   config.include(Sinatra::Test)
