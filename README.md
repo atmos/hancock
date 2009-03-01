@@ -15,10 +15,10 @@ Installation
 You need sinatra 0.9.1 or greater
 
     % sudo gem install sinatra-sinatra
-    % git clone git://github.com/sr/webrat.git
 
 You need sr's fork of webrat for the time being
 
+    % git clone git://github.com/sr/webrat.git
     % cd webrat
     % git checkout -b sinatra origin/sinatra
     % rake repackage
