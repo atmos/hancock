@@ -34,7 +34,7 @@ describe "visiting /openid" do
       args['dh_server_public'].size.should == 172
     end
   end
-  describe "checkid_setup" do
+  describe "with openid mode of checkid_setup" do
     describe "authenticated" do
       it "should redirect to the consumer app" do
         params = {
@@ -106,7 +106,7 @@ describe "visiting /openid" do
       end
     end
   end
-  describe "checkid_immediate" do
+  describe "with openid mode of checkid_immediate" do
     describe "unauthenticated user" do
       it "should require authentication" do
         params = {
