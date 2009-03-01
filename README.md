@@ -12,7 +12,19 @@ Installation
     http://gems.engineyard.com
     http://gems.github.com
 
+You need sinatra 0.9.1 or greater
+
     % sudo gem install sinatra-sinatra
+    % git clone git://github.com/sr/webrat.git
+
+You need sr's fork of webrat for the time being
+
+    % cd webrat
+    % git checkout -b sinatra origin/sinatra
+    % rake repackage
+    % sudo gem uninstall -aI webrat
+    % sudo gem install pkg/webrat-0.4.2.gem
+
 
 Features
 ========
