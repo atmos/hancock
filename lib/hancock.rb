@@ -13,11 +13,11 @@ require 'guid'
 
 module Hancock; end
 
-require File.expand_path(File.dirname(__FILE__)+'/hancock/models/user')
-require File.expand_path(File.dirname(__FILE__)+'/hancock/models/consumer')
-require File.expand_path(File.dirname(__FILE__)+'/hancock/sinatra/defaults')
-require File.expand_path(File.dirname(__FILE__)+'/hancock/sinatra/users')
-require File.expand_path(File.dirname(__FILE__)+'/hancock/sinatra/openid_server')
+require File.expand_path(File.dirname(__FILE__)+'/models/user')
+require File.expand_path(File.dirname(__FILE__)+'/models/consumer')
+require File.expand_path(File.dirname(__FILE__)+'/sinatra/defaults')
+require File.expand_path(File.dirname(__FILE__)+'/sinatra/users')
+require File.expand_path(File.dirname(__FILE__)+'/sinatra/openid_server')
 
 module Hancock
   class App < Sinatra::Base
