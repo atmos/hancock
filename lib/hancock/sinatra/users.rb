@@ -17,6 +17,10 @@ module Sinatra
           ensure_authenticated
           redirect '/'
         end
+        app.get '/users/logout' do
+          session.clear
+          redirect '/'
+        end
       end
     end
   end
