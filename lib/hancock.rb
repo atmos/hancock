@@ -25,3 +25,4 @@ module Hancock
   class App < Sinatra::Default
   end
 end
+

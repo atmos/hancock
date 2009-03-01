@@ -34,7 +34,6 @@ Spec::Runner.configure do |config|
   config.include(Sinatra::Test)
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
-  config.include(Webrat::Selenium::Matchers)
 
   config.before(:each) do
   end
