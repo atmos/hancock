@@ -7,7 +7,7 @@ describe "visiting /" do
   end
   describe "when authenticated" do
     it "should greet the user" do
-      get '/', {:foo => :bar }, :session => {:user_id => @user.id}
+      get '/', {}, :session => {:user_id => @user.id}
       @response.body.should match(/Hello #{@user.email}/)
     end
   end

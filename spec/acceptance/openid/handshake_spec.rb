@@ -64,7 +64,6 @@ describe "visiting /openid" do
     end
     describe "unauthenticated user" do
       it "should require authentication" do
-        pending
         params = {
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_setup",
@@ -73,21 +72,10 @@ describe "visiting /openid" do
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
         get "/openid", params
-
-        # log the user in
-
-        get(login_response.headers['Location'])
-        @response.status.should == 302
-        redirected_to = Addressable::URI.parse(@response.headers['Location'])
-        redirected_to.host.should == 'consumerapp.com'
-
-        redirect_params = redirected_to.query_values
-
-        redirect_params['openid.mode'].should == 'id_res'
-        redirect_params['openid.ns'].should == "http://specs.openid.net/auth/2.0"
-        redirect_params['openid.op_endpoint'].should == "http://example.org/openid"
-        redirect_params['openid.return_to'].should == @consumer.url
-        redirect_params['openid.identity'].should == "http://example.org/users/#{@user.id}"
+        @response.should have_selector("form[action='/users/login'][method='POST']")
+        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='login']")
+        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
+        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='submit'][value='Login']")
       end
     end
   end

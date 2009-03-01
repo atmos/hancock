@@ -39,7 +39,19 @@ module Sinatra
         end
 
         def ensure_authenticated
-          throw(:halt, [401, 'Unauthorized']) unless session_user
+          login_view = <<-HTML
+%form{:action => '/users/login', :method => 'POST'}
+  %label{:for => 'login'} 
+    Login:
+    %input{:type => 'text', :name => 'login'}
+    %br
+  %label{:for => 'password'} 
+    Password:
+    %input{:type => 'password', :name => 'password'}
+    %br
+  %input{:type => 'submit', :value => 'Login'}
+HTML
+          throw(:halt, [401, haml(login_view)]) unless session_user
         end
 
         def forbidden!
