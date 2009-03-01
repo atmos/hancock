@@ -31,11 +31,11 @@ module Sinatra
         end
 
         def session_user
-          User.get(session[:user_id])
+          session[:user_id].nil? ? nil : User.get(session[:user_id])
         end
 
         def url_for_user
-          absolute_url(:user, {:id => session.user.contact_id})
+          absolute_url(:user, {:id => session_user.id})
         end
 
         def ensure_authenticated
@@ -49,7 +49,7 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::OpenIDServer::Helpers)
-        app.get '/' do
+        app.get '/openid' do
           begin
             oidreq = server.decode_request(params)
           rescue OpenID::Server::ProtocolError => e
@@ -60,7 +60,7 @@ module Sinatra
           oidresp = nil
           if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
             session[:last_oidreq] = oidreq
-            session[:return_to] = [url(:servers)]
+            session[:return_to] = 'http://localhost/openid'
 
             ensure_authenticated
 
