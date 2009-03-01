@@ -100,7 +100,7 @@ describe "visiting /openid" do
 
         get "/openid", params
         @response.should have_selector("form[action='/users/login'][method='POST']")
-        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='login']")
+        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='submit'][value='Login']")
       end
@@ -118,7 +118,7 @@ describe "visiting /openid" do
 
         get "/openid", params
         @response.should have_selector("form[action='/users/login'][method='POST']")
-        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='login']")
+        @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='submit'][value='Login']")
       end

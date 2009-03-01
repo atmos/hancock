@@ -17,6 +17,7 @@ module Sinatra
         app.send(:include, Sinatra::Hancock::Defaults::Helpers)
         app.set :sessions, true
         app.get '/' do
+          ensure_authenticated
           "Hello #{session_user ? session_user.email : ''}"
         end
       end

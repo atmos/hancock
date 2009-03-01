@@ -17,7 +17,7 @@ describe "posting to /users/login" do
       post '/users/login', :email => @user.email, :password => 's3cr3t'
       @response.status.should eql(401)
       @response.should have_selector("form[action='/users/login'][method='POST']")
-      @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='login']")
+      @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
       @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
       @response.should have_selector("form[action='/users/login'][method='POST'] input[type='submit'][value='Login']")
     end

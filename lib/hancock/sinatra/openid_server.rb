@@ -41,9 +41,9 @@ module Sinatra
         def ensure_authenticated
           login_view = <<-HTML
 %form{:action => '/users/login', :method => 'POST'}
-  %label{:for => 'login'} 
-    Login:
-    %input{:type => 'text', :name => 'login'}
+  %label{:for => 'email'} 
+    Email:
+    %input{:type => 'text', :name => 'email'}
     %br
   %label{:for => 'password'} 
     Password:
