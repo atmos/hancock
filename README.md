@@ -40,4 +40,9 @@ Plans
 * some kinda awesome oauth hooks
 * simpledb integration, srsly
 
+Thanks
+======
+* [Engine Yard][ey]
+
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
+[ey]: http://www.engineyard.com/

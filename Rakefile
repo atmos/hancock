@@ -6,8 +6,8 @@ require 'spec/rake/spectask'
 
 GEM = "hancock"
 GEM_VERSION = "0.0.1"
-AUTHOR = "Corey Donohoe"
-EMAIL = "atmos@atmos.org"
+AUTHOR = ["Corey Donohoe", "Tim Carey-Smith"]
+EMAIL = [ "atmos@atmos.org", "tim@spork.in" ]
 HOMEPAGE = "http://github.com/atmos/hancock"
 SUMMARY = "A gem that provides a Single Sign On server"
 
@@ -16,19 +16,20 @@ spec = Gem::Specification.new do |s|
   s.version = GEM_VERSION
   s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
+  s.extra_rdoc_files = ["README.md", "LICENSE"]
   s.summary = SUMMARY
   s.description = s.summary
-  s.author = AUTHOR
+  s.authors = AUTHOR
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
   # Uncomment this to add a dependency
   s.add_dependency "ruby-openid", "~>2.1.2"
+  s.add_dependency "sinatra-sinatra", "~>0.9.1"
 
   s.require_path = 'lib'
   s.autorequire = GEM
-  s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(LICENSE README.md Rakefile) + Dir.glob("{lib,spec}/**/*")
 end
 
 task :default => :spec
