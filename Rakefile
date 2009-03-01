@@ -26,6 +26,7 @@ spec = Gem::Specification.new do |s|
   # Uncomment this to add a dependency
   s.add_dependency "ruby-openid", "~>2.1.2"
   s.add_dependency "sinatra-sinatra", "~>0.9.1"
+  s.add_dependency "webrat", "~>0.4.2"
 
   s.require_path = 'lib'
   s.autorequire = GEM
@@ -33,21 +34,14 @@ spec = Gem::Specification.new do |s|
 end
 
 task :default => :spec
-
 desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = %w(-fs --color)
 end
 
-
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
-end
-
-desc "install the gem locally"
-task :install => [:package] do
-  sh %{sudo gem install pkg/#{GEM}-#{GEM_VERSION}}
 end
 
 desc "create a gemspec file"
