@@ -9,6 +9,14 @@ module Sinatra
         app.get '/users' do
           'ZOMG'
         end
+        app.post '/users/login' do
+          @user = ::Hancock::User.authenticate(params['email'], params['password'])
+          if @user
+            session[:user_id] = @user.id
+          end
+          ensure_authenticated
+          redirect '/'
+        end
       end
     end
   end
