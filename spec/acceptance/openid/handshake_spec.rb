@@ -61,6 +61,20 @@ describe "visiting /openid" do
         redirect_params['openid.signed'].should_not be_nil
         redirect_params['openid.response_nonce'].should_not be_nil
       end
+
+      describe "attempting to access another identity" do
+        it "should return forbidden" do
+          params = {
+            "openid.ns"         => "http://specs.openid.net/auth/2.0",
+            "openid.mode"       => "checkid_setup",
+            "openid.return_to"  => @consumer.url,
+            "openid.identity"   => "http://example.org/users/42",
+            "openid.claimed_id" => "http://example.org/users/42"}
+
+          get "/openid", params, :session => {:user_id => @user.id}
+          response.status.should == 403
+        end
+      end
     end
     describe "unauthenticated user" do
       it "should require authentication" do
