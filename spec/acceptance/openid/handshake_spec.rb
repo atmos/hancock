@@ -51,7 +51,7 @@ describe "visiting /openid" do
 
         redirect_params['openid.ns'].should               == 'http://specs.openid.net/auth/2.0'
         redirect_params['openid.mode'].should             == 'id_res'
-        redirect_params['openid.return_to'].should        == 'http://consumerapp.com/auth/login'
+        redirect_params['openid.return_to'].should        == @consumer.url
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
         redirect_params['openid.op_endpoint'].should      == 'http://example.org/openid' 
         redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"

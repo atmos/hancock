@@ -4,9 +4,6 @@ describe "visiting /" do
   before(:each) do
     @user = Hancock::User.gen
     @consumer = Hancock::Consumer.gen(:internal)
-    @app = Rack::Builder.new {
-      run Hancock::App
-    }
   end
   describe "when authenticated" do
     it "should greet the user" do

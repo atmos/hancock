@@ -4,7 +4,7 @@ module Sinatra
       module Helpers
         def server
           if @server.nil?
-            server_url = 'http://localhost:9292/'
+            server_url = absolute_url('/openid')
             dir = File.join(Dir.tmpdir, 'openid-store')
             store = OpenID::Store::Filesystem.new(dir)
             @server = OpenID::Server::Server.new(store, server_url)
@@ -67,7 +67,7 @@ module Sinatra
             unless oidreq.identity == url_for_user
               forbidden!
             end
-            forbidden! unless Hancock::Consumer.allowed?(oidreq.trust_root) 
+            forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
 
             oidresp = oidreq.answer(true, nil, oidreq.identity)
           else
