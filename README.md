@@ -31,7 +31,7 @@ You need [sr][sr]'s fork of webrat for the time being
 
 Features
 ========
-An OpenID based Single Sign On server that provides some stuff
+An OpenID based Single Sign On server that provides:
 
 * a whitelist for consumers
 * minimal setup to integrate with consumers(rails,merb,sinatra)
