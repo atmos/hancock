@@ -26,8 +26,6 @@ Webrat.configure do |config|
   end
 end
 
-Hancock::App.set :environment, :test
-
 Spec::Runner.configure do |config|
   config.include(Sinatra::Test)
   config.include(Webrat::Methods)
