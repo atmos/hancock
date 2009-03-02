@@ -16,6 +16,10 @@ You need sinatra 0.9.1 or greater
 
     % sudo gem install sinatra-sinatra
 
+You need selenium-client 
+
+    % sudo gem install selenium-client
+
 You need sr's fork of webrat for the time being
 
     % git clone git://github.com/sr/webrat.git
@@ -24,7 +28,6 @@ You need sr's fork of webrat for the time being
     % rake repackage
     % sudo gem uninstall -aI webrat
     % sudo gem install pkg/webrat-0.4.2.gem
-    % sudo gem install selenium-client
 
 Features
 ========
