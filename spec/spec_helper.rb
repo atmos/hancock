@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'pp'
+gem 'rspec', '~>1.1.12'
 require 'spec'
 require 'sinatra/test'
 require 'dm-sweatshop'
