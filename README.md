@@ -20,7 +20,7 @@ You need selenium-client
 
     % sudo gem install selenium-client
 
-You need sr's fork of webrat for the time being
+You need [sr][sr]'s fork of webrat for the time being
 
     % git clone git://github.com/sr/webrat.git
     % cd webrat
@@ -49,3 +49,4 @@ Thanks
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
+[sr]: http://github.com/sr/webrat/tree/sinatra
