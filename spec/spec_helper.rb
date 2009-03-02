@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'pp'
+gem 'selenium-client', '~>1.2.10'
 gem 'rspec', '~>1.1.12'
 require 'spec'
 require 'sinatra/test'
