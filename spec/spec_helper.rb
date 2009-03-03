@@ -41,8 +41,8 @@ Spec::Runner.configure do |config|
 
   config.before(:each) do
     Hancock::App.set :environment, :test
-    @app = Rack::Builder.new {
+    @app = Rack::Builder.new do
       run Hancock::App
-    }
+    end
   end
 end

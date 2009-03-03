@@ -1,5 +1,6 @@
 module Hancock
   module Matchers
+
     class LoginForm
       include Webrat::Methods
       include Webrat::Matchers
@@ -19,6 +20,7 @@ module Hancock
     def be_a_login_form
       LoginForm.new
     end
+
     class SignupForm
       include Webrat::Methods
       include Webrat::Matchers
@@ -39,5 +41,6 @@ module Hancock
     def be_a_signup_form
       SignupForm.new
     end
+
   end
 end
