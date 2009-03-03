@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
-describe "Requesting the server xrds" do
+describe "Requesting the server's xrds" do
   describe "when accepting xrds+xml" do
     it "renders the provider idp page" do
       get '/sso/xrds'
@@ -11,11 +11,11 @@ describe "Requesting the server xrds" do
   end
 end
 
-describe "Requesting a users xrds" do
+describe "Requesting a user's xrds" do
   before(:each) do
     @user = Hancock::User.gen
   end
-  it "renders the provider idp page" do
+  it "renders the users idp page" do
     get "/sso/users/xrds/#{@user.id}"
 
     @response.headers['Content-Type'].should eql('application/xrds+xml')
