@@ -3,7 +3,7 @@ module Sinatra
     module Users
       module Helpers
         def register_form
-          <<-HTML
+          <<-HAML
 %form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
   %label{:for => 'password'} 
     Password:
@@ -14,10 +14,10 @@ module Sinatra
     %input{:type => 'password', :name => 'password_confirmation'}
     %br
   %input{:type => 'submit', :value => 'Am I Done Yet?'}
-HTML
+HAML
         end
         def signup_form
-          <<-HTML
+          <<-HAML
 %form{:action => '/sso/signup', :method => 'POST'}
   %label{:for => 'email'} 
     Email:
@@ -32,25 +32,32 @@ HTML
     %input{:type => 'text', :name => 'last_name'}
     %br
   %input{:type => 'submit', :value => 'Signup'}
-HTML
+HAML
         end
-        def signup_confirmation(successful = false)
-          if successful
-            <<-HTML
+        def signup_confirmation(user)
+          if user.save
+            <<-HAML
 %h3 Success!
 %p Check your email and you'll see a registration link!
 /
-  %a{:href => absolute_url("/sso/register/#{@user.access_token}")} Clicky Clicky
-HTML
+  %a{:href => absolute_url("/sso/register/#{user.access_token}")} Clicky Clicky
+HAML
           else
-            <<-HTML
+            <<-HAML
 %h3 Signup Failed
 #errors
-  %p= @user.errors.inspect
+  %p= #{user.errors.inspect}
 %p
   %a{:href => '/sso/signup'} Try Again?
-HTML
+HAML
           end
+        end
+
+        def user_by_token(token)
+          user = ::Hancock::User.first(:access_token => token)
+          throw(:halt, [400, 'BadRequest']) unless user
+          session[:user_id] = user.id
+          user
         end
       end
 
@@ -58,19 +65,13 @@ HTML
         app.send(:include, Sinatra::Hancock::Users::Helpers)
 
         app.get '/sso/register/:token' do
-          @user = ::Hancock::User.first(:access_token => params['token'])
-          throw(:halt, [400, 'BadRequest']) unless @user
-          session[:user_id] = @user.id
-
+          user_by_token(params['token'])
           haml register_form
         end
         app.post '/sso/register/:token' do
-          @user = ::Hancock::User.first(:access_token => params['token'])
-          throw(:halt, [400, 'BadRequest']) unless @user
-
-          @user.update_attributes(:password => params['password'],
+          user = user_by_token(params['token'])
+          user.update_attributes(:password => params['password'],
                                   :password_confirmation => params['password_confirmation'])
-          session[:user_id] = @user.id
           redirect '/'
         end
 
@@ -78,13 +79,8 @@ HTML
           haml signup_form
         end
         app.post '/sso/signup' do
-          seed = Guid.new.to_s
-          @user = ::Hancock::User.new(:email                 => params['email'],
-                                      :first_name            => params['first_name'],
-                                      :last_name             => params['last_name'],
-                                      :password              => Digest::SHA1.hexdigest(seed),
-                                      :password_confirmation => Digest::SHA1.hexdigest(seed))
-          haml(signup_confirmation(@user.save))
+          user = ::Hancock::User.signup(params)
+          haml signup_confirmation(user)
         end
       end
     end

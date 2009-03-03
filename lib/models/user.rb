@@ -46,6 +46,15 @@ class Hancock::User
     Digest::SHA1.hexdigest("--#{salt}--#{password}--")
   end
 
+  def self.signup(params)
+    seed = Guid.new.to_s
+    user = ::Hancock::User.new(:email                 => params['email'],
+                               :first_name            => params['first_name'],
+                               :last_name             => params['last_name'],
+                               :password              => Digest::SHA1.hexdigest(seed),
+                               :password_confirmation => Digest::SHA1.hexdigest(seed))
+  end
+
   def self.authenticate(email, password)
     u = first(:email => email)
     u && u.authenticated?(password) ? u : nil
