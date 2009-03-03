@@ -4,6 +4,7 @@ describe "visiting /sso" do
   before(:each) do
     @user = Hancock::User.gen
     @consumer = Hancock::Consumer.gen(:internal)
+    @identity_url = "http://example.org/sso/users/#{@user.id}"
   end
   it "should throw a bad request if there aren't any openid params" do
     get '/sso'
@@ -41,8 +42,8 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_setup",
             "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/users/#{@user.id}",
-            "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+            "openid.identity"   => @identity_url,
+            "openid.claimed_id" => @identity_url}
 
         get "/sso", params, :session => {:user_id => @user.id}
         @response.status.should == 302
@@ -54,8 +55,8 @@ describe "visiting /sso" do
         redirect_params['openid.return_to'].should        == @consumer.url
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
         redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
-        redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"
-        redirect_params['openid.identity'].should         == "http://example.org/users/#{@user.id}"
+        redirect_params['openid.claimed_id'].should       == @identity_url
+        redirect_params['openid.identity'].should         == @identity_url
 
         redirect_params['openid.sig'].should_not be_nil
         redirect_params['openid.signed'].should_not be_nil
@@ -68,8 +69,8 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_setup",
             "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/users/42",
-            "openid.claimed_id" => "http://example.org/users/42"}
+            "openid.identity"   => "http://example.org/sso/users/42",
+            "openid.claimed_id" => "http://example.org/sso/users/42"}
 
           get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403
@@ -81,8 +82,8 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_setup",
             "openid.return_to"  => "http://rogueconsumerapp.com/",
-            "openid.identity"   => "http://example.org/users/#{@user.id}",
-            "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+            "openid.identity"   => @identity_url,
+            "openid.claimed_id" => @identity_url}
 
           get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403
@@ -95,8 +96,8 @@ describe "visiting /sso" do
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_setup",
           "openid.return_to"  => @consumer.url,
-          "openid.identity"   => "http://example.org/users/#{@user.id}",
-          "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+          "openid.identity"   => @identity_url,
+          "openid.claimed_id" => @identity_url}
 
         get "/sso", params
         @response.body.should be_a_login_form
@@ -110,8 +111,8 @@ describe "visiting /sso" do
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_immediate",
           "openid.return_to"  => @consumer.url,
-          "openid.identity"   => "http://example.org/users/#{@user.id}",
-          "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+          "openid.identity"   => @identity_url,
+          "openid.claimed_id" => @identity_url}
 
         get "/sso", params
         @response.body.should be_a_login_form
@@ -124,10 +125,10 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_immediate",
             "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/users/#{@user.id}",
-            "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+            "openid.identity"   => @identity_url,
+            "openid.claimed_id" => @identity_url}
 
-          get "/sso", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => { :user_id => @user.id }
           @response.status.should == 302
 
           redirect_params = Addressable::URI.parse(@response.headers['Location']).query_values
@@ -137,8 +138,8 @@ describe "visiting /sso" do
           redirect_params['openid.return_to'].should        == @consumer.url
           redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
           redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
-          redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"
-          redirect_params['openid.identity'].should         == "http://example.org/users/#{@user.id}"
+          redirect_params['openid.claimed_id'].should       == @identity_url
+          redirect_params['openid.identity'].should         == @identity_url
 
           redirect_params['openid.sig'].should_not be_nil
           redirect_params['openid.signed'].should_not be_nil
@@ -152,8 +153,8 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_immediate",
             "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/users/42",
-            "openid.claimed_id" => "http://example.org/users/42" }
+            "openid.identity"   => "http://example.org/sso/users/42",
+            "openid.claimed_id" => "http://example.org/sso/users/42" }
 
 
           get "/sso", params, :session => {:user_id => @user.id}
@@ -167,8 +168,8 @@ describe "visiting /sso" do
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_immediate",
             "openid.return_to"  => "http://rogueconsumerapp.com/",
-            "openid.identity"   => "http://example.org/users/#{@user.id}",
-            "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
+            "openid.identity"   => @identity_url,
+            "openid.claimed_id" => @identity_url}
 
           get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403

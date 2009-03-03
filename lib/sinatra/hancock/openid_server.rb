@@ -11,6 +11,7 @@ module Sinatra
           end
           return @server
         end
+
         def yadis
           <<-ERB
 <?xml version="1.0" encoding="UTF-8"?>
@@ -28,8 +29,9 @@ module Sinatra
 </xrds:XRDS>
 ERB
         end
+
         def url_for_user
-          absolute_url("/users/#{session_user.id}")
+          absolute_url("/sso/users/#{session_user.id}")
         end
 
         def render_response(oidresp)
@@ -86,6 +88,17 @@ ERB
             forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
 
             oidresp = oidreq.answer(true, nil, oidreq.identity)
+
+#            sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
+#            raise if sregreq.nil?
+#            sreg_data = {
+#              'last_name'  => session_user.last_name,
+#              'first_name' => session_user.first_name,
+#              'email'      => session_user.email
+#            }
+#
+#            sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
+#            oidresp.add_extension(sregresp)
           else
             oidresp = server.handle_request(oidreq) #associate and more?
           end
