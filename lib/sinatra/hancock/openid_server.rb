@@ -81,14 +81,12 @@ ERB
             session[:return_to] = absolute_url('/sso')
 
             ensure_authenticated
-
             unless oidreq.identity == url_for_user
               forbidden!
             end
             forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
 
             oidresp = oidreq.answer(true, nil, oidreq.identity)
-
             sreg_data = {
               'last_name'  => session_user.last_name,
               'first_name' => session_user.first_name,
@@ -99,7 +97,6 @@ ERB
           else
             oidresp = server.handle_request(oidreq) #associate and more?
           end
-
           render_response(oidresp)
         end
       end

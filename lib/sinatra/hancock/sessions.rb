@@ -19,6 +19,21 @@ module Sinatra
     %br
   %input{:type => 'submit', :value => 'Login'}
 HTML
+          if session_user
+            if trust_root = params['return_to']
+              if ::Hancock::Consumer.allowed?(trust_root)
+                redirect "#{trust_root}?id=#{session_user.id}"
+              else
+                throw(:halt, [403, 'Forbidden'])
+              end
+            end
+          else
+            if trust_root = params['return_to']
+              if ::Hancock::Consumer.allowed?(trust_root)
+                session['return_to'] = [trust_root]
+              end
+            end
+          end
           throw(:halt, [401, haml(login_view)]) unless session_user
         end
       end
