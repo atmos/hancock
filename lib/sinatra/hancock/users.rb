@@ -6,20 +6,6 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Users::Helpers)
-        app.post '/sso/login' do
-          @user = ::Hancock::User.authenticate(params['email'], params['password'])
-          if @user
-            session[:user_id] = @user.id
-          end
-          ensure_authenticated
-          redirect '/'
-        end
-
-        app.get '/sso/logout' do
-          session.clear
-          redirect '/'
-        end
-
         app.get '/sso/signup' do
           haml :signup
         end
