@@ -21,6 +21,20 @@ module Sinatra
           session.clear
           redirect '/'
         end
+        app.get '/users/signup' do
+          haml :signup
+        end
+
+        app.post '/users/signup' do
+          Hancock::User.new(:email      => params['email'],
+                            :first_name => params['first_name'],
+                            :last_name  => params['last_name'])
+          if @user.save
+            haml :signup_success
+          else
+            haml :signup
+          end
+        end
       end
     end
   end
