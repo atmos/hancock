@@ -9,6 +9,7 @@ module Sinatra
         app.get '/users' do
           'ZOMG'
         end
+
         app.post '/users/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
           if @user
@@ -17,23 +18,38 @@ module Sinatra
           ensure_authenticated
           redirect '/'
         end
+
         app.get '/users/logout' do
           session.clear
           redirect '/'
         end
+
         app.get '/users/signup' do
           haml :signup
         end
 
         app.post '/users/signup' do
-          Hancock::User.new(:email      => params['email'],
-                            :first_name => params['first_name'],
-                            :last_name  => params['last_name'])
-          if @user.save
-            haml :signup_success
+          seed = Time.now.to_i ^ Process.pid
+          @user = ::Hancock::User.new(:email      => params['email'],
+                                         :first_name => params['first_name'],
+                                         :last_name  => params['last_name'],
+                                         :password => Digest::SHA1.hexdigest("#{seed}"),
+                                         :password_confirmation => Digest::SHA1.hexdigest("#{seed}"))
+          str = if @user.save
+            <<-HTML
+%h3 Success!
+%p Check your email and you'll see a registration link!
+HTML
           else
-            haml :signup
+            <<-HTML
+%h3 Signup Failed
+#errors
+  %p= @user.errors.inspect
+%p
+  %a{:href => '/users/signup'} Try Again?
+HTML
           end
+          haml str
         end
       end
     end

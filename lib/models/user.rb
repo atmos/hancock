@@ -7,7 +7,7 @@ class Hancock::User
   property :email,            String, :unique => true, :unique_index => true
 
   property :salt,             String
-  property :crypted_password, String, :nullable => false
+  property :crypted_password, String
 
   property :enabled,          Boolean, :default => false
   property :access_token,     String
