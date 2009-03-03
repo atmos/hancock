@@ -6,8 +6,50 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Users::Helpers)
+        app.post '/sso/register/:token' do
+          @user = ::Hancock::User.first(:access_token => params['token'])
+          raise ArgumentError unless @user
+          @user.update_attributes(:password => params['password'],
+                                  :password_confirmation => params['password_confirmation'])
+          session[:user_id] = @user.id
+          redirect '/'
+        end
+        app.get '/sso/register/:token' do
+          @user = ::Hancock::User.first(:access_token => params['token'])
+          raise not_found unless @user
+
+          haml(<<-HTML
+%form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
+  %label{:for => 'password'} 
+    Password:
+    %input{:type => 'password', :name => 'password'}
+    %br
+  %label{:for => 'password'} 
+    Password(Again):
+    %input{:type => 'password', :name => 'password_confirmation'}
+    %br
+  %input{:type => 'submit', :value => 'Am I Done Yet?'}
+HTML
+          )
+        end
         app.get '/sso/signup' do
-          haml :signup
+          haml(<<-HTML
+%form{:action => '/sso/signup', :method => 'POST'}
+  %label{:for => 'email'} 
+    Email:
+    %input{:type => 'text', :name => 'email'}
+    %br
+  %label{:for => 'first_name'} 
+    First Name:
+    %input{:type => 'text', :name => 'first_name'}
+    %br
+  %label{:for => 'last_name'} 
+    Last Name:
+    %input{:type => 'text', :name => 'last_name'}
+    %br
+  %input{:type => 'submit', :value => 'Signup'}
+HTML
+          )
         end
 
         app.post '/sso/signup' do
@@ -22,7 +64,7 @@ module Sinatra
 %h3 Success!
 %p Check your email and you'll see a registration link!
 /
-  %a{:href => absolute_url("/users/register/#{@user.access_token}")} Clicky Clicky
+  %a{:href => absolute_url("/sso/register/#{@user.access_token}")} Clicky Clicky
 HTML
           else
             <<-HTML

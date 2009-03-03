@@ -12,6 +12,8 @@ gem 'webrat', '~>0.4.2'
 require 'webrat/sinatra'
 require 'webrat/selenium'
 
+require File.dirname(__FILE__)+'/matchers'
+
 require File.expand_path(File.dirname(__FILE__) + '/fixtures')
 DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
@@ -31,6 +33,11 @@ Spec::Runner.configure do |config|
   config.include(Sinatra::Test)
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
+  config.include(Hancock::Matchers)
+  unless ENV['SELENIUM'].nil?
+    config.include(Webrat::Selenium::Methods)
+    config.include(Webrat::Selenium::Matchers)
+  end
 
   config.before(:each) do
     Hancock::App.set :environment, :test

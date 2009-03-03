@@ -15,11 +15,7 @@ describe "posting to /sso/login" do
   describe "with an invalid password" do
     it "should display a form to login" do
       post '/sso/login', :email => @user.email, :password => 's3cr3t'
-      @response.status.should eql(401)
-      @response.should have_selector("form[action='/users/login'][method='POST']")
-      @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
-      @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
-      @response.should have_selector("form[action='/users/login'][method='POST'] input[type='submit'][value='Login']")
+      @response.body.should be_a_login_form
     end
   end
 end
