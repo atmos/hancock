@@ -38,6 +38,12 @@ desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = %w(-fs --color)
+
+  t.rcov = true
+  t.rcov_opts << '--text-summary'
+  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+  t.rcov_opts << '--exclude' << '.gem/,spec'
+  #t.rcov_opts << '--only-uncovered'
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|

@@ -5,6 +5,7 @@ class Hancock::User
   property :first_name,       String
   property :last_name,        String
   property :email,            String, :unique => true, :unique_index => true
+  property :internal,         Boolean, :default => false
 
   property :salt,             String
   property :crypted_password, String
@@ -48,11 +49,11 @@ class Hancock::User
 
   def self.signup(params)
     seed = Guid.new.to_s
-    user = ::Hancock::User.new(:email                 => params['email'],
-                               :first_name            => params['first_name'],
-                               :last_name             => params['last_name'],
-                               :password              => Digest::SHA1.hexdigest(seed),
-                               :password_confirmation => Digest::SHA1.hexdigest(seed))
+    new(:email                 => params['email'],
+        :first_name            => params['first_name'],
+        :last_name             => params['last_name'],
+        :password              => Digest::SHA1.hexdigest(seed),
+        :password_confirmation => Digest::SHA1.hexdigest(seed))
   end
 
   def self.authenticate(email, password)
