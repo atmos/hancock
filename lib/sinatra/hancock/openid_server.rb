@@ -39,9 +39,6 @@ ERB
           web_response = server.encode_response(oidresp)
 
           case web_response.code
-          when 200
-            web_response.body
-
           when 302
             session.delete(:return_to)
             redirect web_response.headers['location']
