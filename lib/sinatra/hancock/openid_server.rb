@@ -11,7 +11,23 @@ module Sinatra
           end
           return @server
         end
-
+        def yadis
+          <<-ERB
+<?xml version="1.0" encoding="UTF-8"?>
+<xrds:XRDS
+    xmlns:xrds="xri://$xrds"
+    xmlns="xri://$xrd*($v*2.0)">
+  <XRD>
+    <Service priority="0">
+      <% @types.each do |typ| %>
+        <Type><%= typ %></Type>
+      <% end %>
+      <URI><%= absolute_url('/sso') %></URI>
+    </Service>
+  </XRD>
+</xrds:XRDS>
+ERB
+        end
         def url_for_user
           absolute_url("/users/#{session_user.id}")
         end
@@ -37,6 +53,13 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::OpenIDServer::Helpers)
+
+        app.get '/sso/xrds' do
+          response.headers['Content-Type'] = 'application/xrds+xml'
+          @types = [ OpenID::OPENID_IDP_2_0_TYPE ]
+          erb yadis, :layout => false
+        end
+
         app.get '/sso' do
           begin
             oidreq = server.decode_request(params)
