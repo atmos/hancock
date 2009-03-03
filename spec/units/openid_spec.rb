@@ -99,10 +99,7 @@ describe "visiting /sso" do
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
         get "/sso", params
-        @response.should have_selector("form[action='/sso/login'][method='POST']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='text'][name='email']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='password'][name='password']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='submit'][value='Login']")
+        @response.body.should be_a_login_form
       end
     end
   end
@@ -117,10 +114,7 @@ describe "visiting /sso" do
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
         get "/sso", params
-        @response.should have_selector("form[action='/sso/login'][method='POST']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='text'][name='email']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='password'][name='password']")
-        @response.should have_selector("form[action='/sso/login'][method='POST'] input[type='submit'][value='Login']")
+        @response.body.should be_a_login_form
       end
     end
     describe "authenticated user" do
