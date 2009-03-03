@@ -60,6 +60,14 @@ ERB
           erb yadis, :layout => false
         end
 
+        app.get '/sso/users/xrds/:id' do
+          @types = [ OpenID::OPENID_2_0_TYPE, OpenID::SREG_URI ]
+          response.headers['Content-Type'] = 'application/xrds+xml'
+          response.headers['X-XRDS-Location'] = absolute_url("/sso/users/xrds/#{params['id']}")
+
+          erb yadis, :layout => false
+        end
+
         app.get '/sso' do
           begin
             oidreq = server.decode_request(params)
