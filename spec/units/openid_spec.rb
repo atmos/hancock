@@ -58,6 +58,10 @@ describe "visiting /sso" do
         redirect_params['openid.claimed_id'].should       == @identity_url
         redirect_params['openid.identity'].should         == @identity_url
 
+        redirect_params['openid.sreg.email'].should         == @user.email
+        redirect_params['openid.sreg.last_name'].should     == @user.last_name
+        redirect_params['openid.sreg.first_name'].should    == @user.first_name
+
         redirect_params['openid.sig'].should_not be_nil
         redirect_params['openid.signed'].should_not be_nil
         redirect_params['openid.response_nonce'].should_not be_nil
@@ -140,6 +144,10 @@ describe "visiting /sso" do
           redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
           redirect_params['openid.claimed_id'].should       == @identity_url
           redirect_params['openid.identity'].should         == @identity_url
+
+          redirect_params['openid.sreg.email'].should         == @user.email
+          redirect_params['openid.sreg.last_name'].should     == @user.last_name
+          redirect_params['openid.sreg.first_name'].should    == @user.first_name
 
           redirect_params['openid.sig'].should_not be_nil
           redirect_params['openid.signed'].should_not be_nil

@@ -89,16 +89,13 @@ ERB
 
             oidresp = oidreq.answer(true, nil, oidreq.identity)
 
-#            sregreq = OpenID::SReg::Request.from_openid_request(oidreq)
-#            raise if sregreq.nil?
-#            sreg_data = {
-#              'last_name'  => session_user.last_name,
-#              'first_name' => session_user.first_name,
-#              'email'      => session_user.email
-#            }
-#
-#            sregresp = OpenID::SReg::Response.extract_response(sregreq, sreg_data)
-#            oidresp.add_extension(sregresp)
+            sreg_data = {
+              'last_name'  => session_user.last_name,
+              'first_name' => session_user.first_name,
+              'email'      => session_user.email
+            }
+            sregresp = OpenID::SReg::Response.new(sreg_data)
+            oidresp.add_extension(sregresp)
           else
             oidresp = server.handle_request(oidreq) #associate and more?
           end
