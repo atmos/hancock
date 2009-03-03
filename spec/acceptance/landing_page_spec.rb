@@ -12,8 +12,8 @@ describe "visiting /" do
   end
   describe "when unauthenticated" do
     it "should prompt the user to login" do
-      get '/'
-      @response.body.should be_a_login_form
+      visit '/'
+      response_body.should be_a_login_form
     end
   end
 end
