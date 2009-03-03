@@ -2,40 +2,22 @@ module Sinatra
   module Hancock
     module Users
       module Helpers
-      end
-
-      def self.registered(app)
-        app.send(:include, Sinatra::Hancock::Users::Helpers)
-        app.post '/sso/register/:token' do
-          @user = ::Hancock::User.first(:access_token => params['token'])
-          throw(:halt, [400, 'BadRequest']) unless @user
-
-          @user.update_attributes(:password => params['password'],
-                                  :password_confirmation => params['password_confirmation'])
-          session[:user_id] = @user.id
-          redirect '/'
-        end
-        app.get '/sso/register/:token' do
-          @user = ::Hancock::User.first(:access_token => params['token'])
-          throw(:halt, [400, 'BadRequest']) unless @user
-          session[:user_id] = @user.id
-
-          haml(<<-HTML
+        def register_form
+          <<-HTML
 %form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
   %label{:for => 'password'} 
     Password:
     %input{:type => 'password', :name => 'password'}
     %br
-  %label{:for => 'password'} 
+  %label{:for => 'password_confirmation'} 
     Password(Again):
     %input{:type => 'password', :name => 'password_confirmation'}
     %br
   %input{:type => 'submit', :value => 'Am I Done Yet?'}
 HTML
-          )
         end
-        app.get '/sso/signup' do
-          haml(<<-HTML
+        def signup_form
+          <<-HTML
 %form{:action => '/sso/signup', :method => 'POST'}
   %label{:for => 'email'} 
     Email:
@@ -51,17 +33,9 @@ HTML
     %br
   %input{:type => 'submit', :value => 'Signup'}
 HTML
-          )
         end
-
-        app.post '/sso/signup' do
-          seed = Guid.new.to_s
-          @user = ::Hancock::User.new(:email                 => params['email'],
-                                      :first_name            => params['first_name'],
-                                      :last_name             => params['last_name'],
-                                      :password              => Digest::SHA1.hexdigest(seed),
-                                      :password_confirmation => Digest::SHA1.hexdigest(seed))
-          haml(if @user.save
+        def signup_confirmation(successful = false)
+          if successful
             <<-HTML
 %h3 Success!
 %p Check your email and you'll see a registration link!
@@ -76,7 +50,41 @@ HTML
 %p
   %a{:href => '/sso/signup'} Try Again?
 HTML
-          end)
+          end
+        end
+      end
+
+      def self.registered(app)
+        app.send(:include, Sinatra::Hancock::Users::Helpers)
+
+        app.get '/sso/register/:token' do
+          @user = ::Hancock::User.first(:access_token => params['token'])
+          throw(:halt, [400, 'BadRequest']) unless @user
+          session[:user_id] = @user.id
+
+          haml register_form
+        end
+        app.post '/sso/register/:token' do
+          @user = ::Hancock::User.first(:access_token => params['token'])
+          throw(:halt, [400, 'BadRequest']) unless @user
+
+          @user.update_attributes(:password => params['password'],
+                                  :password_confirmation => params['password_confirmation'])
+          session[:user_id] = @user.id
+          redirect '/'
+        end
+
+        app.get '/sso/signup' do
+          haml signup_form
+        end
+        app.post '/sso/signup' do
+          seed = Guid.new.to_s
+          @user = ::Hancock::User.new(:email                 => params['email'],
+                                      :first_name            => params['first_name'],
+                                      :last_name             => params['last_name'],
+                                      :password              => Digest::SHA1.hexdigest(seed),
+                                      :password_confirmation => Digest::SHA1.hexdigest(seed))
+          haml(signup_confirmation(@user.save))
         end
       end
     end
