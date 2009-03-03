@@ -24,12 +24,10 @@ describe "visiting /sso/signup" do
       fill_in 'password',              password
       fill_in 'password_confirmation', password
       click_button
-
-      puts response_body
     end
+
     describe "and form hacking" do
       it "should be unauthorized" do
-        pending
         visit '/sso/signup'
 
         fill_in 'email',      @user.email
@@ -37,9 +35,9 @@ describe "visiting /sso/signup" do
         fill_in 'last_name',  @user.last_name
         click_button
 
-        visit '-1'
-
-        puts response_body
+        fake_url = /\w+{9,40}/.gen
+        visit "/sso/register/#{fake_url}"
+        response_body.should match(/BadRequest/)
       end
     end
   end

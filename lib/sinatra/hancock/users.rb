@@ -8,7 +8,8 @@ module Sinatra
         app.send(:include, Sinatra::Hancock::Users::Helpers)
         app.post '/sso/register/:token' do
           @user = ::Hancock::User.first(:access_token => params['token'])
-          raise ArgumentError unless @user
+          throw(:halt, [400, 'BadRequest']) unless @user
+
           @user.update_attributes(:password => params['password'],
                                   :password_confirmation => params['password_confirmation'])
           session[:user_id] = @user.id
@@ -16,7 +17,8 @@ module Sinatra
         end
         app.get '/sso/register/:token' do
           @user = ::Hancock::User.first(:access_token => params['token'])
-          raise not_found unless @user
+          throw(:halt, [400, 'BadRequest']) unless @user
+          session[:user_id] = @user.id
 
           haml(<<-HTML
 %form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
@@ -72,7 +74,7 @@ HTML
 #errors
   %p= @user.errors.inspect
 %p
-  %a{:href => '/users/signup'} Try Again?
+  %a{:href => '/sso/signup'} Try Again?
 HTML
           end)
         end

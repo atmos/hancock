@@ -20,6 +20,9 @@ module Sinatra
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Defaults::Helpers)
         app.set :sessions, true
+        app.not_found do
+          'MADLIB'
+        end
         app.get '/' do
           ensure_authenticated
           "Hello #{session_user ? session_user.email : ''}"

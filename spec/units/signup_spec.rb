@@ -25,7 +25,7 @@ describe "posting to /sso/signup" do
                           :first_name => @existing_user.first_name,
                           :last_name  => @existing_user.last_name
       @response.should have_selector("h3:contains('Signup Failed')")
-      @response.should have_selector("p a[href='/users/signup']:contains('Try Again?')")
+      @response.should have_selector("p a[href='/sso/signup']:contains('Try Again?')")
     end
   end
 end
