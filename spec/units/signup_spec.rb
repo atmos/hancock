@@ -13,8 +13,10 @@ describe "posting to /users/signup" do
       post '/users/signup', :email      => @user.email,
                             :first_name => @user.first_name,
                             :last_name  => @user.last_name
+
       @response.should have_selector("h3:contains('Success')")
       @response.should have_selector('p:contains("Check your email and you\'ll see a registration link!")')
+      @response.should match(%r!href='http://example.org/users/register/\w{40}'!)
     end
   end
   describe "with invalid information" do

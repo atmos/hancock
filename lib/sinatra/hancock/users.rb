@@ -29,16 +29,18 @@ module Sinatra
         end
 
         app.post '/users/signup' do
-          seed = Time.now.to_i ^ Process.pid
-          @user = ::Hancock::User.new(:email      => params['email'],
-                                         :first_name => params['first_name'],
-                                         :last_name  => params['last_name'],
-                                         :password => Digest::SHA1.hexdigest("#{seed}"),
-                                         :password_confirmation => Digest::SHA1.hexdigest("#{seed}"))
-          str = if @user.save
+          seed = Guid.new.to_s
+          @user = ::Hancock::User.new(:email                 => params['email'],
+                                      :first_name            => params['first_name'],
+                                      :last_name             => params['last_name'],
+                                      :password              => Digest::SHA1.hexdigest(seed),
+                                      :password_confirmation => Digest::SHA1.hexdigest(seed))
+          haml(if @user.save
             <<-HTML
 %h3 Success!
 %p Check your email and you'll see a registration link!
+/
+  %a{:href => absolute_url("/users/register/#{@user.access_token}")} Clicky Clicky
 HTML
           else
             <<-HTML
@@ -48,8 +50,7 @@ HTML
 %p
   %a{:href => '/users/signup'} Try Again?
 HTML
-          end
-          haml str
+          end)
         end
       end
     end
