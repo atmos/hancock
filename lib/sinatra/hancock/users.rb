@@ -6,11 +6,7 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Users::Helpers)
-        app.get '/users' do
-          'ZOMG'
-        end
-
-        app.post '/users/login' do
+        app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
           if @user
             session[:user_id] = @user.id
@@ -19,16 +15,16 @@ module Sinatra
           redirect '/'
         end
 
-        app.get '/users/logout' do
+        app.get '/sso/logout' do
           session.clear
           redirect '/'
         end
 
-        app.get '/users/signup' do
+        app.get '/sso/signup' do
           haml :signup
         end
 
-        app.post '/users/signup' do
+        app.post '/sso/signup' do
           seed = Guid.new.to_s
           @user = ::Hancock::User.new(:email                 => params['email'],
                                       :first_name            => params['first_name'],

@@ -2,6 +2,10 @@ module Sinatra
   module Hancock
     module Defaults
       module Helpers
+        def forbidden!
+          throw :halt, [403, 'Forbidden']
+        end
+
         def absolute_url(suffix = nil)
           port_part = case request.scheme
                       when "http"

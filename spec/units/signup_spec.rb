@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
-describe "posting to /users/signup" do
+describe "posting to /sso/signup" do
   before(:each) do
     @existing_user = Hancock::User.gen
     @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
@@ -10,7 +10,7 @@ describe "posting to /users/signup" do
   end
   describe "with valid information" do
     it "should sign the user up" do
-      post '/users/signup', :email      => @user.email,
+      post '/sso/signup', :email      => @user.email,
                             :first_name => @user.first_name,
                             :last_name  => @user.last_name
 
@@ -21,7 +21,7 @@ describe "posting to /users/signup" do
   end
   describe "with invalid information" do
     it "should not sign the user up" do
-      post '/users/signup', :email      => @existing_user.email,
+      post '/sso/signup', :email      => @existing_user.email,
                             :first_name => @existing_user.first_name,
                             :last_name  => @existing_user.last_name
       @response.should have_selector("h3:contains('Signup Failed')")

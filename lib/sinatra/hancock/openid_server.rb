@@ -4,12 +4,16 @@ module Sinatra
       module Helpers
         def server
           if @server.nil?
-            server_url = absolute_url('/openid')
+            server_url = absolute_url('/sso')
             dir = File.join(Dir.tmpdir, 'openid-store')
             store = OpenID::Store::Filesystem.new(dir)
             @server = OpenID::Server::Server.new(store, server_url)
           end
           return @server
+        end
+
+        def url_for_user
+          absolute_url("/users/#{session_user.id}")
         end
 
         def render_response(oidresp)
@@ -29,39 +33,11 @@ module Sinatra
             web_response.body
           end
         end
-
-        def session_user
-          session[:user_id].nil? ? nil : ::Hancock::User.get(session[:user_id])
-        end
-
-        def url_for_user
-          absolute_url("/users/#{session_user.id}")
-        end
-
-        def ensure_authenticated
-          login_view = <<-HTML
-%form{:action => '/users/login', :method => 'POST'}
-  %label{:for => 'email'} 
-    Email:
-    %input{:type => 'text', :name => 'email'}
-    %br
-  %label{:for => 'password'} 
-    Password:
-    %input{:type => 'password', :name => 'password'}
-    %br
-  %input{:type => 'submit', :value => 'Login'}
-HTML
-          throw(:halt, [401, haml(login_view)]) unless session_user
-        end
-
-        def forbidden!
-          throw :halt, [403, 'Forbidden']
-        end
       end
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::OpenIDServer::Helpers)
-        app.get '/openid' do
+        app.get '/sso' do
           begin
             oidreq = server.decode_request(params)
           rescue OpenID::Server::ProtocolError => e
@@ -72,7 +48,7 @@ HTML
           oidresp = nil
           if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
             session[:last_oidreq] = oidreq
-            session[:return_to] = absolute_url('/openid')
+            session[:return_to] = absolute_url('/sso')
 
             ensure_authenticated
 

@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
-describe "visiting /openid" do
+describe "visiting /sso" do
   before(:each) do
     @user = Hancock::User.gen
     @consumer = Hancock::Consumer.gen(:internal)
   end
   it "should throw a bad request if there aren't any openid params" do
-    get '/openid'
+    get '/sso'
     @response.status.should eql(400)
   end
   describe "with openid mode of associate" do
@@ -18,7 +18,7 @@ describe "visiting /openid" do
                  "openid.assoc_type"   => 'HMAC-SHA1',
                  "openid.dh_consumer_public"=> session.get_request['dh_consumer_public']}
 
-      get "/openid", params
+      get "/sso", params
 
       message = OpenID::Message.from_kvform(@response.body)
       secret = session.extract_secret(message)
@@ -44,7 +44,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-        get "/openid", params, :session => {:user_id => @user.id}
+        get "/sso", params, :session => {:user_id => @user.id}
         @response.status.should == 302
 
         redirect_params = Addressable::URI.parse(response.headers['Location']).query_values
@@ -53,7 +53,7 @@ describe "visiting /openid" do
         redirect_params['openid.mode'].should             == 'id_res'
         redirect_params['openid.return_to'].should        == @consumer.url
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
-        redirect_params['openid.op_endpoint'].should      == 'http://example.org/openid' 
+        redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
         redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"
         redirect_params['openid.identity'].should         == "http://example.org/users/#{@user.id}"
 
@@ -71,7 +71,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/42",
             "openid.claimed_id" => "http://example.org/users/42"}
 
-          get "/openid", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403
         end
       end
@@ -84,7 +84,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-          get "/openid", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403
         end
       end
@@ -98,7 +98,7 @@ describe "visiting /openid" do
           "openid.identity"   => "http://example.org/users/#{@user.id}",
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-        get "/openid", params
+        get "/sso", params
         @response.should have_selector("form[action='/users/login'][method='POST']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
@@ -116,7 +116,7 @@ describe "visiting /openid" do
           "openid.identity"   => "http://example.org/users/#{@user.id}",
           "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-        get "/openid", params
+        get "/sso", params
         @response.should have_selector("form[action='/users/login'][method='POST']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='text'][name='email']")
         @response.should have_selector("form[action='/users/login'][method='POST'] input[type='password'][name='password']")
@@ -133,7 +133,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-          get "/openid", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => {:user_id => @user.id}
           @response.status.should == 302
 
           redirect_params = Addressable::URI.parse(@response.headers['Location']).query_values
@@ -142,7 +142,7 @@ describe "visiting /openid" do
           redirect_params['openid.mode'].should             == 'id_res'
           redirect_params['openid.return_to'].should        == @consumer.url
           redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
-          redirect_params['openid.op_endpoint'].should      == 'http://example.org/openid' 
+          redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
           redirect_params['openid.claimed_id'].should       == "http://example.org/users/#{@user.id}"
           redirect_params['openid.identity'].should         == "http://example.org/users/#{@user.id}"
 
@@ -162,7 +162,7 @@ describe "visiting /openid" do
             "openid.claimed_id" => "http://example.org/users/42" }
 
 
-          get "/openid", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => {:user_id => @user.id}
           @response.status.should == 403
         end
       end
@@ -176,7 +176,7 @@ describe "visiting /openid" do
             "openid.identity"   => "http://example.org/users/#{@user.id}",
             "openid.claimed_id" => "http://example.org/users/#{@user.id}"}
 
-          get "/openid", params, :session => {:user_id => @user.id}
+          get "/sso", params, :session => {:user_id => @user.id}
           response.status.should == 403
         end
       end
