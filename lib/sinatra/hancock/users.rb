@@ -70,8 +70,10 @@ HAML
         end
         app.post '/sso/register/:token' do
           user = user_by_token(params['token'])
-          user.update_attributes(:password => params['password'],
-                                  :password_confirmation => params['password_confirmation'])
+          user.update_attributes(:enabled => true,
+                                 :access_token => nil,
+                                 :password => params['password'],
+                                 :password_confirmation => params['password_confirmation'])
           redirect '/'
         end
 

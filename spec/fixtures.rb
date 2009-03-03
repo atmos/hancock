@@ -1,4 +1,5 @@
 Hancock::User.fix {{
+  :enabled               => true,
   :email                 => /\w+@\w+.\w{2,3}/.gen.downcase,
   :first_name            => /\w+/.gen.capitalize,
   :last_name             => /\w+/.gen.capitalize,

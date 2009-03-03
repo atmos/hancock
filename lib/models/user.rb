@@ -57,6 +57,6 @@ class Hancock::User
 
   def self.authenticate(email, password)
     u = first(:email => email)
-    u && u.authenticated?(password) ? u : nil
+    u && u.authenticated?(password) && u.enabled ? u : nil
   end
 end
