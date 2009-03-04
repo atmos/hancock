@@ -46,11 +46,12 @@ describe "visiting /sso/signup" do
   begin
     require 'safariwatir'
     it "should browse properly in safari" do
-      sso_server = 'http://localhost:20000/sso'
+#      sso_server = 'http://localhost:20000/sso'
+      sso_server = 'http://moi.atmos.org/sso'
 
       browser = Watir::Safari.new
       browser.goto("http://localhost:5000/logout")
-      browser.goto("#{sso_server}")
+      browser.goto("#{sso_server}/logout")
 
       browser.goto("#{sso_server}/signup")
       browser.text_field(:name, :email).set(@user.email)
