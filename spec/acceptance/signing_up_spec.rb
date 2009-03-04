@@ -41,4 +41,30 @@ describe "visiting /sso/signup" do
       end
     end
   end
+
+  if ENV['WATIR']
+  begin
+    require 'safariwatir'
+    it "should browse properly in safari" do
+      browser = Watir::Safari.new
+      browser.goto("http://localhost:20000/sso/logout")
+      browser.goto("http://localhost:20000/sso/signup")
+      browser.text_field(:name, :email).set(@user.email)
+      browser.text_field(:name, :first_name).set(@user.first_name)
+      browser.text_field(:name, :last_name).set(@user.last_name)
+      browser.button(:value, 'Signup').click
+
+      register_url = browser.html.match(%r!http://localhost:20000/sso/register/\w{40}!).to_s
+      password = /\w+{9,32}/.gen
+
+      browser.goto(register_url)
+      browser.text_field(:name, :password).set(password)
+      browser.text_field(:name, :password_confirmation).set(password)
+      browser.button(:value, 'Am I Done Yet?').click
+
+      browser.goto('http://localhost:5000')
+      puts browser.html
+    end
+  rescue; end
+  end
 end

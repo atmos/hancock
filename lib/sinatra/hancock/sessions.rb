@@ -36,6 +36,9 @@ HAML
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Sessions::Helpers)
+        app.get '/sso/login' do
+          ensure_authenticated
+        end
         app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
           if @user
