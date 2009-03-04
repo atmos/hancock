@@ -42,6 +42,8 @@ ERB
 
           case web_response.code
           when 302
+#            session.delete('OpenID::Consumer::last_requested_endpoint')
+#            session.delete('OpenID::Consumer::DiscoveredServices::OpenID::Consumer::')
             session.delete(:return_to)
             redirect web_response.headers['location']
           else
@@ -59,45 +61,47 @@ ERB
           erb yadis, :layout => false
         end
 
-        app.get '/sso/users/xrds/:id' do
+        app.get '/sso/users/:id' do
           @types = [ OpenID::OPENID_2_0_TYPE, OpenID::SREG_URI ]
           response.headers['Content-Type'] = 'application/xrds+xml'
-          response.headers['X-XRDS-Location'] = absolute_url("/sso/users/xrds/#{params['id']}")
+          response.headers['X-XRDS-Location'] = absolute_url("/sso/users/#{params['id']}")
 
           erb yadis, :layout => false
         end
 
-        app.get '/sso' do
-          begin
-            oidreq = server.decode_request(params)
-          rescue OpenID::Server::ProtocolError => e
-            oidreq = session[:last_oidreq]
-          end
-          throw(:halt, [400, 'Bad Request']) unless oidreq
-
-          oidresp = nil
-          if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
-            session[:last_oidreq] = oidreq
-            session[:return_to] = absolute_url('/sso')
-
-            ensure_authenticated
-            unless oidreq.identity == url_for_user
-              forbidden!
+        [:get, :post].each do |meth|
+          app.send(meth, '/sso') do
+            begin
+              oidreq = server.decode_request(params)
+            rescue OpenID::Server::ProtocolError => e
+              oidreq = session[:last_oidreq]
             end
-            forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
+            throw(:halt, [400, 'Bad Request']) unless oidreq
 
-            oidresp = oidreq.answer(true, nil, oidreq.identity)
-            sreg_data = {
-              'last_name'  => session_user.last_name,
-              'first_name' => session_user.first_name,
-              'email'      => session_user.email
-            }
-            sregresp = OpenID::SReg::Response.new(sreg_data)
-            oidresp.add_extension(sregresp)
-          else
-            oidresp = server.handle_request(oidreq) #associate and more?
+            oidresp = nil
+            if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
+              session[:last_oidreq] = oidreq
+              session[:return_to] = absolute_url('/sso')
+
+              ensure_authenticated
+              unless oidreq.identity == url_for_user
+                forbidden!
+              end
+              forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
+
+              oidresp = oidreq.answer(true, nil, oidreq.identity)
+              sreg_data = {
+                'last_name'  => session_user.last_name,
+                'first_name' => session_user.first_name,
+                'email'      => session_user.email
+              }
+              sregresp = OpenID::SReg::Response.new(sreg_data)
+              oidresp.add_extension(sregresp)
+            else
+              oidresp = server.handle_request(oidreq) #associate and more?
+            end
+            render_response(oidresp)
           end
-          render_response(oidresp)
         end
       end
     end

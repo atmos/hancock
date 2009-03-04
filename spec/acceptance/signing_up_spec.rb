@@ -47,7 +47,9 @@ describe "visiting /sso/signup" do
     require 'safariwatir'
     it "should browse properly in safari" do
       browser = Watir::Safari.new
+      browser.goto("http://localhost:5000/logout")
       browser.goto("http://localhost:20000/sso/logout")
+
       browser.goto("http://localhost:20000/sso/signup")
       browser.text_field(:name, :email).set(@user.email)
       browser.text_field(:name, :first_name).set(@user.first_name)
@@ -63,6 +65,7 @@ describe "visiting /sso/signup" do
       browser.button(:value, 'Am I Done Yet?').click
 
       browser.goto('http://localhost:5000')
+      browser.html.should match(%r!#{@user.first_name} #{@user.last_name} - #{@user.email}!)
       puts browser.html
     end
   rescue; end

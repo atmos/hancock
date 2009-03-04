@@ -24,6 +24,7 @@ require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/openid_server'
 module Hancock
   class App < Sinatra::Default
     enable :sessions
+
     register Sinatra::Hancock::Defaults
     register Sinatra::Hancock::Sessions
     register Sinatra::Hancock::Users

@@ -16,10 +16,10 @@ describe "Requesting a user's xrds" do
     @user = Hancock::User.gen
   end
   it "renders the users idp page" do
-    get "/sso/users/xrds/#{@user.id}"
+    get "/sso/users/#{@user.id}"
 
     @response.headers['Content-Type'].should eql('application/xrds+xml')
-    @response.headers['X-XRDS-Location'].should eql("http://example.org/sso/users/xrds/#{@user.id}")
+    @response.headers['X-XRDS-Location'].should eql("http://example.org/sso/users/#{@user.id}")
     @response.body.should have_xpath("//xrd/service[uri='http://example.org/sso']")
     @response.body.should have_xpath("//xrd/service[type='http://specs.openid.net/auth/2.0/signon']")
   end
