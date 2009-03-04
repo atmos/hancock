@@ -12,16 +12,13 @@ Installation
     http://gems.engineyard.com
     http://gems.github.com
 
-You need sinatra 0.9.1 or greater
+You need a few gems to function
 
-    % sudo gem install sinatra-sinatra
+    % sudo gem install dm-core do_sqlite3
+    % sudo gem install sinatra guid rspec ruby-openid
 
-You need selenium-client 
-
-    % sudo gem install selenium-client
-
-You need [sr][sr]'s [fork][srfork] of [webrat][webrat] for the time being
-
+You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][webrat]
+    % sudo gem install selenium-client rspec
     % git clone git://github.com/sr/webrat.git
     % cd webrat
     % git checkout -b sinatra origin/sinatra
@@ -45,7 +42,7 @@ Plans
 
 Thanks
 ======
-* [Engine Yard][ey]
+Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for work.
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
