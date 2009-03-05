@@ -27,16 +27,12 @@
         %a{:class => 'menu', :href => 'http://engineyard.com'} Engine Yard
         %a{:class => 'menu', :href => 'http://www.sinatrarb.com'} Sinatra
         %a{:class => 'menu', :href => 'http://www.datamapper.org'} DataMapper
-        %a{:class => 'menu', :href => 'http://andreasviklund.com'}Andreas Viklund
+        %a{:class => 'menu', :href => 'http://andreasviklund.com'} Andreas Viklund
       #main
         %p= yield
         - if session[:user_id]
           %h2
             %a{:href => 'mailto:#{session[:email]}'}= "#{session[:first_name]} #{session[:last_name]}"
 
-        %p{:class => 'credits'}
-          &copy; 2009 Code by
-          %a{:href => 'http://engineyard.com'} Engine Yard
-          | Design by
       #footer
 
