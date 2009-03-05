@@ -8,16 +8,20 @@ module Sinatra
 
         def ensure_authenticated
           login_view = <<-HAML
-%form{:action => '/sso/login', :method => 'POST'}
-  %label{:for => 'email'} 
-    Email:
-    %input{:type => 'text', :name => 'email'}
-    %br
-  %label{:for => 'password'} 
-    Password:
-    %input{:type => 'password', :name => 'password'}
-    %br
-  %input{:type => 'submit', :value => 'Login'}
+%fieldset
+  %legend You need to log in, buddy.
+  %form{:action => '/sso/login', :method => 'POST'}
+    %label{:for => 'email'} 
+      Email:
+      %input{:type => 'text', :name => 'email'}
+      %br
+    %label{:for => 'password'} 
+      Password:
+      %input{:type => 'password', :name => 'password'}
+      %br
+    %input{:type => 'submit', :value => 'Login'}
+    or
+    %a{:href => '/sso/signup'} Signup
 HAML
           if trust_root = params['return_to']
             if ::Hancock::Consumer.allowed?(trust_root)

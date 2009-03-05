@@ -62,7 +62,7 @@ HAML
       end
 
       def self.registered(app)
-        app.send(:include, Sinatra::Hancock::Users::Helpers)
+        app.helpers Helpers
 
         app.get '/sso/register/:token' do
           user_by_token(params['token'])
@@ -80,6 +80,7 @@ HAML
         app.get '/sso/signup' do
           haml signup_form
         end
+
         app.post '/sso/signup' do
           user = ::Hancock::User.signup(params)
           haml signup_confirmation(user)
