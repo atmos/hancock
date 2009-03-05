@@ -4,34 +4,40 @@ module Sinatra
       module Helpers
         def register_form
           <<-HAML
-%form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
-  %label{:for => 'password'} 
-    Password:
-    %input{:type => 'password', :name => 'password'}
-    %br
-  %label{:for => 'password_confirmation'} 
-    Password(Again):
-    %input{:type => 'password', :name => 'password_confirmation'}
-    %br
-  %input{:type => 'submit', :value => 'Am I Done Yet?'}
+%fieldset
+  %legend Enter your new password
+  %form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
+    %label{:for => 'password'} 
+      Password:
+      %input{:type => 'password', :name => 'password'}
+      %br
+    %label{:for => 'password_confirmation'} 
+      Password(Again):
+      %input{:type => 'password', :name => 'password_confirmation'}
+      %br
+    %input{:type => 'submit', :value => 'Am I Done Yet?'}
 HAML
         end
         def signup_form
           <<-HAML
-%form{:action => '/sso/signup', :method => 'POST'}
-  %label{:for => 'email'} 
-    Email:
-    %input{:type => 'text', :name => 'email'}
-    %br
-  %label{:for => 'first_name'} 
-    First Name:
-    %input{:type => 'text', :name => 'first_name'}
-    %br
-  %label{:for => 'last_name'} 
-    Last Name:
-    %input{:type => 'text', :name => 'last_name'}
-    %br
-  %input{:type => 'submit', :value => 'Signup'}
+%fieldset
+  %legend Signup for an account
+  %form{:action => '/sso/signup', :method => 'POST'}
+    %label{:for => 'email'} 
+      Email:
+      %input{:type => 'text', :name => 'email'}
+      %br
+    %label{:for => 'first_name'} 
+      First Name:
+      %input{:type => 'text', :name => 'first_name'}
+      %br
+    %label{:for => 'last_name'} 
+      Last Name:
+      %input{:type => 'text', :name => 'last_name'}
+      %br
+    %input{:type => 'submit', :value => 'Signup'}
+    or
+    %a{:href => '/'} Cancel
 HAML
         end
         def signup_confirmation(user)
