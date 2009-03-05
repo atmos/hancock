@@ -34,6 +34,10 @@ An OpenID based Single Sign On server that provides:
 * minimal setup to integrate with consumers(rails,merb,sinatra)
 * simple sreg parameters to consumers(first name, last name, email, identity_url)
 
+How it Works
+============
+![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
+
 Plans
 =====
 * signup with email based validation
