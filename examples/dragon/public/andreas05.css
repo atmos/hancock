@@ -53,6 +53,7 @@ width:700px;
 }
 
 #container{
+min-height: 340px;
 margin:0 auto 15px auto;
 width:700px;
 padding:10px;

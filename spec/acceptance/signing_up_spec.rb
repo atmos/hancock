@@ -48,7 +48,8 @@ describe "visiting /sso/signup" do
     begin
       require 'safariwatir'
       it "should browse properly in safari" do
-  #      sso_server = 'http://localhost:20000/sso'
+# session cookie fail :\
+#       sso_server = 'http://localhost:20000/sso'
         sso_server = 'http://moi.atmos.org/sso'
 
         browser = Watir::Safari.new
@@ -56,9 +57,9 @@ describe "visiting /sso/signup" do
         browser.link(:url, "#{sso_server}/signup").click
 
         browser.goto("#{sso_server}/signup")
-        browser.text_field(:name, :email).set(@user.email)
         browser.text_field(:name, :first_name).set(@user.first_name)
         browser.text_field(:name, :last_name).set(@user.last_name)
+        browser.text_field(:name, :email).set(@user.email)
         browser.button(:value, 'Signup').click
 
         register_url = browser.html.match(%r!#{sso_server}/register/\w{40}!).to_s
@@ -70,8 +71,7 @@ describe "visiting /sso/signup" do
         browser.button(:value, 'Am I Done Yet?').click
 
         browser.goto('http://localhost:5000')
-        browser.html.should match(%r!#{@user.first_name} #{@user.last_name} - #{@user.email}!)
-        puts browser.html
+        browser.html.should match(%r!#{@user.first_name} #{@user.last_name}!)
       end
     rescue; end
   end

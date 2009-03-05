@@ -23,10 +23,6 @@ HAML
 %fieldset
   %legend Signup for an account
   %form{:action => '/sso/signup', :method => 'POST'}
-    %label{:for => 'email'} 
-      Email:
-      %input{:type => 'text', :name => 'email'}
-      %br
     %label{:for => 'first_name'} 
       First Name:
       %input{:type => 'text', :name => 'first_name'}
@@ -34,6 +30,10 @@ HAML
     %label{:for => 'last_name'} 
       Last Name:
       %input{:type => 'text', :name => 'last_name'}
+      %br
+    %label{:for => 'email'} 
+      Email:
+      %input{:type => 'text', :name => 'email'}
       %br
     %input{:type => 'submit', :value => 'Signup'}
     or
