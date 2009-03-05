@@ -13,7 +13,7 @@ describe "visiting /" do
       it "should greet the user" do
         get '/', {}, :session => {:user_id => @user.id}
 
-        @response.should have_selector("h3:contains('Hello #{@user.email}')")
+        @response.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
         @response.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
         @response.should have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
@@ -25,7 +25,7 @@ describe "visiting /" do
       it "should greet the user" do
         get '/', {}, :session => {:user_id => @user.id}
 
-        @response.should have_selector("h3:contains('Hello #{@user.email}')")
+        @response.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
         @response.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
         @response.should_not have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
@@ -33,6 +33,7 @@ describe "visiting /" do
   end
   describe "when unauthenticated" do
     it "should prompt the user to login" do
+      pending
       visit '/'
       response_body.should be_a_login_form
     end

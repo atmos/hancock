@@ -17,7 +17,7 @@ module Sinatra
         end
         def landing_page
           <<-HAML
-%h3 "Hello #{session_user ? session_user.email : ''}"
+%h3 Hello #{session_user.first_name} #{session_user.last_name}!
 - unless @consumers.empty?
   %ul#consumers
     - @consumers.each do |consumer|
