@@ -53,7 +53,7 @@ describe "visiting /sso/signup" do
 
         browser = Watir::Safari.new
         browser.goto("http://localhost:5000/sso/logout")
-        browser.goto("#{sso_server}/logout")
+        browser.link(:url, "#{sso_server}/signup").click
 
         browser.goto("#{sso_server}/signup")
         browser.text_field(:name, :email).set(@user.email)
