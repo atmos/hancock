@@ -12,7 +12,7 @@
       #sidebar
         - if session[:user_id]
           %h2 Applications
-          - Consumer.visible.each do |consumer|
+          - ::Hancock::Consumer.visible.each do |consumer|
             %a{:class => 'menu', :href => consumer.url}= consumer.label
 
         %h2 Interact
