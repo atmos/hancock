@@ -38,11 +38,6 @@ An [OpenID][openid] based [Single Sign On][sso] server that provides:
 * a [whitelist][whitelist] for consumers
 * integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
 
-Examples
-========
-
-Checkout the [examples][examples] on github.
-
 How it Works
 ============
 ![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
