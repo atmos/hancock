@@ -33,7 +33,7 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
 
 Features
 ========
-An OpenID based Single Sign On server that provides:
+An [OpenID][openid] based Single Sign On server that provides:
 
 * a whitelist for consumers
 * minimal setup to integrate with consumers(rails,merb,sinatra)
@@ -71,3 +71,4 @@ Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for 
 [webrat]: http://github.com/brynary/webrat
 [examples]: http://github.com/atmos/hancock/blob/e51f7ef2f0aae5cd5e3f816399c8212c00585abc/examples/dragon/config.ru
 [datamapper]: http://datamapper.org
+[openid]: http://openid.net/
