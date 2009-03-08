@@ -1,7 +1,11 @@
 hancock
 =======
 
-It's like your [John Hancock][johnhancock] for all of your company's apps.
+It's like your [John Hancock][johnhancock] for all of your company's apps.  A
+lot of this is extracted from our internal single sign on server at EY.  We use
+a different [datamapper][datamapper] backend but it should be a decent start 
+for most people.  Most of this was written by [myself][atmos], [tim][halorgium], 
+and [andy][adelcambre].
 
 Installation
 ============
@@ -51,5 +55,9 @@ Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
 [sr]: http://github.com/sr
+[atmos]: http://github.com/atmos
+[halorgium]: http://github.com/halorgium
+[adelcambre]: http://github.com/adelcambre
 [srfork]: http://github.com/sr/webrat/tree/sinatra
 [webrat]: http://github.com/brynary/webrat
+[datamapper]: http://datamapper.org
