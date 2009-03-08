@@ -1,11 +1,12 @@
 hancock
 =======
 
-It's like your [John Hancock][johnhancock] for all of your company's apps.  A
-lot of this is extracted from our internal single sign on server at EY.  We use
-a different [datamapper][datamapper] backend but it should be a decent start 
-for most people.  Most of this was written by [myself][atmos], [tim][halorgium], 
-and [andy][adelcambre].
+It's like your [John Hancock][johnhancock] for all of your company's apps.  
+
+A lot of this is extracted from our internal single sign on server at EY.  We
+use a different [datamapper][datamapper] backend but it should be a decent
+start for most people.  Most of this was written by [myself][atmos],
+[tim][halorgium], and [andy][adelcambre].
 
 Installation
 ============
@@ -41,6 +42,9 @@ An OpenID based Single Sign On server that provides:
 How it Works
 ============
 ![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
+
+This handshake seems kind of complex but it only happens when you need to
+validate a user session on the consumer.
 
 Plans
 =====
