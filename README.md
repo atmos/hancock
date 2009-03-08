@@ -49,6 +49,7 @@ Plans
 =====
 * configurable sreg parameters to consumers(first name, last name, email, identity_url)
 * signup with email based validation
+* single sign off
 * some kinda awesome oauth hooks
 * simpledb integration, srsly
 
