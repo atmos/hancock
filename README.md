@@ -55,7 +55,10 @@ Plans
 * some kinda awesome [oauth][oauth] hooks
 * [simpledb][simpledb] integration, srsly
 
-Thanks to [Engine Yard][ey].
+Sponsored By
+============
+* [Engine Yard][ey]
+
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
