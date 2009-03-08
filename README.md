@@ -34,6 +34,7 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
 Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
+
 * a [whitelist][whitelist] for consumers
 * integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
 
@@ -58,7 +59,7 @@ Plans
 
 Thanks
 ======
-Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for work.
+Thanks to [Engine Yard][ey].
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
