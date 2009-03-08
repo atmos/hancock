@@ -55,8 +55,6 @@ Plans
 * some kinda awesome [oauth][oauth] hooks
 * [simpledb][simpledb] integration, srsly
 
-Thanks
-======
 Thanks to [Engine Yard][ey].
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
