@@ -35,7 +35,7 @@ Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
-* a whitelist for consumers
+* a [whitelist][whitelist] for consumers
 * minimal setup to integrate with consumers(rails,merb,sinatra)
 * simple sreg parameters to consumers(first name, last name, email, identity_url)
 
@@ -73,3 +73,4 @@ Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for 
 [datamapper]: http://datamapper.org
 [openid]: http://openid.net/
 [sso]: http://en.wikipedia.org/wiki/Single_sign-on
+[whitelist]: http://en.wikipedia.org/wiki/Whitelist
