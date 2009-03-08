@@ -39,6 +39,11 @@ An OpenID based Single Sign On server that provides:
 * minimal setup to integrate with consumers(rails,merb,sinatra)
 * simple sreg parameters to consumers(first name, last name, email, identity_url)
 
+Examples
+========
+
+Checkout the [examples][examples] on github.
+
 How it Works
 ============
 ![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
@@ -64,4 +69,5 @@ Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for 
 [adelcambre]: http://github.com/adelcambre
 [srfork]: http://github.com/sr/webrat/tree/sinatra
 [webrat]: http://github.com/brynary/webrat
+[examples]: http://github.com/atmos/hancock/blob/e51f7ef2f0aae5cd5e3f816399c8212c00585abc/examples/dragon/config.ru
 [datamapper]: http://datamapper.org
