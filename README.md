@@ -53,7 +53,7 @@ Plans
 * signup with email based validation
 * single sign off
 * some kinda awesome [oauth][oauth] hooks
-* simpledb integration, srsly
+* [simpledb][simpledb] integration, srsly
 
 Thanks
 ======
@@ -74,3 +74,4 @@ Thanks to [Engine Yard][ey].
 [whitelist]: http://en.wikipedia.org/wiki/Whitelist
 [oauth]: http://oauth.net/
 [sreg]: http://openid.net/specs/openid-simple-registration-extension-1_0.html#response_format
+[simpledb]: http://aws.amazon.com/simpledb/
