@@ -52,7 +52,7 @@ Plans
 * configurable sreg parameters to consumers
 * signup with email based validation
 * single sign off
-* some kinda awesome oauth hooks
+* some kinda awesome [oauth][oauth] hooks
 * simpledb integration, srsly
 
 Thanks
@@ -72,3 +72,4 @@ Thanks to [Engine Yard][ey].
 [openid]: http://openid.net/
 [sso]: http://en.wikipedia.org/wiki/Single_sign-on
 [whitelist]: http://en.wikipedia.org/wiki/Whitelist
+[oauth]: http://oauth.net/
