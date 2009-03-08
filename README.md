@@ -14,6 +14,8 @@ An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 * a [whitelist][whitelist] for consumers
 * integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
+* sreg parameters to consumers(first name, last name, email, identity_url)
+
 
 How it Works
 ============
@@ -47,7 +49,7 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
 
 Plans
 =====
-* configurable sreg parameters to consumers(first name, last name, email, identity_url)
+* configurable sreg parameters to consumers
 * signup with email based validation
 * single sign off
 * some kinda awesome oauth hooks
