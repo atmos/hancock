@@ -14,7 +14,7 @@ An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 * a [whitelist][whitelist] for consumers
 * integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
-* sreg parameters to consumers(first name, last name, email, identity_url)
+* [sreg][sreg] parameters to consumers(first name, last name, email, identity_url)
 
 
 How it Works
@@ -73,3 +73,4 @@ Thanks to [Engine Yard][ey].
 [sso]: http://en.wikipedia.org/wiki/Single_sign-on
 [whitelist]: http://en.wikipedia.org/wiki/Whitelist
 [oauth]: http://oauth.net/
+[sreg]: http://openid.net/specs/openid-simple-registration-extension-1_0.html#response_format
