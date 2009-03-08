@@ -5,8 +5,7 @@ It's like your [John Hancock][johnhancock] for all of your company's apps.
 
 A lot of this is extracted from our internal single sign on server at [Engine Yard][ey].  We
 use a different [datamapper][datamapper] backend but it should be a decent
-start for most people.  Most of this was written by [myself][atmos],
-[tim][halorgium], and [andy][adelcambre].
+start for most people.
 
 Features
 ========
@@ -58,6 +57,12 @@ Plans
 Sponsored By
 ============
 * [Engine Yard][ey]
+
+Authors
+=======
+* [atmos][atmos]
+* [tim][halorgium]
+* [andy][adelcambre]
 
 
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
