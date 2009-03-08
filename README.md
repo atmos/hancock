@@ -8,6 +8,20 @@ use a different [datamapper][datamapper] backend but it should be a decent
 start for most people.  Most of this was written by [myself][atmos],
 [tim][halorgium], and [andy][adelcambre].
 
+Features
+========
+An [OpenID][openid] based [Single Sign On][sso] server that provides:
+
+* a [whitelist][whitelist] for consumers
+* integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
+
+How it Works
+============
+![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
+
+This handshake seems kind of complex but it only happens when you need to
+validate a user session on the consumer.
+
 Installation
 ============
     % gem sources
@@ -30,20 +44,6 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
     % rake repackage
     % sudo gem uninstall -aI webrat
     % sudo gem install pkg/webrat-0.4.2.gem
-
-Features
-========
-An [OpenID][openid] based [Single Sign On][sso] server that provides:
-
-* a [whitelist][whitelist] for consumers
-* integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
-
-How it Works
-============
-![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
-
-This handshake seems kind of complex but it only happens when you need to
-validate a user session on the consumer.
 
 Plans
 =====
