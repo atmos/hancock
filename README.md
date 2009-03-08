@@ -58,13 +58,6 @@ Sponsored By
 ============
 * [Engine Yard][ey]
 
-Authors
-=======
-* [atmos][atmos]
-* [tim][halorgium]
-* [andy][adelcambre]
-
-
 [johnhancock]: http://www.urbandictionary.com/define.php?term=john+hancock
 [ey]: http://www.engineyard.com/
 [sr]: http://github.com/sr
