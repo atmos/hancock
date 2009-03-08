@@ -34,10 +34,8 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
 Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
-
 * a [whitelist][whitelist] for consumers
-* minimal setup to integrate with consumers(rails,merb,sinatra)
-* simple sreg parameters to consumers(first name, last name, email, identity_url)
+* integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
 
 Examples
 ========
@@ -53,6 +51,7 @@ validate a user session on the consumer.
 
 Plans
 =====
+* configurable sreg parameters to consumers(first name, last name, email, identity_url)
 * signup with email based validation
 * some kinda awesome oauth hooks
 * simpledb integration, srsly
@@ -69,7 +68,7 @@ Thanks to [Engine Yard][ey] who paid Tim and I to write something like this for 
 [adelcambre]: http://github.com/adelcambre
 [srfork]: http://github.com/sr/webrat/tree/sinatra
 [webrat]: http://github.com/brynary/webrat
-[examples]: http://github.com/atmos/hancock/blob/e51f7ef2f0aae5cd5e3f816399c8212c00585abc/examples/dragon/config.ru
+[sinatra_examples]: http://github.com/atmos/hancock/blob/e51f7ef2f0aae5cd5e3f816399c8212c00585abc/examples/dragon/config.ru
 [datamapper]: http://datamapper.org
 [openid]: http://openid.net/
 [sso]: http://en.wikipedia.org/wiki/Single_sign-on
