@@ -10,7 +10,7 @@ require 'openid'
 require 'openid/store/filesystem'
 require 'openid/extensions/sreg'
 
-gem 'sinatra', '~>0.9.1'
+gem 'sinatra', '~>0.9.1.1'
 require 'sinatra/base'
 
 gem 'guid', '~>0.1.1'
