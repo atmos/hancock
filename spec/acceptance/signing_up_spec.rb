@@ -71,6 +71,7 @@ describe "visiting /sso/signup" do
           @browser.button(:value, 'Signup').click
 
           register_url = @browser.html.match(%r!#{sso_server}/register/\w{40}!).to_s
+          register_url.should_not be_nil
           password = /\w+{9,32}/.gen
 
           @browser.goto(register_url)

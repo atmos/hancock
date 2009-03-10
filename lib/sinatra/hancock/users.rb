@@ -82,9 +82,9 @@ HAML
                                  :access_token => nil,
                                  :password => params['password'],
                                  :password_confirmation => params['password_confirmation'])
-          require 'pp'
-          pp session
-          redirect '/sso/login'
+          destination = session.delete('return_to') || '/'
+          session.reject! { |key,value| key != 'user_id' }
+          redirect destination
         end
 
         app.get '/sso/signup' do
