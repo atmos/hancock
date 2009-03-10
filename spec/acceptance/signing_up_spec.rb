@@ -52,31 +52,35 @@ describe "visiting /sso/signup" do
   if ENV['WATIR']
     begin
       require 'safariwatir'
-      it "should browse properly in safari" do
-# session cookie fail :\
-#       sso_server = 'http://localhost:20000/sso'
-        sso_server = 'http://moi.atmos.org/sso'
+      describe "with no valid browser sessions" do
+        before(:each) do
+          @browser = Watir::Safari.new
+          @browser.goto("http://localhost:5000/sso/logout")
+        end
+        it "should browse properly in safari" do
+          # session cookie fail :\
+          # sso_server = 'http://localhost:20000/sso'
+          sso_server = 'http://moi.atmos.org/sso'
 
-        browser = Watir::Safari.new
-        browser.goto("http://localhost:5000/sso/logout")
-        browser.link(:url, "#{sso_server}/signup").click
+          @browser.goto("#{sso_server}/login?return_to=http://localhost:5000/sso/login")
+          pp @browser.html
+          @browser.goto("#{sso_server}/signup")
+          @browser.text_field(:name, :first_name).set(@user.first_name)
+          @browser.text_field(:name, :last_name).set(@user.last_name)
+          @browser.text_field(:name, :email).set(@user.email)
+          @browser.button(:value, 'Signup').click
 
-        browser.goto("#{sso_server}/signup")
-        browser.text_field(:name, :first_name).set(@user.first_name)
-        browser.text_field(:name, :last_name).set(@user.last_name)
-        browser.text_field(:name, :email).set(@user.email)
-        browser.button(:value, 'Signup').click
+          register_url = @browser.html.match(%r!#{sso_server}/register/\w{40}!).to_s
+          password = /\w+{9,32}/.gen
 
-        register_url = browser.html.match(%r!#{sso_server}/register/\w{40}!).to_s
-        password = /\w+{9,32}/.gen
+          @browser.goto(register_url)
+          @browser.text_field(:name, :password).set(password)
+          @browser.text_field(:name, :password_confirmation).set(password)
+          @browser.button(:value, 'Am I Done Yet?').click
 
-        browser.goto(register_url)
-        browser.text_field(:name, :password).set(password)
-        browser.text_field(:name, :password_confirmation).set(password)
-        browser.button(:value, 'Am I Done Yet?').click
-
-        browser.goto('http://localhost:5000')
-        browser.html.should match(%r!#{@user.first_name} #{@user.last_name}!)
+          @browser.goto('http://localhost:5000')
+          @browser.html.should match(%r!#{@user.first_name} #{@user.last_name}!)
+        end
       end
     rescue; end
   end
