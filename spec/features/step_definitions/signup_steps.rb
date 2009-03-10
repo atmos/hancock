@@ -13,7 +13,7 @@ Given /^I request authentication$/ do
   get "/sso/login"
 end
 
-Given /^I request authentication returning to a consumer app$/ do
+Given /^I request authentication returning to the consumer app$/ do
   get "/sso/login?return_to=#{@consumer.url}"
 end
 
