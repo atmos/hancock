@@ -10,13 +10,13 @@
       %h1 Hancock: Single Sign On
     #container
       #sidebar
-        - if session[:user_id]
+        - if session['user_id']
           %h2 Applications
           - ::Hancock::Consumer.visible.each do |consumer|
             %a{:class => 'menu', :href => consumer.url}= consumer.label
 
         %h2 Interact
-        - if session[:user_id]
+        - if session['user_id']
           %a{:class => 'menu', :href => '/sso/logout'} Logout
         - else
           %a{:class => 'menu', :href => '/sso/login'} Login
@@ -30,7 +30,7 @@
         %a{:class => 'menu', :href => 'http://andreasviklund.com'} Andreas Viklund
       #main
         %p= yield
-        - if session[:user_id]
+        - if session['user_id']
           %h2
             %a{:href => 'mailto:#{session[:email]}'}= "#{session[:first_name]} #{session[:last_name]}"
 

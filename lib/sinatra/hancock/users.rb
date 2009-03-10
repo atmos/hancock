@@ -62,7 +62,7 @@ HAML
         def user_by_token(token)
           user = ::Hancock::User.first(:access_token => token)
           throw(:halt, [400, 'BadRequest']) unless user
-          session[:user_id] = user.id
+          session['user_id'] = user.id
           user
         end
       end
