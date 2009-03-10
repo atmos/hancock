@@ -1,4 +1,4 @@
-Given /^I do not have a valid session on the server$/ do
+Given /^I am not logged in on the sso provider$/ do
   @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
                             :first_name => /\w+/.gen.capitalize,
                             :last_name  => /\w+/.gen.capitalize)
@@ -36,7 +36,7 @@ Given /^I signup with valid info$/ do
   last_response.status.should eql(200)
 end
 
-Then /^I should receive a registration url$/ do
+Then /^I should receive a registration url via email$/ do
   @confirmation_url = last_response.body.to_s.match(%r!/sso/register/\w{40}!).to_s
   @confirmation_url.should_not match(/^\s*$/)
 end
