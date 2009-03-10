@@ -45,8 +45,9 @@ HAML
             <<-HAML
 %h3 Success!
 %p Check your email and you'll see a registration link!
-/
-  %a{:href => absolute_url("/sso/register/#{user.access_token}")} Clicky Clicky
+- if Hancock::App.environment == :development
+  /
+    %a{:href => absolute_url("/sso/register/#{user.access_token}")} Clicky Clicky
 HAML
           else
             <<-HAML
@@ -74,13 +75,16 @@ HAML
           user_by_token(params['token'])
           haml register_form
         end
+
         app.post '/sso/register/:token' do
           user = user_by_token(params['token'])
           user.update_attributes(:enabled => true,
                                  :access_token => nil,
                                  :password => params['password'],
                                  :password_confirmation => params['password_confirmation'])
-          redirect '/'
+          require 'pp'
+          pp session
+          redirect '/sso/login'
         end
 
         app.get '/sso/signup' do
