@@ -12,6 +12,9 @@ gem 'webrat', '~>0.4.2'
 require 'webrat/sinatra'
 require 'webrat/selenium'
 
+gem 'rack-test', '~>0.1.0'
+require 'rack/test'
+
 require File.dirname(__FILE__)+'/matchers'
 
 require File.expand_path(File.dirname(__FILE__) + '/fixtures')
@@ -29,20 +32,26 @@ Webrat.configure do |config|
   end
 end
 
-Spec::Runner.configure do |config|
-  config.include(Sinatra::Test)
-  config.include(Webrat::Methods)
-  config.include(Webrat::Matchers)
-  config.include(Hancock::Matchers)
-  unless ENV['SELENIUM'].nil?
-    config.include(Webrat::Selenium::Methods)
-    config.include(Webrat::Selenium::Matchers)
-  end
+Hancock::App.set :environment, :development
 
-  config.before(:each) do
-    Hancock::App.set :environment, :test
+Spec::Runner.configure do |config|
+  def app
     @app = Rack::Builder.new do
       run Hancock::App
     end
+  end
+
+  def login(user)
+    post '/sso/login', :email => user.email, :password => user.password
+  end
+
+  config.include(Rack::Test::Methods)
+  config.include(Webrat::Methods)
+  config.include(Webrat::Matchers)
+  config.include(Hancock::Matchers)
+
+  unless ENV['SELENIUM'].nil?
+    config.include(Webrat::Selenium::Methods)
+    config.include(Webrat::Selenium::Matchers)
   end
 end

@@ -8,7 +8,7 @@ describe "visiting /sso" do
   end
   it "should throw a bad request if there aren't any openid params" do
     get '/sso'
-    @response.status.should eql(400)
+    last_response.status.should eql(400)
   end
   describe "with openid mode of associate" do
     it "should respond with Diffie Hellman data in kv format" do
@@ -21,7 +21,7 @@ describe "visiting /sso" do
 
       get "/sso", params
 
-      message = OpenID::Message.from_kvform(@response.body)
+      message = OpenID::Message.from_kvform("#{last_response.body}")  # wtf do i have to interpolate this!
       secret = session.extract_secret(message)
       secret.should_not be_nil
 
@@ -45,10 +45,11 @@ describe "visiting /sso" do
             "openid.identity"   => @identity_url,
             "openid.claimed_id" => @identity_url}
 
-        get "/sso", params, :session => {:user_id => @user.id}
-        @response.status.should == 302
+        login(@user) 
+        get "/sso", params
+        last_response.status.should == 302
 
-        redirect_params = Addressable::URI.parse(response.headers['Location']).query_values
+        redirect_params = Addressable::URI.parse(last_response.headers['Location']).query_values
 
         redirect_params['openid.ns'].should               == 'http://specs.openid.net/auth/2.0'
         redirect_params['openid.mode'].should             == 'id_res'
@@ -76,8 +77,9 @@ describe "visiting /sso" do
             "openid.identity"   => "http://example.org/sso/users/42",
             "openid.claimed_id" => "http://example.org/sso/users/42"}
 
-          get "/sso", params, :session => {:user_id => @user.id}
-          response.status.should == 403
+          login(@user)
+          get "/sso", params
+          last_response.status.should == 403
         end
       end
       describe "attempting to access from an untrusted consumer" do
@@ -89,8 +91,9 @@ describe "visiting /sso" do
             "openid.identity"   => @identity_url,
             "openid.claimed_id" => @identity_url}
 
-          get "/sso", params, :session => {:user_id => @user.id}
-          response.status.should == 403
+          login(@user)
+          get "/sso", params
+          last_response.status.should == 403
         end
       end
     end
@@ -104,7 +107,7 @@ describe "visiting /sso" do
           "openid.claimed_id" => @identity_url}
 
         get "/sso", params
-        @response.body.should be_a_login_form
+        last_response.body.should be_a_login_form
       end
     end
   end
@@ -119,7 +122,7 @@ describe "visiting /sso" do
           "openid.claimed_id" => @identity_url}
 
         get "/sso", params
-        @response.body.should be_a_login_form
+        last_response.body.should be_a_login_form
       end
     end
     describe "authenticated user" do
@@ -132,10 +135,11 @@ describe "visiting /sso" do
             "openid.identity"   => @identity_url,
             "openid.claimed_id" => @identity_url}
 
-          get "/sso", params, :session => { :user_id => @user.id }
-          @response.status.should == 302
+          login(@user)
+          get "/sso", params
+          last_response.status.should == 302
 
-          redirect_params = Addressable::URI.parse(@response.headers['Location']).query_values
+          redirect_params = Addressable::URI.parse(last_response.headers['Location']).query_values
 
           redirect_params['openid.ns'].should               == 'http://specs.openid.net/auth/2.0'
           redirect_params['openid.mode'].should             == 'id_res'
@@ -164,9 +168,9 @@ describe "visiting /sso" do
             "openid.identity"   => "http://example.org/sso/users/42",
             "openid.claimed_id" => "http://example.org/sso/users/42" }
 
-
-          get "/sso", params, :session => {:user_id => @user.id}
-          @response.status.should == 403
+          login(@user)
+          get "/sso", params
+          last_response.status.should == 403
         end
       end
 
@@ -178,9 +182,10 @@ describe "visiting /sso" do
             "openid.return_to"  => "http://rogueconsumerapp.com/",
             "openid.identity"   => @identity_url,
             "openid.claimed_id" => @identity_url}
-
-          get "/sso", params, :session => {:user_id => @user.id}
-          response.status.should == 403
+          
+          login(@user)
+          get "/sso", params
+          last_response.status.should == 403
         end
       end
     end

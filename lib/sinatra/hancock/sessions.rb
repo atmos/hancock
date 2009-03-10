@@ -3,7 +3,7 @@ module Sinatra
     module Sessions
       module Helpers
         def session_user
-          session[:user_id].nil? ? nil : ::Hancock::User.get(session[:user_id])
+          session['user_id'].nil? ? nil : ::Hancock::User.get(session['user_id'])
         end
 
         def ensure_authenticated
@@ -23,7 +23,7 @@ module Sinatra
     or
     %a{:href => '/sso/signup'} Signup
 HAML
-          if trust_root = params['return_to']
+          if trust_root = session['return_to'] || params['return_to']
             if ::Hancock::Consumer.allowed?(trust_root)
               if session_user
                 redirect "#{trust_root}?id=#{session_user.id}"
@@ -46,10 +46,10 @@ HAML
         app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
           if @user
-            session[:user_id] = @user.id
+            session['user_id'] = @user.id
           end
           ensure_authenticated
-          redirect '/'
+          redirect '/sso/login'
         end
 
         app.get '/sso/logout' do

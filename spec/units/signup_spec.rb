@@ -11,12 +11,12 @@ describe "posting to /sso/signup" do
   describe "with valid information" do
     it "should sign the user up" do
       post '/sso/signup', :email      => @user.email,
-                            :first_name => @user.first_name,
-                            :last_name  => @user.last_name
+                          :first_name => @user.first_name,
+                          :last_name  => @user.last_name
 
-      @response.should have_selector("h3:contains('Success')")
-      @response.should have_selector('p:contains("Check your email and you\'ll see a registration link!")')
-      @response.should match(%r!href='http://example.org/sso/register/\w{40}'!)
+      last_response.body.to_s.should have_selector("h3:contains('Success')")
+      last_response.body.to_s.should have_selector('p:contains("Check your email and you\'ll see a registration link!")')
+      last_response.body.to_s.should match(%r!href='http://example.org/sso/register/\w{40}'!)
     end
   end
   describe "with invalid information" do
@@ -24,8 +24,8 @@ describe "posting to /sso/signup" do
       post '/sso/signup', :email      => @existing_user.email,
                           :first_name => @existing_user.first_name,
                           :last_name  => @existing_user.last_name
-      @response.should have_selector("h3:contains('Signup Failed')")
-      @response.should have_selector("p a[href='/sso/signup']:contains('Try Again?')")
+      last_response.should have_selector("h3:contains('Signup Failed')")
+      last_response.should have_selector("p a[href='/sso/signup']:contains('Try Again?')")
     end
   end
 end

@@ -42,8 +42,6 @@ ERB
 
           case web_response.code
           when 302
-#            session.delete('OpenID::Consumer::last_requested_endpoint')
-#            session.delete('OpenID::Consumer::DiscoveredServices::OpenID::Consumer::')
             session.delete(:return_to)
             redirect web_response.headers['location']
           else

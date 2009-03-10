@@ -1,6 +1,11 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
 describe "visiting /sso/signup" do
+  def app
+    @app = Rack::Builder.new do
+      run Hancock::App
+    end
+  end
   before(:each) do
     @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
                               :first_name => /\w+/.gen.capitalize,

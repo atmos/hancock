@@ -11,11 +11,12 @@ describe "visiting /" do
         @user = Hancock::User.gen(:internal)
       end
       it "should greet the user" do
-        get '/', {}, :session => {:user_id => @user.id}
+        login(@user)
+        get '/'
 
-        @response.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
-        @response.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
-        @response.should have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
+        last_response.body.to_s.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
+        last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
+        last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
     end
     describe "as an external user" do
@@ -23,19 +24,19 @@ describe "visiting /" do
         @user = Hancock::User.gen
       end
       it "should greet the user" do
-        get '/', {}, :session => {:user_id => @user.id}
+        login(@user)
+        get '/'
 
-        @response.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
-        @response.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
-        @response.should_not have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
+        last_response.body.to_s.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
+        last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
+        last_response.body.to_s.should_not have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
     end
   end
   describe "when unauthenticated" do
     it "should prompt the user to login" do
-      pending
-      visit '/'
-      response_body.should be_a_login_form
+      get '/'
+      last_response.should be_a_login_form
     end
   end
 end
