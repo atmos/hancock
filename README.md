@@ -12,7 +12,7 @@ Features
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 * a [whitelist][whitelist] for consumers
-* integrate with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
+* integration with the big ruby frameworks(rails,merb,[sinatra][sinatra_examples])
 * [sreg][sreg] parameters to consumers(first name, last name, email, identity_url)
 
 
