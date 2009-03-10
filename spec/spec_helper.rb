@@ -10,7 +10,6 @@ $:.push File.join(File.dirname(__FILE__), '..', 'lib')
 require 'hancock'
 gem 'webrat', '~>0.4.2'
 require 'webrat/sinatra'
-require 'webrat/selenium'
 
 gem 'rack-test', '~>0.1.0'
 require 'rack/test'
@@ -22,13 +21,13 @@ DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
 
 Webrat.configure do |config|
-  config.mode = :sinatra
-  config.application_port = 4567
-  config.application_framework = :sinatra
   if ENV['SELENIUM'].nil?
     config.mode = :sinatra
   else
     config.mode = :selenium
+    config.application_framework = :sinatra
+    config.application_port = 4567
+    require 'webrat/selenium'
   end
 end
 

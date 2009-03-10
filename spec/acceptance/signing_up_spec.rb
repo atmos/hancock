@@ -2,9 +2,7 @@ require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
 describe "visiting /sso/signup" do
   def app
-    @app = Rack::Builder.new do
-      run Hancock::App
-    end
+    Hancock::App
   end
   before(:each) do
     @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
@@ -13,9 +11,8 @@ describe "visiting /sso/signup" do
   end
   describe "when signing up" do
     it "should sign the user up" do
-      pending
       visit '/sso/signup'
-
+pp response_body
       fill_in 'email',      @user.email
       fill_in 'first_name', @user.first_name
       fill_in 'last_name',  @user.last_name
@@ -54,23 +51,22 @@ describe "visiting /sso/signup" do
       require 'safariwatir'
       describe "with no valid browser sessions" do
         before(:each) do
+          @sso_server = 'http://moi.atmos.org/sso'
           @browser = Watir::Safari.new
           @browser.goto("http://localhost:5000/sso/logout")
         end
         it "should browse properly in safari" do
-          # session cookie fail :\
+          # session cookie fails on localhost :\
           # sso_server = 'http://localhost:20000/sso'
-          sso_server = 'http://moi.atmos.org/sso'
 
           @browser.goto('http://localhost:5000/')
-#          @browser.goto("#{sso_server}/login?return_to=http://localhost:5000/sso/login")
-          @browser.link(:url, "#{sso_server}/signup").click
+          @browser.link(:url, "#{@sso_server}/signup").click
           @browser.text_field(:name, :first_name).set(@user.first_name)
           @browser.text_field(:name, :last_name).set(@user.last_name)
           @browser.text_field(:name, :email).set(@user.email)
           @browser.button(:value, 'Signup').click
 
-          register_url = @browser.html.match(%r!#{sso_server}/register/\w{40}!).to_s
+          register_url = @browser.html.match(%r!#{@sso_server}/register/\w{40}!).to_s
           register_url.should_not be_nil
           password = /\w+{9,32}/.gen
 
@@ -79,8 +75,7 @@ describe "visiting /sso/signup" do
           @browser.text_field(:name, :password_confirmation).set(password)
           @browser.button(:value, 'Am I Done Yet?').click
 
-#          @browser.goto('http://localhost:5000')
-#          @browser.html.should match(%r!#{@user.first_name} #{@user.last_name}!)
+          @browser.html.should match(%r!Hancock Client: Sinatra!)
         end
       end
     rescue; end
