@@ -3,7 +3,7 @@ Feature: Signing Up for an SSO Account
   As a new user
     Scenario: signing up as a redirect from a consumer
       Given I am not logged in on the sso provider
-      And a valid consumer and user exists
+      And a valid consumer exists
       When I request authentication returning to the consumer app
       Then I should see the login form
       When I click signup
@@ -15,7 +15,7 @@ Feature: Signing Up for an SSO Account
 
     Scenario: signing up
       Given I am not logged in on the sso provider
-      And a valid consumer and user exists
+      And a valid consumer exists
       Given I request authentication
       Then I should see the login form
       When I click signup

@@ -5,7 +5,7 @@ Given /^I am not logged in on the sso provider$/ do
   get "/sso/logout"
 end
 
-Given /^a valid consumer and user exists$/ do
+Given /^a valid consumer exists$/ do
   @consumer = ::Hancock::Consumer.gen(:internal)
 end
 
