@@ -47,7 +47,7 @@ Given /^I hit the registration url and provide a password$/ do
                           'used[password_confirmation]' => @user.password
 end
 
-Then /^I should be redirected to the application root$/ do
+Then /^I should be redirected to the sso provider root$/ do
   last_response.headers['Location'].should eql('/')
 end
 
