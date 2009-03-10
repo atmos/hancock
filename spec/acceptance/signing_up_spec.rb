@@ -59,6 +59,7 @@ describe "visiting /sso/signup" do
           # session cookie fails on localhost :\
           # sso_server = 'http://localhost:20000/sso'
 
+          # make a request and signup to access the site
           @browser.goto('http://localhost:5000/')
           @browser.link(:url, "#{@sso_server}/signup").click
           @browser.text_field(:name, :first_name).set(@user.first_name)
@@ -66,16 +67,20 @@ describe "visiting /sso/signup" do
           @browser.text_field(:name, :email).set(@user.email)
           @browser.button(:value, 'Signup').click
 
+          # hacky way to strip this outta the markup in development mode
           register_url = @browser.html.match(%r!#{@sso_server}/register/\w{40}!).to_s
           register_url.should_not be_nil
           password = /\w+{9,32}/.gen
 
+          # register from the url from their email
           @browser.goto(register_url)
           @browser.text_field(:name, :password).set(password)
           @browser.text_field(:name, :password_confirmation).set(password)
           @browser.button(:value, 'Am I Done Yet?').click
 
+          # sent back to be greeted on the consumer
           @browser.html.should match(%r!Hancock Client: Sinatra!)
+          @browser.html.should have_selector("h2 a[href='mailto:#{@user.email}']:contains('#{@user.first_name} #{@user.last_name}')")
         end
       end
     rescue; end
