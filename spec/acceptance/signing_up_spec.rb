@@ -78,6 +78,8 @@ describe "visiting /sso/signup" do
           @browser.text_field(:name, :password_confirmation).set(password)
           @browser.button(:value, 'Am I Done Yet?').click
 
+          sleep 2
+
           # sent back to be greeted on the consumer
           @browser.html.should match(%r!Hancock Client: Sinatra!)
           @browser.html.should have_selector("h2 a[href='mailto:#{@user.email}']:contains('#{@user.first_name} #{@user.last_name}')")
