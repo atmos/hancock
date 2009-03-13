@@ -1,6 +1,13 @@
 Feature: Logging In to an SSO Account
   In order to authenticate existing users
   As an existing user
+    Scenario: logging in
+      Given I am not logged in on the sso provider
+      And a valid consumer and user exists
+      When I request the landing page
+      Then I should see the login form
+      When I login
+      Then I should see a list of consumers
     Scenario: logging in as a redirect from a consumer
       Given I am not logged in on the sso provider
       And a valid consumer and user exists

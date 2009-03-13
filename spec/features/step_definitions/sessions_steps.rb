@@ -1,6 +1,7 @@
 Given /^a valid consumer and user exists$/ do
   @consumer = ::Hancock::Consumer.gen(:internal)
   @user     = ::Hancock::User.gen
+  get '/sso/logout'  # log us out if we're logged in
 end
 
 Then /^I login$/ do
@@ -16,6 +17,15 @@ Then /^I should be redirected to the consumer app to start the handshake$/ do
 end
 
 Then /^I should be redirected to the sso provider root on login$/ do
-  last_response.headers['Location'].should eql('/sso/login')
+  last_response.headers['Location'].should eql('/')
+  follow_redirect!
+end
+
+When /^I request the landing page$/ do
+  get '/'
+end
+
+Then /^I should see a list of consumers$/ do
+  last_response.headers['Location'].should eql('/')
   follow_redirect!
 end

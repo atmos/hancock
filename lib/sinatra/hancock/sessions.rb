@@ -49,7 +49,7 @@ HAML
             session['user_id'] = @user.id
           end
           ensure_authenticated
-          redirect '/sso/login'
+          redirect session['return_to'] || '/'
         end
 
         app.get '/sso/logout' do

@@ -9,7 +9,7 @@ describe "posting to /sso/login" do
     it "should authenticate a user and redirect to /" do
       post '/sso/login', :email => @user.email, :password => @user.password
       last_response.status.should eql(302)
-      last_response.headers['Location'].should eql('/sso/login')
+      last_response.headers['Location'].should eql('/')
     end
   end
   describe "with an invalid password" do
