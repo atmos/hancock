@@ -51,7 +51,7 @@ describe "visiting /sso/signup" do
       require 'safariwatir'
       describe "with no valid browser sessions" do
         before(:each) do
-          @sso_server = 'http://moi.atmos.org/sso'
+          @sso_server = 'http://hancock.atmos.org/sso'
           @browser = Watir::Safari.new
           @browser.goto("http://localhost:5000/sso/logout")
         end
