@@ -182,7 +182,7 @@ describe "visiting /sso" do
             "openid.return_to"  => "http://rogueconsumerapp.com/",
             "openid.identity"   => @identity_url,
             "openid.claimed_id" => @identity_url}
-          
+
           login(@user)
           get "/sso", params
           last_response.status.should == 403
