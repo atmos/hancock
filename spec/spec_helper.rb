@@ -14,9 +14,10 @@ require 'webrat/sinatra'
 gem 'rack-test', '~>0.1.0'
 require 'rack/test'
 
-require File.dirname(__FILE__)+'/matchers'
-
+require File.expand_path(File.dirname(__FILE__) + '/app')
+require File.expand_path(File.dirname(__FILE__) + '/matchers')
 require File.expand_path(File.dirname(__FILE__) + '/fixtures')
+
 DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
 

@@ -27,6 +27,19 @@ require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/openid_server'
 
 module Hancock
   class App < Sinatra::Default
+    def self.signup_path
+      @signup_path ||= '/sso/signup'
+    end
+    def self.signup_path=(value)
+      @signup_path = value
+    end
+    def self.sreg_params
+      @sreg_params ||= [:email, :first_name, :last_name, :internal]
+    end
+    def self.sreg_params=(value)
+      @sreg_params = value
+    end
+
     enable :sessions
 
     register Sinatra::Hancock::Defaults
