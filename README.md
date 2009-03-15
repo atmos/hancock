@@ -12,7 +12,7 @@ Features
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 * a [whitelist][whitelist] for consumers
-* integration with the big ruby frameworks via [rack][sinatra_examples].
+* integration with the big ruby frameworks via [rack][hancock_examples].
 * configurable [sreg][sreg] parameters to consumers
 
 
@@ -66,7 +66,7 @@ Sponsored By
 [adelcambre]: http://github.com/adelcambre
 [srfork]: http://github.com/sr/webrat/tree/sinatra
 [webrat]: http://github.com/brynary/webrat
-[sinatra_examples]: http://github.com/atmos/hancock/blob/e51f7ef2f0aae5cd5e3f816399c8212c00585abc/examples/dragon/config.ru
+[hancock_examples]: http://github.com/atmos/hancock-client/tree/98aae96077a8fbfa0097f33ec3ecd628fc549c54/examples/dragon
 [datamapper]: http://datamapper.org
 [openid]: http://openid.net/
 [sso]: http://en.wikipedia.org/wiki/Single_sign-on
