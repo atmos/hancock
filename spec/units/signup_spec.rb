@@ -26,6 +26,7 @@ describe "posting to /sso/signup" do
                           :first_name => @existing_user.first_name,
                           :last_name  => @existing_user.last_name
       last_response.should have_selector("h3:contains('Signup Failed')")
+      last_response.should have_selector("#errors p:contains('Email is already taken')")
       last_response.should have_selector("p a[href='/sso/signup']:contains('Try Again?')")
       Sinatra::Mailer::Email.should have(0).deliveries
     end

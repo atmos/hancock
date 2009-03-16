@@ -40,32 +40,31 @@ HAML
     %a{:href => '/'} Cancel
 HAML
         end
-        def signup_confirmation(user)
-          if user.valid?
-            <<-HAML
-%h3 Success!
-%p Check your email and you'll see a registration link!
-- if Hancock::App.environment == :development
-  /
-    %a{:href => absolute_url("/sso/register/#{user.access_token}")} Clicky Clicky
-HAML
-          else
-            <<-HAML
-%h3 Signup Failed
-#errors
-  %p= #{user.errors.inspect}
-%p
-  %a{:href => '/sso/signup'} Try Again?
-HAML
-          end
-        end
-        def signup_email(user)
-          registration_url = absolute_url("/sso/register/#{user.access_token}")
+        def signup_confirmation
           <<-HAML
-Hello #{user.first_name},
+- if @user.valid?
+  %h3 Success!
+  %p Check your email and you'll see a registration link!
+  - if Hancock::App.environment == :development
+    /
+      %a{:href => absolute_url("/sso/register/#{@user.access_token}")} Clicky Clicky
+- else
+  %h3 Signup Failed
+  #errors
+    - @user.errors.each do |message|
+      %p= message
+  %p
+    %a{:href => '/sso/signup'} Try Again?
+HAML
+        end
+        def signup_email
+          <<-HAML
+Hello #{@user.first_name},
 
 Thanks for signing up for #{::Hancock::App.provider_name}!  In order to 
 complete your registration you will need to click on the following link.
+
+#{@registration_url}
 
 Thanks,
 The #{::Hancock::App.provider_name} team
@@ -106,17 +105,18 @@ HAML
         end
 
         app.post '/sso/signup' do
-          user = ::Hancock::User.signup(params)
+          @user = ::Hancock::User.signup(params)
           from = ::Hancock::App.email_address
 
-          if user.save
+          if @user.save
             raise ::Hancock::ConfigurationError.new("You need to define Hancock::App.email_address") unless from
-            email :to      => user.email,
+            @registration_url = absolute_url("/sso/register/#{@user.access_token}")
+            email :to      => @user.email,
                   :from    => from,
                   :subject => "Welcome to #{::Hancock::App.provider_name}!",
-                  :body    => haml(signup_email(user))
+                  :body    => haml(signup_email)
           end
-          haml signup_confirmation(user)
+          haml signup_confirmation
         end
       end
     end
