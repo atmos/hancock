@@ -11,10 +11,10 @@ Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
-* a [whitelist][whitelist] for consumers
+* a single authoritative source for user authentication
+* a [whitelist][whitelist] for consumer applications
 * integration with the big ruby frameworks via [rack][hancock_examples].
 * configurable [sreg][sreg] parameters to consumers
-
 
 How it Works
 ============
@@ -48,7 +48,6 @@ You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][web
 
 Plans
 =====
-* configurable sreg parameters to consumers
 * signup with email based validation
 * single sign off
 * some kinda awesome [oauth][oauth] hooks
