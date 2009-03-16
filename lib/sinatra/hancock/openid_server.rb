@@ -1,6 +1,10 @@
 module Sinatra
   module Hancock
     module OpenIDServer
+      def self.openid_server_template(file, suffix = 'erb')
+        template = File.expand_path(File.dirname(__FILE__)+'/views/openid_server')
+        File.read("#{template}/#{file}.#{suffix}")
+      end
       module Helpers
         def server
           if @server.nil?
@@ -10,24 +14,6 @@ module Sinatra
             @server = OpenID::Server::Server.new(store, server_url)
           end
           return @server
-        end
-
-        def yadis
-          <<-ERB
-<?xml version="1.0" encoding="UTF-8"?>
-<xrds:XRDS
-    xmlns:xrds="xri://$xrds"
-    xmlns="xri://$xrd*($v*2.0)">
-  <XRD>
-    <Service priority="0">
-      <% @types.each do |typ| %>
-        <Type><%= typ %></Type>
-      <% end %>
-      <URI><%= absolute_url('/sso') %></URI>
-    </Service>
-  </XRD>
-</xrds:XRDS>
-ERB
         end
 
         def url_for_user
@@ -53,10 +39,12 @@ ERB
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::OpenIDServer::Helpers)
 
+        app.template(:yadis) { openid_server_template('yadis') }
+
         app.get '/sso/xrds' do
           response.headers['Content-Type'] = 'application/xrds+xml'
           @types = [ OpenID::OPENID_IDP_2_0_TYPE ]
-          erb yadis, :layout => false
+          erb :yadis, :layout => false
         end
 
         app.get '/sso/users/:id' do
@@ -64,7 +52,7 @@ ERB
           response.headers['Content-Type'] = 'application/xrds+xml'
           response.headers['X-XRDS-Location'] = absolute_url("/sso/users/#{params['id']}")
 
-          erb yadis, :layout => false
+          erb :yadis, :layout => false
         end
 
         [:get, :post].each do |meth|
