@@ -3,9 +3,9 @@ hancock
 
 It's like your [John Hancock][johnhancock] for all of your company's apps.  
 
-A lot of this is extracted from our internal single sign on server at [Engine Yard][ey].  We
-use a different [datamapper][datamapper] backend but it should be a decent
-start for most people.
+A lot of this is extracted from our internal single sign on server at [Engine
+Yard][ey].  We use a different [datamapper][datamapper] backend but it should
+be a great start for most people.
 
 Features
 ========
@@ -23,6 +23,19 @@ How it Works
 This handshake seems kind of complex but it only happens when you need to
 validate a user session on the consumer.
 
+Your Rackup File
+================
+    #  thin start -p PORT -R config.ru
+    gem 'hancock', '~>0.0.1'
+    require 'hancock'
+
+    DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
+
+    Hancock::App.set :views,  'views'
+    Hancock::App.set :public, 'public'
+    Hancock::App.set :environment, :production
+    run Hancock::App
+
 Installation
 ============
     % gem sources
@@ -35,23 +48,41 @@ Installation
 You need a few gems to function
 
     % sudo gem install dm-core do_sqlite3
-    % sudo gem install sinatra guid rspec ruby-openid
+    % sudo gem install sinatra guid rspec ruby-openid webrat
 
-You need a few more to test, including [sr][sr]'s [fork][srfork] of [webrat][webrat]
-    % sudo gem install selenium-client rspec
-    % git clone git://github.com/sr/webrat.git
-    % cd webrat
-    % git checkout -b sinatra origin/sinatra
-    % rake repackage
-    % sudo gem uninstall -aI webrat
-    % sudo gem install pkg/webrat-0.4.2.gem
+Deployment Setup
+================
+You can deploy hancock on any rack compatible setup.  You need a database that
+datamapper can connect to.  Generate an example rackup file for yourself based
+on the example above.
 
-Plans
-=====
+    % irb
+    >> require 'rubygems'
+    => false
+    >> require 'hancock'
+    => true
+    >> DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
+    => #<DataMapper::Adapters::Sqlite3Adapter:0x1ae639c ...>
+    >> DataMapper.auto_migrate!
+    => [Hancock::User, Hancock::Consumer]
+
+Consult the datamapper documentation if you need to connect to something other
+than sqlite.  This runs the initial user migration to bootstrap your db.
+
+    >> Hancock::Consumer.create(:url => 'http://hr.example.com/sso/login', :label => 'Human Resources', :internal => true)
+    => #<Hancock::Consumer id=1 url="http://hr.example.com/sso/login" label="Human Resources" internal=true>
+
+This portion setup a consumer application that will be allowed access to the SSO
+server.  You need to explicitly add each application you wish to grant access to.
+
+On the horizon
+==============
 * signup with email based validation
+
+Possibilities
+=============
 * single sign off
 * some kinda awesome [oauth][oauth] hooks
-* [simpledb][simpledb] integration, srsly
 
 Sponsored By
 ============
