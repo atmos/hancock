@@ -68,5 +68,5 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.rcov = true
   t.rcov_opts << '--text-summary'
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
-  t.rcov_opts << '--exclude' << '.gem/,spec,examples,lib/models'
+  t.rcov_opts << '--exclude' << '.gem/,spec,examples'
 end
