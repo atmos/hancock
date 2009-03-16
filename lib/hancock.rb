@@ -13,6 +13,9 @@ require 'openid/extensions/sreg'
 gem 'sinatra', '~>0.9.1.1'
 require 'sinatra/base'
 
+gem 'sinatra-ditties', '~>0.0.3'
+require 'sinatra/ditties'
+
 gem 'guid', '~>0.1.1'
 require 'guid'
 
@@ -27,20 +30,11 @@ require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/openid_server'
 
 module Hancock
   class App < Sinatra::Default
-    def self.signup_path
-      @signup_path ||= '/sso/signup'
-    end
-    def self.signup_path=(value)
-      @signup_path = value
-    end
-    def self.sreg_params
-      @sreg_params ||= [:email, :first_name, :last_name, :internal]
-    end
-    def self.sreg_params=(value)
-      @sreg_params = value
-    end
-
     enable :sessions
+
+    set :sreg_params, [:email, :first_name, :last_name, :internal]
+    set :provider_name, 'Hancock SSO Provider!'
+    set :email_address, nil
 
     register Sinatra::Hancock::Defaults
     register Sinatra::Hancock::Sessions
@@ -48,3 +42,4 @@ module Hancock
     register Sinatra::Hancock::OpenIDServer
   end
 end
+

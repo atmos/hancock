@@ -41,7 +41,7 @@ HAML
 HAML
         end
         def signup_confirmation(user)
-          if user.save
+          if user.valid?
             <<-HAML
 %h3 Success!
 %p Check your email and you'll see a registration link!
@@ -59,6 +59,19 @@ HAML
 HAML
           end
         end
+        def signup_email(user)
+          registration_url = absolute_url("/sso/register/#{user.access_token}")
+          <<-HAML
+Hello #{user.first_name},
+
+Thanks for signing up for #{::Hancock::App.provider_name}!  In order to 
+complete your registration you will need to click on the following link.
+
+Thanks,
+The #{::Hancock::App.provider_name} team
+#{absolute_url('/')}
+HAML
+        end
 
         def user_by_token(token)
           user = ::Hancock::User.first(:access_token => token)
@@ -70,6 +83,7 @@ HAML
 
       def self.registered(app)
         app.helpers Helpers
+        app.helpers Sinatra::Mailer
 
         app.get '/sso/register/:token' do
           user_by_token(params['token'])
@@ -93,6 +107,13 @@ HAML
 
         app.post '/sso/signup' do
           user = ::Hancock::User.signup(params)
+
+          if user.save
+            email :to      => user.email,
+                  :from    => ::Hancock::App.email_address,
+                  :subject => "Welcome to #{::Hancock::App.provider_name}!",
+                  :body    => haml(signup_email(user))
+          end
           haml signup_confirmation(user)
         end
       end

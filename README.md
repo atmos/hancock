@@ -34,6 +34,19 @@ Your Rackup File
     Hancock::App.set :views,  'views'
     Hancock::App.set :public, 'public'
     Hancock::App.set :environment, :production
+
+    Hancock::App.set :provider_name, 'Example SSO Provider'
+    Hancock::App.set :email_address, 'sso@example.com'
+
+    Sinatra::Mailer.config = {
+      :host   => 'smtp.example.com',
+      :port   => '25',
+      :user   => 'sso',
+      :pass   => 'lolerskates',
+      :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
+      :domain => "example.com" # the HELO domain provided by the client to the server
+    }
+
     run Hancock::App
 
 Installation

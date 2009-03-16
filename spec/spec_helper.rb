@@ -20,6 +20,7 @@ require File.expand_path(File.dirname(__FILE__) + '/fixtures')
 
 DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
+Sinatra::Mailer.delivery_method = :test_send
 
 Webrat.configure do |config|
   if ENV['SELENIUM'].nil?
@@ -49,7 +50,9 @@ Spec::Runner.configure do |config|
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
   config.include(Hancock::Matchers)
-
+  config.after do
+    Sinatra::Mailer::Email.deliveries = [ ]
+  end
   unless ENV['SELENIUM'].nil?
     config.include(Webrat::Selenium::Methods)
     config.include(Webrat::Selenium::Matchers)

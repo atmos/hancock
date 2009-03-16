@@ -17,6 +17,7 @@ describe "posting to /sso/signup" do
       last_response.body.to_s.should have_selector("h3:contains('Success')")
       last_response.body.to_s.should have_selector('p:contains("Check your email and you\'ll see a registration link!")')
       last_response.body.to_s.should match(%r!href='http://example.org/sso/register/\w{40}'!)
+      Sinatra::Mailer::Email.should have(1).deliveries
     end
   end
   describe "with invalid information" do
@@ -26,6 +27,7 @@ describe "posting to /sso/signup" do
                           :last_name  => @existing_user.last_name
       last_response.should have_selector("h3:contains('Signup Failed')")
       last_response.should have_selector("p a[href='/sso/signup']:contains('Try Again?')")
+      Sinatra::Mailer::Email.should have(0).deliveries
     end
   end
 end
