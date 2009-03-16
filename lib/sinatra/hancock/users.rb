@@ -1,62 +1,19 @@
 module Sinatra
   module Hancock
     module Users
+      def self.users_template(file)
+        template = File.expand_path(File.dirname(__FILE__)+'/views/users')
+        File.read("#{template}/#{file}.haml")
+      end
+
       module Helpers
-        def register_form
-          <<-HAML
-%fieldset
-  %legend Enter your new password
-  %form{:action => '/sso/register/#{params['token']}', :method => 'POST'}
-    %label{:for => 'password'} 
-      Password:
-      %input{:type => 'password', :name => 'password'}
-      %br
-    %label{:for => 'password_confirmation'} 
-      Password(Again):
-      %input{:type => 'password', :name => 'password_confirmation'}
-      %br
-    %input{:type => 'submit', :value => 'Am I Done Yet?'}
-HAML
+        def user_by_token(token)
+          user = ::Hancock::User.first(:access_token => token)
+          throw(:halt, [400, 'BadRequest']) unless user
+          session['user_id'] = user.id
+          user
         end
-        def signup_form
-          <<-HAML
-%fieldset
-  %legend Signup for an account
-  %form{:action => '/sso/signup', :method => 'POST'}
-    %label{:for => 'first_name'} 
-      First Name:
-      %input{:type => 'text', :name => 'first_name'}
-      %br
-    %label{:for => 'last_name'} 
-      Last Name:
-      %input{:type => 'text', :name => 'last_name'}
-      %br
-    %label{:for => 'email'} 
-      Email:
-      %input{:type => 'text', :name => 'email'}
-      %br
-    %input{:type => 'submit', :value => 'Signup'}
-    or
-    %a{:href => '/'} Cancel
-HAML
-        end
-        def signup_confirmation
-          <<-HAML
-- if @user.valid?
-  %h3 Success!
-  %p Check your email and you'll see a registration link!
-  - if Hancock::App.environment == :development
-    /
-      %a{:href => absolute_url("/sso/register/#{@user.access_token}")} Clicky Clicky
-- else
-  %h3 Signup Failed
-  #errors
-    - @user.errors.each do |message|
-      %p= message
-  %p
-    %a{:href => '/sso/signup'} Try Again?
-HAML
-        end
+
         def signup_email
           <<-HAML
 Hello #{@user.first_name},
@@ -71,22 +28,19 @@ The #{::Hancock::App.provider_name} team
 #{absolute_url('/')}
 HAML
         end
-
-        def user_by_token(token)
-          user = ::Hancock::User.first(:access_token => token)
-          throw(:halt, [400, 'BadRequest']) unless user
-          session['user_id'] = user.id
-          user
-        end
       end
 
       def self.registered(app)
         app.helpers Helpers
         app.helpers Sinatra::Mailer
 
+        app.template(:signup_confirmation) { users_template('signup_confirmation') }
+        app.template(:signup_form) { users_template('signup_form') }
+        app.template(:register_form) { users_template('register_form') }
+
         app.get '/sso/register/:token' do
           user_by_token(params['token'])
-          haml register_form
+          haml :register_form
         end
 
         app.post '/sso/register/:token' do
@@ -101,7 +55,7 @@ HAML
         end
 
         app.get '/sso/signup' do
-          haml signup_form
+          haml :signup_form
         end
 
         app.post '/sso/signup' do
@@ -116,7 +70,7 @@ HAML
                   :subject => "Welcome to #{::Hancock::App.provider_name}!",
                   :body    => haml(signup_email)
           end
-          haml signup_confirmation
+          haml :signup_confirmation
         end
       end
     end

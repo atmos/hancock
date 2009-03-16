@@ -1,0 +1,12 @@
+%fieldset
+  %legend Enter your new password
+  %form{:action => "/sso/register/#{params['token']}", :method => 'POST'}
+    %label{:for => 'password'} 
+      Password:
+      %input{:type => 'password', :name => 'password'}
+      %br
+    %label{:for => 'password_confirmation'} 
+      Password(Again):
+      %input{:type => 'password', :name => 'password_confirmation'}
+      %br
+    %input{:type => 'submit', :value => 'Am I Done Yet?'}
