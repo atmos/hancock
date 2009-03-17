@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'pp'
-gem 'selenium-client', '~>1.2.10'
-gem 'rspec', '~>1.1.12'
+gem 'rspec', '~>1.2.0'
 require 'spec'
 require 'sinatra/test'
 require 'dm-sweatshop'
@@ -26,6 +25,7 @@ Webrat.configure do |config|
   if ENV['SELENIUM'].nil?
     config.mode = :sinatra
   else
+    gem 'selenium-client', '~>1.2.10'
     config.mode = :selenium
     config.application_framework = :sinatra
     config.application_port = 4567
