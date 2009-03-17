@@ -60,7 +60,7 @@ HAML
 
         app.post '/sso/signup' do
           @user = ::Hancock::User.signup(params)
-          from = ::Hancock::App.email_address
+          from = ::Hancock::App.do_not_reply
 
           if @user.save
             raise ::Hancock::ConfigurationError.new("You need to define Hancock::App.email_address") unless from

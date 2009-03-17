@@ -34,7 +34,7 @@ Webrat.configure do |config|
 end
 
 Hancock::App.set :environment, :development
-Hancock::App.set :email_address, 'sso@example.com'
+Hancock::App.set :do_not_reply, 'sso@example.com'
 
 Spec::Runner.configure do |config|
   def app

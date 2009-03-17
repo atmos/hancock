@@ -36,7 +36,7 @@ module Hancock
 
     set :sreg_params, [:email, :first_name, :last_name, :internal]
     set :provider_name, 'Hancock SSO Provider!'
-    set :email_address, nil
+    set :do_not_reply, nil
 
     register Sinatra::Hancock::Defaults
     register Sinatra::Hancock::Sessions
