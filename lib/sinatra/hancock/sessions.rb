@@ -29,7 +29,7 @@ module Sinatra
 
       def self.registered(app)
         app.send(:include, Sinatra::Hancock::Sessions::Helpers)
-        app.template(:unauthenticated) { sessions_template ('unauthenticated') }
+        app.template(:unauthenticated) { sessions_template('unauthenticated') }
         app.get '/sso/login' do
           ensure_authenticated
         end
