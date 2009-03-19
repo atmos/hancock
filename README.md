@@ -26,17 +26,12 @@ validate a user session on the consumer.
 Your Rackup File
 ================
     #  thin start -p PORT -R config.ru
-    gem 'hancock', '~>0.0.1'
+    require 'rubygems'
+    gem 'sinatra', '~>0.9.1.1'
     require 'hancock'
+    require 'sinatra/ditties'
 
     DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
-
-    Hancock::App.set :views,  'views'
-    Hancock::App.set :public, 'public'
-    Hancock::App.set :environment, :production
-
-    Hancock::App.set :provider_name, 'Example SSO Provider'
-    Hancock::App.set :email_address, 'sso@example.com'
 
     Sinatra::Mailer.config = {
       :host   => 'smtp.example.com',
@@ -47,7 +42,27 @@ Your Rackup File
       :domain => "example.com" # the HELO domain provided by the client to the server
     }
 
-    run Hancock::App
+    if ENV['MIGRATE_ME']
+        DataMapper.auto_migrate!
+        Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Local Dev', :internal => false)
+        Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Local Dev', :internal => false)
+        Hancock::Consumer.create(:url => 'http://localhost:5000/sso/login', :label => 'Local Dev', :internal => false)
+    end
+
+    class Dragon < Hancock::App
+      set :views,  'views'
+      set :public, 'public'
+      set :environment, :production
+
+      set :provider_name, 'Example SSO Provider'
+      set :do_not_reply, 'sso@atmos.org'
+
+      get '/' do
+        redirect '/sso/login' unless session[:user_id]
+        erb "<h2>Hello <%= session[:first_name] %><!-- <%= session.inspect %>"
+      end
+    end
+    run Dragon
 
 Installation
 ============
