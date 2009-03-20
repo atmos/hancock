@@ -29,3 +29,8 @@ Then /^I should see a list of consumers$/ do
   last_response.headers['Location'].should eql('/')
   follow_redirect!
 end
+
+When /^I request the login page$/ do
+  get '/sso/login'
+  pp last_response
+end

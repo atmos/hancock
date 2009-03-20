@@ -22,3 +22,8 @@ Feature: Logging In to an SSO Account
       Then I should see the login form
       When I login
       Then I should be redirected to the sso provider root on login
+    Scenario: logging in with a bad return_to cookie set
+      Given I am logged in on the sso provider
+      And a valid consumer and user exists
+      When I request the login page
+      Then I should be redirected to the sso provider root
