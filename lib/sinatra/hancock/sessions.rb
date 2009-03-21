@@ -20,7 +20,7 @@ module Sinatra
                 session['return_to'] = trust_root
               end
             else
-              throw(:halt, [403, 'Forbidden'])
+              forbidden!
             end
           end
           throw(:halt, [401, haml(:unauthenticated)]) unless session_user
@@ -32,6 +32,7 @@ module Sinatra
         app.template(:unauthenticated) { sessions_template('unauthenticated') }
         app.get '/sso/login' do
           ensure_authenticated
+          redirect '/'
         end
         app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
