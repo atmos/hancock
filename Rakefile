@@ -6,7 +6,7 @@ require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
 GEM = "hancock"
-GEM_VERSION = "0.0.3"
+GEM_VERSION = "0.0.4"
 AUTHOR = ["Corey Donohoe", "Tim Carey-Smith"]
 EMAIL = [ "atmos@atmos.org", "tim@spork.in" ]
 HOMEPAGE = "http://github.com/atmos/hancock"
