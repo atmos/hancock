@@ -28,7 +28,7 @@ module Sinatra
 
           case web_response.code
           when 302
-            session.delete(:return_to)
+            session.delete(:hancock_server_return_to)
             redirect web_response.headers['location']
           else
             web_response.body
@@ -60,14 +60,14 @@ module Sinatra
             begin
               oidreq = server.decode_request(params)
             rescue OpenID::Server::ProtocolError => e
-              oidreq = session[:last_oidreq]
+              oidreq = session[:hancock_server_last_oidreq]
             end
             throw(:halt, [400, 'Bad Request']) unless oidreq
 
             oidresp = nil
             if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
-              session[:last_oidreq] = oidreq
-              session[:return_to] = absolute_url('/sso')
+              session[:hancock_server_last_oidreq] = oidreq
+              session[:hancock_server_return_to] = absolute_url('/sso')
 
               ensure_authenticated
               unless oidreq.identity == url_for_user

@@ -8,16 +8,17 @@ module Sinatra
 
       module Helpers
         def session_user
-          session['user_id'].nil? ? nil : ::Hancock::User.get(session['user_id'])
+          session['hancock_server_user_id'].nil? ? 
+            nil : ::Hancock::User.get(session['hancock_server_user_id'])
         end
 
         def ensure_authenticated
-          if trust_root = session['return_to'] || params['return_to']
+          if trust_root = session['hancock_server_return_to'] || params['return_to']
             if ::Hancock::Consumer.allowed?(trust_root)
               if session_user
                 redirect "#{trust_root}?id=#{session_user.id}"
               else
-                session['return_to'] = trust_root
+                session['hancock_server_return_to'] = trust_root
               end
             else
               forbidden!
@@ -37,10 +38,10 @@ module Sinatra
         app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
           if @user
-            session['user_id'] = @user.id
+            session['hancock_server_user_id'] = @user.id
           end
           ensure_authenticated
-          redirect session['return_to'] || '/'
+          redirect session['hancock_server_return_to'] || '/'
         end
 
         app.get '/sso/logout' do

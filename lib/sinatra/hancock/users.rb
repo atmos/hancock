@@ -10,7 +10,7 @@ module Sinatra
         def user_by_token(token)
           user = ::Hancock::User.first(:access_token => token)
           throw(:halt, [400, 'BadRequest']) unless user
-          session['user_id'] = user.id
+          session['hancock_server_user_id'] = user.id
           user
         end
 
@@ -49,8 +49,8 @@ HAML
                                  :access_token => nil,
                                  :password => params['password'],
                                  :password_confirmation => params['password_confirmation'])
-          destination = session.delete('return_to') || '/'
-          session.reject! { |key,value| key != 'user_id' }
+          destination = session.delete('hancock_server_return_to') || '/'
+          session.reject! { |key,value| key != 'hancock_server_user_id' }
           redirect destination
         end
 
