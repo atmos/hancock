@@ -29,6 +29,7 @@ Your Rackup File
     require 'rubygems'
     gem 'sinatra', '~>0.9.1.1'
     require 'hancock'
+    gem 'atmos-sinatra-ditties', '~>0.0.3'
     require 'sinatra/ditties'
 
     DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
@@ -42,23 +43,16 @@ Your Rackup File
       :domain => "example.com" # the HELO domain provided by the client to the server
     }
 
-    if ENV['MIGRATE_ME']
-        DataMapper.auto_migrate!
-        Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Local Dev', :internal => false)
-        Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Local Dev', :internal => false)
-        Hancock::Consumer.create(:url => 'http://localhost:5000/sso/login', :label => 'Local Dev', :internal => false)
-    end
-
     class Dragon < Hancock::App
       set :views,  'views'
       set :public, 'public'
       set :environment, :production
 
       set :provider_name, 'Example SSO Provider'
-      set :do_not_reply, 'sso@atmos.org'
+      set :do_not_reply,  'sso@atmos.org'
 
       get '/' do
-        redirect '/sso/login' unless session[:user_id]
+        redirect '/sso/login' unless session[:hancock_server_user_id]
         erb "<h2>Hello <%= session[:first_name] %><!-- <%= session.inspect %>"
       end
     end
@@ -76,7 +70,11 @@ Installation
 You need a few gems to function
 
     % sudo gem install dm-core do_sqlite3
-    % sudo gem install sinatra guid rspec ruby-openid webrat
+    % sudo gem install sinatra ruby-openid 
+    % sudo gem install atmos-sinatra-ditties
+
+You need a few extra gems to run the specs
+    % sudo gem install rspec webrat rack-test cucumber
 
 Deployment Setup
 ================
@@ -98,14 +96,14 @@ Consult the datamapper documentation if you need to connect to something other
 than sqlite.  This runs the initial user migration to bootstrap your db.
 
     >> Hancock::Consumer.create(:url => 'http://hr.example.com/sso/login', :label => 'Human Resources', :internal => true)
-    => #<Hancock::Consumer id=1 url="http://hr.example.com/sso/login" label="Human Resources" internal=true>
+    => ...
+    >> Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Local Rails Dev', :internal => false)
+    => ...
+    >> Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Local Merb Dev', :internal => false)
+    => ...
+    >> Hancock::Consumer.create(:url => 'http://localhost:4567/sso/login', :label => 'Local Sinatra Dev', :internal => false)
 
-This portion setup a consumer application that will be allowed access to the SSO
-server.  You need to explicitly add each application you wish to grant access to.
-
-On the horizon
-==============
-* signup with email based validation
+Here's how you setup most frameworks as consumers.  In a production environment you'd lock this down
 
 Possibilities
 =============
