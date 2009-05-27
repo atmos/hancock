@@ -6,7 +6,7 @@ require 'spec/rake/spectask'
 require 'cucumber/rake/task'
 
 GEM = "hancock"
-GEM_VERSION = "0.0.6"
+GEM_VERSION = "0.0.7"
 AUTHOR = ["Corey Donohoe", "Tim Carey-Smith"]
 EMAIL = [ "atmos@atmos.org", "tim@spork.in" ]
 HOMEPAGE = "http://github.com/atmos/hancock"
@@ -25,9 +25,10 @@ spec = Gem::Specification.new do |s|
   s.homepage = HOMEPAGE
 
   # Uncomment this to add a dependency
-  s.add_dependency "dm-core", "~>0.9.10"
-  s.add_dependency "ruby-openid", "~>2.1.2"
-  s.add_dependency "sinatra", "~>0.9.1.1"
+  s.add_dependency "dm-core", "~>0.9.11"
+  s.add_dependency "ruby-openid", "~>2.1.4"
+  s.add_dependency "sinatra", "~>0.9.2"
+  s.add_dependency "sinatra-ditties", "~>0.0.3"
   s.add_dependency "guid", "~>0.1.1"
 
   s.require_path = 'lib'
@@ -63,8 +64,6 @@ end
 Cucumber::Rake::Task.new(:features) do |t|
   t.libs << 'lib'
   t.cucumber_opts = "--format pretty"
-  t.step_list    = 'spec/features/**/*.rb'
-  t.feature_list = 'spec/features/**/*.feature'
   t.rcov = true
   t.rcov_opts << '--text-summary'
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'

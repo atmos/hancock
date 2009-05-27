@@ -1,17 +1,20 @@
 require 'rubygems'
 
-gem 'dm-core', '~>0.9.10'
+gem 'dm-core', '~>0.9.11'
 require 'dm-core'
 require 'dm-validations'
 require 'dm-timestamps'
 
-gem 'ruby-openid', '~>2.1.2'
+gem 'ruby-openid', '~>2.1.4'
 require 'openid'
 require 'openid/store/filesystem'
 require 'openid/extensions/sreg'
 
-gem 'sinatra', '~>0.9.1.1'
+gem 'sinatra', '~>0.9.2'
 require 'sinatra/base'
+gem 'haml'
+require 'haml/engine'
+require 'sass'
 
 gem 'sinatra-ditties', '~>0.0.3'
 require 'sinatra/ditties'

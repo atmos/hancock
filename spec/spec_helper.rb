@@ -2,15 +2,14 @@ require 'rubygems'
 require 'pp'
 gem 'rspec', '~>1.2.0'
 require 'spec'
-require 'sinatra/test'
 require 'dm-sweatshop'
 
 $:.push File.join(File.dirname(__FILE__), '..', 'lib')
 require 'hancock'
-gem 'webrat', '~>0.4.2'
-require 'webrat/sinatra'
+gem 'webrat', '~>0.4.4'
+require 'webrat'
 
-gem 'rack-test', '~>0.1.0'
+gem 'rack-test', '~>0.3.0'
 require 'rack/test'
 
 require File.expand_path(File.dirname(__FILE__) + '/app')
@@ -25,7 +24,7 @@ Webrat.configure do |config|
   if ENV['SELENIUM'].nil?
     config.mode = :sinatra
   else
-    gem 'selenium-client', '~>1.2.10'
+    gem 'selenium-client', '~>1.2.15'
     config.mode = :selenium
     config.application_framework = :sinatra
     config.application_port = 4567
