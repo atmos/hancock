@@ -42,12 +42,14 @@ module Hancock
       include Webrat::Methods
       include Webrat::Matchers
       include Spec::Matchers
+
       def matches?(target)
-        target.header['Content-Type'].should eql('application/xrds+xml')
+        target.headers['Content-Type'].should eql('application/xrds+xml')
         target.body.should have_xpath("//xrd/service[uri='http://example.org/sso']")
         target.body.should have_xpath("//xrd/service[type='http://specs.openid.net/auth/2.0/server']")
         true
       end
+
       def failure_message
         puts "Expected a identity provider yadis document"
       end

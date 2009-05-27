@@ -22,7 +22,7 @@ Sinatra::Mailer.delivery_method = :test_send
 
 Webrat.configure do |config|
   if ENV['SELENIUM'].nil?
-    config.mode = :sinatra
+    config.mode = :rack_test
   else
     gem 'selenium-client', '~>1.2.15'
     config.mode = :selenium

@@ -18,7 +18,6 @@ end
 
 Then /^I should be redirected to the sso provider root on login$/ do
   last_response.headers['Location'].should eql('/')
-  follow_redirect!
 end
 
 When /^I request the landing page$/ do
@@ -27,7 +26,6 @@ end
 
 Then /^I should see a list of consumers$/ do
   last_response.headers['Location'].should eql('/')
-  follow_redirect!
 end
 
 When /^I request the login page$/ do
