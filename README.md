@@ -27,7 +27,6 @@ Your Rackup File
 ================
     #  thin start -p PORT -R config.ru
     require 'rubygems'
-    gem 'sinatra', '~>0.9.1.1'
     require 'hancock'
     gem 'atmos-sinatra-ditties', '~>0.0.3'
     require 'sinatra/ditties'
@@ -107,7 +106,6 @@ Here's how you setup most frameworks as consumers.  In a production environment 
 
 Possibilities
 =============
-* single sign off
 * some kinda awesome [oauth][oauth] hooks
 
 Sponsored By
