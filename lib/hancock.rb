@@ -47,4 +47,3 @@ module Hancock
     register Sinatra::Hancock::OpenIDServer
   end
 end
-

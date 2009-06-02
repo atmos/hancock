@@ -1,12 +1,14 @@
 Given /^a valid consumer and user exists$/ do
   @consumer = ::Hancock::Consumer.gen(:internal)
   @user     = ::Hancock::User.gen
-  get '/sso/logout'  # log us out if we're logged in
+  visit '/sso/logout'  # log us out if we're logged in
 end
 
 Then /^I login$/ do
-  post "/sso/login", :email => @user.email,
-                     :password => @user.password
+  fill_in :email,    :with => @user.email
+  fill_in :password, :with => @user.password
+
+  click_button 'Login'
 end
 
 Then /^I should be redirected to the consumer app to start the handshake$/ do
@@ -16,19 +18,14 @@ Then /^I should be redirected to the consumer app to start the handshake$/ do
   redirection.query_values['id'].to_i.should eql(@user.id)
 end
 
-Then /^I should be redirected to the sso provider root on login$/ do
-  last_response.headers['Location'].should eql('/')
-end
-
 When /^I request the landing page$/ do
-  get '/'
+  visit '/'
 end
 
 Then /^I should see a list of consumers$/ do
-  last_response.headers['Location'].should eql('/')
+  last_response.should have_selector("h3:contains('#{@user.first_name} #{@user.last_name}')")
 end
 
 When /^I request the login page$/ do
-  get '/sso/login'
-  pp last_response
+  visit '/sso/login'
 end

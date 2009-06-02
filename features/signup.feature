@@ -23,4 +23,3 @@ Feature: Signing Up for an SSO Account
       When I signup with valid info
       Then I should receive a registration url via email
       When I hit the registration url and provide a password
-      Then I should be redirected to the sso provider root

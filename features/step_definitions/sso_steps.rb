@@ -1,7 +1,6 @@
 When /^I am logged in on the sso provider$/ do
   @identity_url = "http://example.org/sso/users/#{@user.id}"
-  post "/sso/login", :email => @user.email,
-                     :password => @user.password
+  Then "I login"
 end
 
 When /^I request the sso page with a checkid mode of checkIDSetup$/ do

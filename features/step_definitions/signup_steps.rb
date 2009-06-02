@@ -2,7 +2,7 @@ Given /^I am not logged in on the sso provider$/ do
   @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
                             :first_name => /\w+/.gen.capitalize,
                             :last_name  => /\w+/.gen.capitalize)
-  get "/sso/logout"
+  visit "/sso/logout"
 end
 
 Given /^a valid consumer exists$/ do
@@ -10,11 +10,11 @@ Given /^a valid consumer exists$/ do
 end
 
 Given /^I request authentication$/ do
-  get "/sso/login"
+  visit "/sso/login"
 end
 
 Given /^I request authentication returning to the consumer app$/ do
-  get "/sso/login?return_to=#{@consumer.url}"
+  visit "/sso/login?return_to=#{@consumer.url}"
 end
 
 Then /^I should see the login form$/ do
@@ -22,7 +22,7 @@ Then /^I should see the login form$/ do
 end
 
 Given /^I click signup$/ do
-  get "/sso/signup"
+  visit "/sso/signup"
 end
 
 Then /^I should see the signup form$/ do
@@ -30,10 +30,11 @@ Then /^I should see the signup form$/ do
 end
 
 Given /^I signup with valid info$/ do
-  post "/sso/signup", 'email'      => @user.email,
-                      'first_name' => @user.first_name,
-                      'last_name'  => @user.last_name
-  last_response.status.should eql(200)
+  fill_in :email,      :with => @user.email
+  fill_in :first_name, :with => @user.first_name
+  fill_in :last_name,  :with => @user.last_name
+
+  click_button 'Signup'
 end
 
 Then /^I should receive a registration url via email$/ do
@@ -42,13 +43,13 @@ Then /^I should receive a registration url via email$/ do
 end
 
 Given /^I hit the registration url and provide a password$/ do
-  get @confirmation_url
-  post @confirmation_url, 'user[password]' => @user.password,
-                          'used[password_confirmation]' => @user.password
-end
+  visit @confirmation_url
 
-Then /^I should be redirected to the sso provider root$/ do
-  last_response.headers['Location'].should eql('/')
+  puts last_response.body
+  fill_in :password,               :with => @user.password
+  fill_in :password_confirmation,  :with => @user.password
+
+  click_button 'Am I Done Yet?'
 end
 
 Then /^I should be redirected to the consumer app$/ do

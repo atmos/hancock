@@ -2,3 +2,4 @@ pkg
 coverage
 development.db
 tmp
+webrat.log

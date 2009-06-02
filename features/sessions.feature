@@ -21,9 +21,9 @@ Feature: Logging In to an SSO Account
       When I request authentication
       Then I should see the login form
       When I login
-      Then I should be redirected to the sso provider root on login
+      Then I should see a list of consumers
     Scenario: logging in with a bad return_to cookie set
       Given a valid consumer and user exists
       Then I login
       When I request the login page
-      Then I should be redirected to the sso provider root
+      Then I should see a list of consumers

@@ -14,3 +14,9 @@ World do
   include Webrat::Matchers
   include Hancock::Matchers
 end
+
+class Webrat::Field
+  def escaped_value
+    @value.to_s
+  end
+end
