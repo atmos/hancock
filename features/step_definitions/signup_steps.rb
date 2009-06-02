@@ -44,7 +44,6 @@ end
 Given /^I hit the registration url and provide a password$/ do
   visit @confirmation_url
 
-  puts last_response.body
   fill_in :password,               :with => @user.password
   fill_in :password_confirmation,  :with => @user.password
 
