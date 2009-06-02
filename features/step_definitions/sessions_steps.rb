@@ -1,7 +1,6 @@
 Given /^a valid consumer and user exists$/ do
   @consumer = ::Hancock::Consumer.gen(:internal)
   @user     = ::Hancock::User.gen
-  visit '/sso/logout'  # log us out if we're logged in
 end
 
 Then /^I login$/ do

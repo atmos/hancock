@@ -20,3 +20,7 @@ class Webrat::Field
     @value.to_s
   end
 end
+
+Before do
+  visit '/sso/logout'  # log us out if we're logged in
+end
