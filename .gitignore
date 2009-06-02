@@ -3,3 +3,4 @@ coverage
 development.db
 tmp
 webrat.log
+.DS_Store

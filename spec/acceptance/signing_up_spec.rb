@@ -1,51 +1,11 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
 describe "visiting /sso/signup" do
-  def app
-    Hancock::App
-  end
   before(:each) do
     @user = Hancock::User.new(:email      => /\w+@\w+\.\w{2,3}/.gen.downcase,
                               :first_name => /\w+/.gen.capitalize,
                               :last_name  => /\w+/.gen.capitalize)
   end
-  describe "when signing up" do
-    it "should sign the user up" do
-      get '/sso/signup'
-
-      post '/sso/signup', :email => @user.email,
-                          :first_name => @user.first_name,
-                          :last_name => @user.last_name
-
-      confirmation_url = last_response.body.to_s.match(%r!/sso/register/\w{40}!)
-      confirmation_url.should_not be_nil
-
-      get "#{confirmation_url}"
-      password = /\w+{9,32}/.gen
-
-      last_response.body.to_s.should have_selector("form[action='#{confirmation_url}']")
-
-      post "#{confirmation_url}", :password => password, :password_confirmation => password
-      follow_redirect!
-
-      last_response.body.to_s.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
-    end
-
-    describe "and form hacking" do
-      it "should be unauthorized" do
-        get '/sso/signup'
-
-        post '/sso/signup', :email => @user.email,
-                            :first_name => @user.first_name,
-                            :last_name => @user.last_name
-
-        fake_url = /\w+{9,40}/.gen
-        get "/sso/register/#{fake_url}"
-        last_response.body.to_s.should match(/BadRequest/)
-      end
-    end
-  end
-
   if ENV['WATIR']
     begin
       require 'safariwatir'
