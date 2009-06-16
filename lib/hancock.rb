@@ -16,14 +16,12 @@ gem 'haml'
 require 'haml/engine'
 require 'sass'
 
-gem 'sinatra-ditties', '~>0.0.3'
-require 'sinatra/ditties'
-
 gem 'guid', '~>0.1.1'
 require 'guid'
 
 module Hancock; end
 
+require File.expand_path(File.dirname(__FILE__)+'/mailer')
 require File.expand_path(File.dirname(__FILE__)+'/models/user')
 require File.expand_path(File.dirname(__FILE__)+'/models/consumer')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/defaults')

@@ -25,11 +25,15 @@ spec = Gem::Specification.new do |s|
   s.homepage = HOMEPAGE
 
   # Uncomment this to add a dependency
-  s.add_dependency "dm-core", "~>0.9.11"
-  s.add_dependency "ruby-openid", "~>2.1.4"
-  s.add_dependency "sinatra", "~>0.9.2"
-  s.add_dependency "sinatra-ditties", "~>0.0.3"
-  s.add_dependency "guid", "~>0.1.1"
+  s.add_dependency "ruby-openid",     "~>2.1.4"
+  s.add_dependency "sinatra",         "~>0.9.2"
+  s.add_dependency "haml",            "~>2.0.9"
+  s.add_dependency "guid",            "~>0.1.1"
+
+  s.add_dependency "dm-core",         "~>0.9.11"
+  s.add_dependency "dm-types",        "~>0.9.11"
+  s.add_dependency "dm-timestamps",   "~>0.9.11"
+  s.add_dependency "dm-validations",  "~>0.9.11"
 
   s.require_path = 'lib'
   s.autorequire = GEM
@@ -37,6 +41,10 @@ spec = Gem::Specification.new do |s|
 end
 
 task :default => [:spec, :features]
+
+task :development_deps do |t|
+  system("sudo gem install webrat rack-test do_sqlite3")
+end
 
 desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
