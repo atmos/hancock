@@ -28,8 +28,6 @@ Your Rackup File
     #  thin start -p PORT -R config.ru
     require 'rubygems'
     require 'hancock'
-    gem 'atmos-sinatra-ditties', '~>0.0.3'
-    require 'sinatra/ditties'
 
     DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
 
@@ -70,7 +68,6 @@ You need a few gems to function
 
     % sudo gem install dm-core do_sqlite3
     % sudo gem install sinatra ruby-openid 
-    % sudo gem install atmos-sinatra-ditties
 
 You need a few extra gems to run the specs
     % sudo gem install rspec webrat rack-test cucumber
