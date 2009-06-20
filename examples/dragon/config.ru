@@ -1,6 +1,6 @@
 #  thin start -p PORT -R config.ru
 require 'ruby-debug'
-gem 'sinatra', '~>0.9.1'
+gem 'sinatra', '~>0.9.2'
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock'))
 
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
@@ -24,7 +24,7 @@ class Dragon < Hancock::App
   set :do_not_reply, 'sso@example.com'
 
   get '/' do
-    redirect '/sso/login' unless session[:hancock_server_user_id]
+    redirect '/sso/login' unless session['hancock_server_user_id']
     erb "<h2>Hello <%= session[:first_name] %><!-- <%= session.inspect %>"
   end
 end
