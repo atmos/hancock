@@ -101,9 +101,9 @@ than sqlite.  This runs the initial user migration to bootstrap your db.
 
 Here's how you setup most frameworks as consumers.  In a production environment you'd lock this down
 
-Possibilities
-=============
-* some kinda awesome [oauth][oauth] hooks
+Feedback
+========
+* Google Group - http://groups.google.com/group/hancock-users
 
 Sponsored By
 ============
