@@ -103,7 +103,7 @@ Here's how you setup most frameworks as consumers.  In a production environment 
 
 Feedback
 ========
-* Google Group - http://groups.google.com/group/hancock-users
+* [Google Group][googlegroup]
 
 Sponsored By
 ============
@@ -125,3 +125,4 @@ Sponsored By
 [oauth]: http://oauth.net/
 [sreg]: http://openid.net/specs/openid-simple-registration-extension-1_0.html#response_format
 [simpledb]: http://aws.amazon.com/simpledb/
+[googlegroup]: http://groups.google.com/group/hancock-users
