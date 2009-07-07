@@ -31,15 +31,6 @@ Your Rackup File
 
     DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
 
-    Sinatra::Mailer.config = {
-      :host   => 'smtp.example.com',
-      :port   => '25',
-      :user   => 'sso',
-      :pass   => 'lolerskates',
-      :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
-      :domain => "example.com" # the HELO domain provided by the client to the server
-    }
-
     class Dragon < Hancock::App
       set :views,  'views'
       set :public, 'public'
@@ -47,6 +38,14 @@ Your Rackup File
 
       set :provider_name, 'Example SSO Provider'
       set :do_not_reply,  'sso@atmos.org'
+      set :smtp, {
+        :host   => 'smtp.example.com',
+        :port   => '25',
+        :user   => 'sso',
+        :pass   => 'lolerskates',
+        :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
+        :domain => "example.com" # the HELO domain provided by the client to the server
+      }
 
       get '/' do
         redirect '/sso/login' unless session[:hancock_server_user_id]

@@ -29,6 +29,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "sinatra",         "~>0.9.2"
   s.add_dependency "haml",            "~>2.0.9"
   s.add_dependency "guid",            "~>0.1.1"
+  s.add_dependency "pony",            "~>0.3"
 
   s.add_dependency "dm-core",         "~>0.9.11"
   s.add_dependency "dm-types",        "~>0.9.11"

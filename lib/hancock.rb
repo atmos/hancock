@@ -19,9 +19,11 @@ require 'sass'
 gem 'guid', '~>0.1.1'
 require 'guid'
 
+gem 'pony', '0.3'
+require 'pony'
+
 module Hancock; end
 
-require File.expand_path(File.dirname(__FILE__)+'/mailer')
 require File.expand_path(File.dirname(__FILE__)+'/models/user')
 require File.expand_path(File.dirname(__FILE__)+'/models/consumer')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/defaults')
@@ -34,10 +36,17 @@ module Hancock
 
   class App < Sinatra::Default
     enable :sessions
+    #disable :raise_errors
+    disable :show_exceptions
 
     set :sreg_params, [:email, :first_name, :last_name, :internal]
     set :provider_name, 'Hancock SSO Provider!'
     set :do_not_reply, nil
+    set :smtp, { }
+
+    error do
+      pp env['sinatra.error']
+    end
 
     register Sinatra::Hancock::Defaults
     register Sinatra::Hancock::Sessions

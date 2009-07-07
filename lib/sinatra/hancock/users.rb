@@ -32,7 +32,6 @@ HAML
 
       def self.registered(app)
         app.helpers Helpers
-        app.helpers Sinatra::Mailer
 
         app.template(:signup_confirmation) { users_template('signup_confirmation') }
         app.template(:signup_form) { users_template('signup_form') }
@@ -65,10 +64,10 @@ HAML
           if @user.save
             raise ::Hancock::ConfigurationError.new("You need to define options.do_not_reply") unless from
             @registration_url = absolute_url("/sso/register/#{@user.access_token}")
-            email :to      => @user.email,
-                  :from    => from,
-                  :subject => "Welcome to #{::Hancock::App.provider_name}!",
-                  :body    => haml(signup_email)
+            Pony.mail(:to => @user.email, :from => from, 
+                      :subject => "Welcome to #{::Hancock::App.provider_name}!",
+                      :body    => haml(signup_email),
+                      :via => 'smtp', :smtp => options.smtp)
           end
           haml :signup_confirmation
         end
