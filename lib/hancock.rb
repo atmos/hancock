@@ -5,7 +5,7 @@ require 'dm-core'
 require 'dm-validations'
 require 'dm-timestamps'
 
-gem 'ruby-openid', '~>2.1.4'
+gem 'ruby-openid', '~>2.1.7'
 require 'openid'
 require 'openid/store/filesystem'
 require 'openid/extensions/sreg'

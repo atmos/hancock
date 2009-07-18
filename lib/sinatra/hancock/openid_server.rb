@@ -70,9 +70,6 @@ module Sinatra
               session[:hancock_server_return_to] = absolute_url('/sso')
 
               ensure_authenticated
-              unless oidreq.identity == url_for_user
-                forbidden!
-              end
               forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
 
               oidresp = oidreq.answer(true, nil, oidreq.identity)

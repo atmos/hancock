@@ -40,21 +40,6 @@ describe "visiting /sso" do
         last_response.should be_a_redirect_to_the_consumer(@consumer, @user)
       end
 
-      describe "attempting to access another identity" do
-        it "should return forbidden" do
-          params = {
-            "openid.ns"         => "http://specs.openid.net/auth/2.0",
-            "openid.mode"       => "checkid_setup",
-            "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/sso/users/42",
-            "openid.claimed_id" => "http://example.org/sso/users/42"
-          }
-
-          login(@user)
-          get "/sso", params
-          last_response.status.should == 403
-        end
-      end
       describe "attempting to access from an untrusted consumer" do
         it "cancel the openid request" do
           params = {
@@ -115,22 +100,6 @@ describe "visiting /sso" do
           login(@user)
           get "/sso", params
           last_response.should be_an_openid_immediate_response(@consumer, @user)
-        end
-      end
-
-      describe "attempting to access another identity" do
-        it "should return forbidden" do
-          params = {
-            "openid.ns"         => "http://specs.openid.net/auth/2.0",
-            "openid.mode"       => "checkid_immediate",
-            "openid.return_to"  => @consumer.url,
-            "openid.identity"   => "http://example.org/sso/users/42",
-            "openid.claimed_id" => "http://example.org/sso/users/42" 
-          }
-
-          login(@user)
-          get "/sso", params
-          last_response.status.should == 403
         end
       end
 

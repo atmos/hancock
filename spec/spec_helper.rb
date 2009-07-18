@@ -10,7 +10,7 @@ require 'hancock'
 gem 'webrat', '~>0.4.4'
 require 'webrat'
 
-gem 'rack-test', '~>0.3.0'
+gem 'rack-test', '>=0.4.0'
 require 'rack/test'
 
 require File.expand_path(File.dirname(__FILE__) + '/app')
