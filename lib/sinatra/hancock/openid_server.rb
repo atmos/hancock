@@ -28,7 +28,6 @@ module Sinatra
 
           case web_response.code
           when 302
-            session.delete(:hancock_server_return_to)
             redirect web_response.headers['location']
           else
             web_response.body
@@ -68,7 +67,7 @@ module Sinatra
             oidresp = nil
             if oidreq.kind_of?(OpenID::Server::CheckIDRequest)
               session[:hancock_server_last_oidreq] = oidreq
-              session[:hancock_server_return_to] = absolute_url('/sso')
+              session[:hancock_server_return_to] = oidreq.return_to
 
               ensure_authenticated
               forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 

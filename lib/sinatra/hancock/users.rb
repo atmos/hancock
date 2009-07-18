@@ -48,7 +48,7 @@ HAML
                                  :access_token => nil,
                                  :password => params['password'],
                                  :password_confirmation => params['password_confirmation'])
-          destination = session.delete('hancock_server_return_to') || '/'
+          destination = session_return_to || '/'
           session.reject! { |key,value| key != 'hancock_server_user_id' }
           redirect destination
         end
