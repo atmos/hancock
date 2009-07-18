@@ -37,6 +37,7 @@ module Sinatra
       end
 
       def self.registered(app)
+        app.disable :show_exceptions
         app.send(:include, Sinatra::Hancock::OpenIDServer::Helpers)
 
         app.template(:yadis) { openid_server_template('yadis') }
@@ -72,7 +73,7 @@ module Sinatra
               ensure_authenticated
               forbidden! unless ::Hancock::Consumer.allowed?(oidreq.trust_root) 
 
-              oidreq.identity = oidreq.claimed_id = absolute_url("/sso/users/#{session_user.id}")
+              oidreq.identity = oidreq.claimed_id = url_for_user
               oidresp = oidreq.answer(true, nil, oidreq.identity)
               sreg_data = {
                 'last_name'  => session_user.last_name,

@@ -13,6 +13,7 @@ module Sinatra
         end
 
         def ensure_authenticated
+          pp session
           if trust_root = session['hancock_server_return_to'] || params['return_to']
             if ::Hancock::Consumer.allowed?(trust_root)
               if session_user

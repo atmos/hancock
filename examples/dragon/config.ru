@@ -31,7 +31,7 @@ class Dragon < Hancock::App
 
   get '/' do
     redirect '/sso/login' unless session['hancock_server_user_id']
-    erb "<h2>Hello <%= session[:first_name] %><!-- <%= session.inspect %>"
+    erb "<h2>Hello <%= session_user.name %><!-- <%= session.inspect %>"
   end
 end
 run Dragon
