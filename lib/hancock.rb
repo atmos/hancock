@@ -42,7 +42,7 @@ module Hancock
     set :sreg_params, [:email, :first_name, :last_name, :internal]
     set :provider_name, 'Hancock SSO Provider!'
     set :do_not_reply, nil
-    set :smtp, { }
+    set :smtp, { :domain => 'example.com' }
 
     error do
       pp env['sinatra.error']

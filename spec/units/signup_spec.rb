@@ -16,7 +16,7 @@ describe "posting to /sso/signup" do
       body = "Hello #{@user.first_name},\nThanks for signing up for Hancock SSO Provider!!  In order to\ncomplete your registration you will need to click on the following link.\nhttp://example.org/sso/register/#{token}\nThanks,\nThe Hancock SSO Provider! team\nhttp://example.org/\n"
 
       options = { :to => @user.email, :from => 'sso@example.com', 
-                  :via => 'smtp', :smtp => { }, 
+                  :via => 'smtp', :smtp => { :domain => 'example.com' },
                   :subject => 'Welcome to Hancock SSO Provider!!',
                   :body => body }
       Pony.should_receive(:mail).with(options).once

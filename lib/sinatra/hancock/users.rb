@@ -64,10 +64,12 @@ HAML
           if @user.save
             raise ::Hancock::ConfigurationError.new("You need to define options.do_not_reply") unless from
             @registration_url = absolute_url("/sso/register/#{@user.access_token}")
-            Pony.mail(:to => @user.email, :from => from, 
-                      :subject => "Welcome to #{::Hancock::App.provider_name}!",
-                      :body    => haml(signup_email),
-                      :via => 'smtp', :smtp => options.smtp)
+            unless options.smtp.empty?
+              Pony.mail(:to => @user.email, :from => from,
+                        :subject => "Welcome to #{::Hancock::App.provider_name}!",
+                        :body    => haml(signup_email),
+                        :via => 'smtp', :smtp => options.smtp)
+            end
           end
           haml :signup_confirmation
         end
