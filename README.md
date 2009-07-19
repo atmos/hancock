@@ -18,7 +18,7 @@ An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 How it Works
 ============
-![SSO Handshake](http://img.skitch.com/20090305-be6wwmbc4gfsi9euy3w7np31mm.jpg)
+![SSO Handshake](http://img.skitch.com/20090719-j3f895hp7h9dnkpjwc8ycqg29e.jpg)
 
 This handshake seems kind of complex but it only happens when you need to
 validate a user session on the consumer.

@@ -1,12 +1,12 @@
 require 'rubygems'
 require 'pp'
+$:.push 
+require File.join(File.dirname(__FILE__), '..', 'lib', 'hancock')
 gem 'rspec', '~>1.2.0'
 require 'spec'
 require 'randexp'
 require 'dm-sweatshop'
 
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
-require 'hancock'
 gem 'webrat', '~>0.4.4'
 require 'webrat'
 
@@ -22,7 +22,7 @@ DataMapper.auto_migrate!
 
 Webrat.configure do |config|
   if ENV['SELENIUM'].nil?
-    config.mode = :rack_test
+    config.mode = :rack
   else
     gem 'selenium-client', '~>1.2.15'
     config.mode = :selenium

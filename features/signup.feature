@@ -16,7 +16,7 @@ Feature: Signing Up for an SSO Account
     Scenario: signing up
       Given I am not logged in on the sso provider
       And a valid consumer exists
-      Given I request authentication
+      When I request the login page
       Then I should see the login form
       When I click signup
       Then I should see the signup form

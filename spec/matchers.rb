@@ -1,8 +1,8 @@
 module Hancock
   module Matchers
     class LoginForm
-      include Webrat::Methods
-      include Webrat::Matchers
+      include ::Webrat::Methods
+      include ::Webrat::Matchers
       def matches?(target)
         target.should have_selector("form[action='/sso/login'][method='POST']")
         target.should have_selector("form[action='/sso/login'][method='POST'] input[type='text'][name='email']")

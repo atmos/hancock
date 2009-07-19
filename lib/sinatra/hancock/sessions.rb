@@ -13,7 +13,7 @@ module Sinatra
         end
 
         def session_return_to
-          params['return_to'] || session[:hancock_server_return_to]
+          session[:hancock_server_return_to]
         end
 
         def ensure_authenticated

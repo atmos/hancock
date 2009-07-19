@@ -25,30 +25,13 @@ describe "getting /sso/login" do
     @consumer = Hancock::Consumer.gen(:internal)
   end
   describe "with a valid session" do
-    it "should redirect to the consumer w/ the id for openid discovery" do
-      get '/sso/login', :return_to => @consumer.url
-
-      post '/sso/login', :email => @user.email, :password => @user.password
-      follow_redirect!
-
-      get '/sso/login'
-      last_response.status.should eql(302)
-
-      uri = Addressable::URI.parse(last_response.headers['Location'])
-      @consumer.url.should eql("#{uri.scheme}://#{uri.host}#{uri.path}")
-
-      uri.query_values['id'].should eql("#{@user.id}")
-    end
-
     describe "from an invalid consumer" do
       it "should return forbidden" do
-        get '/sso/login', { 'return_to' => 'http://rogueconsumerapp.com/login' }
-
+        get '/sso/login'
         login(@user)
 
-        get '/sso/login', { 'return_to' => 'http://rogueconsumerapp.com/login' }
-
-        last_response.status.should eql(403)
+        get '/sso/login'
+        last_response['Location'].should eql('/')
       end
     end
   end

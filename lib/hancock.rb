@@ -1,3 +1,4 @@
+require 'pp'
 require 'rubygems'
 
 gem 'dm-core', '~>0.9.11'
@@ -12,7 +13,7 @@ require 'openid/extensions/sreg'
 
 gem 'sinatra', '~>0.9.2'
 require 'sinatra/base'
-gem 'haml'
+gem 'haml', '~>2.0.9'
 require 'haml/engine'
 require 'sass'
 
@@ -26,6 +27,7 @@ module Hancock; end
 
 require File.expand_path(File.dirname(__FILE__)+'/models/user')
 require File.expand_path(File.dirname(__FILE__)+'/models/consumer')
+
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/defaults')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/sessions')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/users')
