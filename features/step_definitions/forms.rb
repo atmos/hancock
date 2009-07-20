@@ -24,3 +24,8 @@ Then \
 
   click_button 'Login'
 end
+
+Then /^I can login as the new user$/ do
+  Then "I login"
+  Then "I am greeted"
+end

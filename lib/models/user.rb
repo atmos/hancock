@@ -60,4 +60,8 @@ class Hancock::User
     u = first(:email => email)
     u && u.authenticated?(password) && u.enabled ? u : nil
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

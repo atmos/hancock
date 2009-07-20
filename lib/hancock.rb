@@ -38,6 +38,7 @@ module Hancock
 
   class App < Sinatra::Default
     enable :sessions
+    set :environment, ENV['RACK_ENV'] || 'development'
     #disable :raise_errors
     disable :show_exceptions
 

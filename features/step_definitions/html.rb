@@ -9,7 +9,7 @@ Then \
 end
 
 Then \
-  /^I should be redirected to the consumer app$/ do
+  /^I am redirected to the consumer app$/ do
   last_response.headers['Location'].should eql(@consumer.url)
 end
 
@@ -27,8 +27,8 @@ Then \
 end
 
 Then \
-  /^I should see a list of consumers$/ do
-  last_response.should have_selector("h3:contains('#{@user.first_name} #{@user.last_name}')")
+  /^I am greeted$/ do
+  last_response.should have_selector("h2:contains('#{@user.first_name} #{@user.last_name}')")
 end
 
 Then \

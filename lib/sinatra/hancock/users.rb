@@ -10,7 +10,6 @@ module Sinatra
         def user_by_token(token)
           user = ::Hancock::User.first(:access_token => token)
           throw(:halt, [400, 'BadRequest']) unless user
-          session['hancock_server_user_id'] = user.id
           user
         end
 
@@ -49,7 +48,7 @@ HAML
                                  :password => params['password'],
                                  :password_confirmation => params['password_confirmation'])
           destination = session_return_to || '/'
-          session.reject! { |key,value| key != 'hancock_server_user_id' }
+          session_cleanup
           redirect destination
         end
 
@@ -64,10 +63,11 @@ HAML
           if @user.save
             raise ::Hancock::ConfigurationError.new("You need to define options.do_not_reply") unless from
             @registration_url = absolute_url("/sso/register/#{@user.access_token}")
+            mail_body = haml(signup_email)
             unless options.smtp.empty?
               Pony.mail(:to => @user.email, :from => from,
                         :subject => "Welcome to #{::Hancock::App.provider_name}!",
-                        :body    => haml(signup_email),
+                        :body    => mail_body,
                         :via => 'smtp', :smtp => options.smtp)
             end
           end
@@ -76,5 +76,4 @@ HAML
       end
     end
   end
-  register Hancock::Users
 end

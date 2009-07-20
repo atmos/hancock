@@ -21,5 +21,4 @@ module Sinatra
       end
     end
   end
-  register Hancock::Defaults
 end
