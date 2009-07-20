@@ -8,7 +8,7 @@ Feature: Authenticating Against the SSO Provider
     Scenario: OpenID Mode CheckIDSetup unauthenticated
       Given a valid consumer and user exists
       When I request the sso page with a checkid mode of checkIDSetup
-      Then I should see the login form
+      Then I should be prompted to login
 
     Scenario: OpenID Mode Immediate
       Given a valid consumer and user exists
@@ -18,7 +18,7 @@ Feature: Authenticating Against the SSO Provider
     Scenario: OpenID Mode Immediate unauthenticated
       Given a valid consumer and user exists
       When I request the sso page with a checkid mode of immediate
-      Then I should see the login form
+      Then I should be prompted to login
 
     Scenario: OpenID Mode Associate
       Given a valid consumer and user exists

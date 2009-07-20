@@ -1,5 +1,5 @@
 Then \
-  /^I should see the login form$/ do
+  /^I should be prompted to login$/ do
   last_response.should be_a_login_form
 end
 

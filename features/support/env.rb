@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] ||= 'test'
+
 require 'rubygems'
 require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock')
 gem 'rspec', '~>1.2.0'

@@ -37,13 +37,13 @@ HAML
         app.template(:signup_form) { users_template('signup_form') }
         app.template(:register_form) { users_template('register_form') }
 
-        app.get '/sso/register/:token' do
-          user_by_token(params['token'])
+        app.get '/sso/register/:token' do |token|
+          user_by_token(token)
           haml :register_form
         end
 
-        app.post '/sso/register/:token' do
-          user = user_by_token(params['token'])
+        app.post '/sso/register/:token' do |token|
+          user = user_by_token(token)
           user.update_attributes(:enabled => true,
                                  :access_token => nil,
                                  :password => params['password'],

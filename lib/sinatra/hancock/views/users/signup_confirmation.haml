@@ -1,7 +1,7 @@
 - if @user.valid?
   %h3 Success!
   %p Check your email and you'll see a registration link!
-  - if Hancock::App.environment == :development
+  - unless %w(production staging).include?(ENV['RACK_ENV'])
     /
       %a{:href => absolute_url("/sso/register/#{@user.access_token}")} Clicky Clicky
 - else
