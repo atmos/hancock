@@ -47,12 +47,9 @@ module Sinatra
 
         app.post '/sso/login' do
           @user = ::Hancock::User.authenticate(params['email'], params['password'])
-          if @user
-            login_as(@user)
-            redirect session_return_to || '/'
-          else
-            haml(:unauthenticated)
-          end
+          login_as(@user)
+          ensure_authenticated
+          redirect session_return_to || '/'
         end
 
         app.get '/sso/logout' do
