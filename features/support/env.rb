@@ -1,14 +1,11 @@
-ENV['RACK_ENV'] ||= 'test'
-
-require 'rubygems'
+ENV['RACK_ENV'] ||= 'development'
+require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environments', 'default')
 require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock')
-gem 'rspec', '~>1.2.0'
+
 require 'spec'
 require 'randexp'
 require 'dm-sweatshop'
-gem 'webrat', '~>0.4.4'
 require 'webrat'
-gem 'rack-test', '>=0.4.0'
 require 'rack/test'
 
 require File.join(File.dirname(__FILE__), 'app')
@@ -26,6 +23,7 @@ end
 World do
   def app
     @app ||= Rack::Builder.new do
+      use Rack::Session::Cookie
       run MySweetSSOServer
     end
   end

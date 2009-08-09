@@ -1,6 +1,5 @@
 #  thin start -p PORT -R config.ru
-require 'ruby-debug'
-gem 'sinatra', '~>0.9.2'
+require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environments', 'default')
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock'))
 
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
@@ -25,7 +24,7 @@ class Dragon < Hancock::App
       :port   => '25',
       :user   => 'sso',
       :pass   => 'lolerskates',
-      :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
+      :auth   => :plain, # :plain, :login, :cram_md5, the default is no auth
       :domain => "example.com" # the HELO domain provided by the client to the server
   }
 

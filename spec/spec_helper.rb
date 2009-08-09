@@ -1,16 +1,12 @@
-require 'rubygems'
-require 'pp'
-$:.push 
+ENV['RACK_ENV'] ||= 'development'
+require File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'environments', 'default')
 require File.join(File.dirname(__FILE__), '..', 'lib', 'hancock')
-gem 'rspec', '~>1.2.0'
+require 'pp'
 require 'spec'
 require 'randexp'
 require 'dm-sweatshop'
 
-gem 'webrat', '~>0.4.4'
 require 'webrat'
-
-gem 'rack-test', '>=0.4.0'
 require 'rack/test'
 
 require File.expand_path(File.dirname(__FILE__) + '/app')
@@ -21,15 +17,9 @@ DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
 
 Webrat.configure do |config|
-  if ENV['SELENIUM'].nil?
-    config.mode = :rack
-  else
-    gem 'selenium-client', '~>1.2.15'
-    config.mode = :selenium
-    config.application_framework = :sinatra
-    config.application_port = 4567
-    require 'webrat/selenium'
-  end
+  config.mode = :rack_test
+  config.application_framework = :sinatra
+  config.application_port = 4567
 end
 
 Hancock::App.set :environment, :development
@@ -37,7 +27,8 @@ Hancock::App.set :do_not_reply, 'sso@example.com'
 
 Spec::Runner.configure do |config|
   def app
-    @app = Rack::Builder.new do
+    @app = Rack::Builder.app do
+      use Rack::Session::Cookie
       run Hancock::App
     end
   end

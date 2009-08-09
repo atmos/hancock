@@ -1,9 +1,9 @@
+require File.join(File.dirname(__FILE__), 'vendor', 'gems', 'environments', 'default')
 require 'rubygems'
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
-require 'spec/rake/spectask'
-require 'cucumber/rake/task'
+require 'bundler'
 
 GEM = "hancock"
 GEM_VERSION = "0.0.9"
@@ -24,29 +24,29 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
-  # Uncomment this to add a dependency
-  s.add_dependency "ruby-openid",     "~>2.1.4"
-  s.add_dependency "sinatra",         "~>0.9.2"
-  s.add_dependency "haml",            "~>2.0.9"
-  s.add_dependency "guid",            "~>0.1.1"
-  s.add_dependency "pony",            "~>0.3"
-
-  s.add_dependency "dm-core",         "~>0.9.11"
-  s.add_dependency "dm-types",        "~>0.9.11"
-  s.add_dependency "dm-timestamps",   "~>0.9.11"
-  s.add_dependency "dm-validations",  "~>0.9.11"
+  manifest = Bundler::ManifestFile.load(File.dirname(__FILE__) + '/Gemfile')
+  manifest.dependencies.each do |d|
+    next unless d.in?(:release)
+    s.add_dependency(d.name, d.version)
+  end
 
   s.require_path = 'lib'
   s.autorequire = GEM
   s.files = %w(LICENSE README.md Rakefile) + Dir.glob("{features,lib,spec}/**/*")
 end
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
+end
+desc "create a gemspec file"
+task :make_spec do
+  File.open("#{GEM}.gemspec", "w") do |file|
+    file.puts spec.to_ruby
+  end
+end
 
 task :default => [:spec, :features]
 
-task :development_deps do |t|
-  system("sudo gem install webrat rack-test do_sqlite3")
-end
-
+require 'spec/rake/spectask'
 desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
@@ -59,17 +59,7 @@ Spec::Rake::SpecTask.new do |t|
   #t.rcov_opts << '--only-uncovered'
 end
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc "create a gemspec file"
-task :make_spec do
-  File.open("#{GEM}.gemspec", "w") do |file|
-    file.puts spec.to_ruby
-  end
-end
-
+require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features) do |t|
   t.libs << 'lib'
   t.cucumber_opts = "--format pretty"
