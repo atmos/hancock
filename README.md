@@ -56,14 +56,9 @@ Your Rackup File
 
 Installation
 ============
-    % gem sources
-    *** CURRENT SOURCES ***
+You need carlhuda's bundler to function, and you MUST use the files in bin for generated gem executables.
 
-    http://gems.rubyforge.org/
-
-You need carlhuda's bundler to function
-
-    % sudo gem install bundler
+    % sudo gem install bundler -v=0.3.1
     % gem bundle
     % bin/rake 
 
