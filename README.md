@@ -60,16 +60,12 @@ Installation
     *** CURRENT SOURCES ***
 
     http://gems.rubyforge.org/
-    http://gems.engineyard.com
-    http://gems.github.com
 
-You need a few gems to function
+You need carlhuda's bundler to function
 
-    % sudo gem install dm-core do_sqlite3
-    % sudo gem install sinatra ruby-openid 
-
-You need a few extra gems to run the specs
-    % sudo gem install rspec webrat rack-test cucumber
+    % sudo gem install bundler
+    % gem bundle
+    % bin/rake 
 
 Deployment Setup
 ================
