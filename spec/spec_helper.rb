@@ -1,5 +1,5 @@
 ENV['RACK_ENV'] ||= 'development'
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'environments', 'default')
+require File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'environment')
 require File.join(File.dirname(__FILE__), '..', 'lib', 'hancock')
 require 'pp'
 require 'spec'
@@ -17,7 +17,7 @@ DataMapper.setup(:default, 'sqlite3::memory:')
 DataMapper.auto_migrate!
 
 Webrat.configure do |config|
-  config.mode = :rack_test
+  config.mode = :rack
   config.application_framework = :sinatra
   config.application_port = 4567
 end
@@ -41,8 +41,4 @@ Spec::Runner.configure do |config|
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
   config.include(Hancock::Matchers)
-  unless ENV['SELENIUM'].nil?
-    config.include(Webrat::Selenium::Methods)
-    config.include(Webrat::Selenium::Matchers)
-  end
 end

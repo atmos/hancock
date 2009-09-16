@@ -4,10 +4,8 @@ module Sinatra
       module Helpers
         def server
           if @server.nil?
-            server_url = absolute_url('/sso')
-            dir = File.join(Dir.tmpdir, 'openid-store')
-            store = OpenID::Store::Filesystem.new(dir)
-            @server = OpenID::Server::Server.new(store, server_url)
+            store = OpenID::Store::Filesystem.new(File.join(Dir.tmpdir, 'openid-store'))
+            @server = OpenID::Server::Server.new(store, absolute_url('/sso'))
           end
           return @server
         end
@@ -59,10 +57,9 @@ module Sinatra
                 'first_name' => session_user.first_name,
                 'email'      => session_user.email
               }
-              sregresp = OpenID::SReg::Response.new(sreg_data)
-              oidresp.add_extension(sregresp)
-            else
-              oidresp = server.handle_request(oidreq) #associate and more?
+              oidresp.add_extension(OpenID::SReg::Response.new(sreg_data))
+            else #associate
+              oidresp = server.handle_request(oidreq) 
             end
             render_response(oidresp)
           end

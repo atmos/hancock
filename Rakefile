@@ -1,5 +1,4 @@
-require File.join(File.dirname(__FILE__), 'vendor', 'gems', 'environments', 'default')
-require 'rubygems'
+require File.join(File.dirname(__FILE__), 'vendor', 'gems', 'environment')
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
@@ -24,9 +23,9 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
-  manifest = Bundler::ManifestFile.load(File.dirname(__FILE__) + '/Gemfile')
+  manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
   manifest.dependencies.each do |d|
-    next unless d.in?(:release)
+    next if d.only && d.only.include?('test')
     s.add_dependency(d.name, d.version)
   end
 
@@ -44,7 +43,7 @@ task :make_spec do
   end
 end
 
-task :default => [:spec, :features]
+task :default => [:spec, :cucumber]
 
 require 'spec/rake/spectask'
 desc "Run specs"
@@ -60,7 +59,7 @@ Spec::Rake::SpecTask.new do |t|
 end
 
 require 'cucumber/rake/task'
-Cucumber::Rake::Task.new(:features) do |t|
+Cucumber::Rake::Task.new do |t|
   t.libs << 'lib'
   t.cucumber_opts = "--format pretty"
   t.rcov = true

@@ -8,14 +8,14 @@ gem 'ruby-openid',    '~>2.1.7'
 gem 'guid',           '~>0.1.1'
 gem 'pony',           '~>0.3'
 
-gem 'rack-test',  '=0.3.0', :except => :release
-gem 'webrat',    '>=0.4.4', :except => :release
-gem 'rspec',     '~>1.2.0', :except => :release
-gem 'rake',                 :except => :release
-gem 'rcov',                 :except => :release
-gem 'cucumber',             :except => :release
-gem 'dm-sweatshop',         :except => :release
-gem 'ParseTree',            :except => :release
-gem 'bundler',   '>=0.3.1', :except => :release
+gem 'rack-test', '=0.3.0',  :only => :test
+gem 'webrat',    '~>0.5.0', :only => :test
+gem 'rspec',                :only => :test
+gem 'rake',                 :only => :test
+gem 'rcov',                 :only => :test
+gem 'cucumber',             :only => :test
+gem 'dm-sweatshop',         :only => :test
+gem 'ParseTree',            :only => :test
+gem 'bundler',   '>=0.5.0', :only => :test
 
 disable_system_gems

@@ -11,6 +11,7 @@ class Hancock::User
   property :crypted_password, String
 
   property :enabled,          Boolean, :default => false
+  property :verified,         Boolean, :default => false
   property :access_token,     String
 
   attr_accessor :password, :password_confirmation

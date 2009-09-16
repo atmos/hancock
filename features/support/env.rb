@@ -1,5 +1,4 @@
-ENV['RACK_ENV'] ||= 'development'
-require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environments', 'default')
+require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environment')
 require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock')
 
 require 'spec'
@@ -15,7 +14,7 @@ require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'matchers')
 DataMapper.setup(:default, 'sqlite3::memory:')
 
 Webrat.configure do |config|
-  config.mode = :rack_test
+  config.mode = :rack
   config.application_framework = :rack
   config.application_port = 4567
 end
