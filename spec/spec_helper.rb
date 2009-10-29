@@ -1,5 +1,4 @@
-ENV['RACK_ENV'] ||= 'development'
-require File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'environment')
+Bundler.require_env(:test)
 require File.join(File.dirname(__FILE__), '..', 'lib', 'hancock')
 require 'pp'
 require 'spec'
@@ -22,7 +21,6 @@ Webrat.configure do |config|
   config.application_port = 4567
 end
 
-Hancock::App.set :environment, :development
 Hancock::App.set :do_not_reply, 'sso@example.com'
 
 Spec::Runner.configure do |config|

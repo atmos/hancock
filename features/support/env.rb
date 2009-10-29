@@ -1,11 +1,5 @@
-require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environment')
+Bundler.require_env(:test)
 require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock')
-
-require 'spec'
-require 'randexp'
-require 'dm-sweatshop'
-require 'webrat'
-require 'rack/test'
 
 require File.join(File.dirname(__FILE__), 'app')
 require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'fixtures')
