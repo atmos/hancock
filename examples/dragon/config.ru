@@ -1,35 +1,16 @@
-#  thin start -p PORT -R config.ru
+#  ~/p/hancock/bin/shotgun -p PORT config.ru
 require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environments', 'default')
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock'))
 
-DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
+DataMapper.setup(:default, "sqlite3://:memory:")
 DataMapper.auto_migrate!
 
-Hancock::Consumer.create(:url => 'http://localhost:5000/sso/login', :label => 'Local Dev', :internal => false)
-Hancock::Consumer.create(:url => 'http://localhost:5001/sso/login', :label => 'Human Resources', :internal => true)
-Hancock::Consumer.create(:url => 'http://localhost:5002/sso/login', :label => 'Remote Dev', :internal => false)
-Hancock::Consumer.create(:url => 'http://localhost:5003/sso/login', :label => 'Remote Calendaring', :internal => false)
-Hancock::Consumer.create(:url => 'http://localhost:5004/sso/login', :label => 'Break Dance Pool', :internal => true)
-Hancock::Consumer.create(:url => 'http://localhost:5003/sso/login', :label => 'Library Book Reminder', :internal => false)
-Hancock::Consumer.create(:url => 'http://localhost:9393/sso/login', :label => 'Sinatra Fans', :internal => false)
+Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Rails Dev', :internal => false)
+Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Merb Dev', :internal => false)
+Hancock::Consumer.create(:url => 'http://localhost:9292/sso/login', :label => 'Rack Fans', :internal => false)
 Hancock::Consumer.create(:url => 'http://localhost:9393/sso/login', :label => 'Shotgun Fans', :internal => false)
 
 class Dragon < Hancock::App
-  set :views,  'views'
-  set :public, 'public'
-  set :environment, :production
-
-  set :provider_name, 'Example SSO Provider'
-  set :do_not_reply, 'sso@example.com'
-  set :smtp, {
-      :host   => 'smtp.example.com',
-      :port   => '25',
-      :user   => 'sso',
-      :pass   => 'lolerskates',
-      :auth   => :plain, # :plain, :login, :cram_md5, the default is no auth
-      :domain => "example.com" # the HELO domain provided by the client to the server
-  }
-
   get '/' do
     redirect '/sso/login' unless session['hancock_server_user_id']
     erb "<h2>Hello <%= session_user.name %><!-- <%= session.inspect %>"

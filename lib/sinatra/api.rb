@@ -2,6 +2,7 @@ module Hancock
   module API
     class App < Sinatra::Base
       use Rack::AcceptFormat
+      enable :methodoverride
 
       get '/users.json' do
         Hancock::User.all.map { |user| user.attributes_for_api }.to_json

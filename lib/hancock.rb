@@ -8,9 +8,7 @@ require 'openid/extensions/sreg'
 
 require 'sinatra/base'
 require 'haml/engine'
-require 'sass'
 require 'guid'
-require 'pony'
 require 'json'
 require 'rack/contrib/accept_format'
 
@@ -30,14 +28,6 @@ module Hancock
     disable :show_exceptions
 
     set :sreg_params, [:email, :first_name, :last_name, :internal]
-
-    set :provider_name, 'Hancock SSO Provider!'
-    set :do_not_reply, nil
-    set :smtp, { :domain => 'example.com' }
-
-    error do
-      pp env['sinatra.error']
-    end
 
     register Sinatra::Hancock::Sessions
     register Sinatra::Hancock::OpenIDServer

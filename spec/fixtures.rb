@@ -4,6 +4,7 @@ Hancock::User.fix {{
   :first_name            => /\w+/.gen.capitalize,
   :last_name             => /\w+/.gen.capitalize,
   :verified              => true,
+  :admin                 => false,
   :password              => (pass = /\w+/.gen.downcase),
   :password_confirmation => pass,
   :salt                  => (salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--email--")),

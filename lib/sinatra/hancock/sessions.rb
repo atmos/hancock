@@ -2,7 +2,7 @@ module Sinatra
   module Hancock
     module Sessions
       def self.sessions_template(file)
-        template = File.expand_path(File.dirname(__FILE__)+'/views/sessions')
+        template = File.expand_path(File.dirname(__FILE__)+'/views/')
         File.read("#{template}/#{file}.haml")
       end
 
