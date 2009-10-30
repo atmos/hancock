@@ -27,7 +27,7 @@ describe "Hancock::User API" do
         response = get('/users/1', {}, { 'HTTP_ACCEPT' => 'application/json'})
         json = JSON.parse(response.body)
         Hancock::User.attributes_for_api.each do |key|
-          json[key].should_not be_nil
+          json[key].should eql(@user.send(key))
         end
       end
     end
