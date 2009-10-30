@@ -2,9 +2,7 @@ require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
 describe "Hancock::User API" do
   def app
-    @app ||= Rack::Builder.app do
-      run Hancock::API::App
-    end
+    Hancock::API.app
   end
   describe '(GET /users)' do
     it 'returns a list of users in json format' do
