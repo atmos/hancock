@@ -39,4 +39,7 @@ Spec::Runner.configure do |config|
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
   config.include(Hancock::Matchers)
+  config.before(:each) do
+    DataMapper.auto_migrate!
+  end
 end

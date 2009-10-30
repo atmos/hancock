@@ -65,4 +65,16 @@ class Hancock::User
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def api_attributes
+    {
+      :id         => id,         :verified  => verified,
+      :first_name => first_name, :last_name => last_name,
+      :email      => email,      :internal  => internal
+    }
+  end
+
+  def to_json
+    api_attributes.to_json
+  end
 end

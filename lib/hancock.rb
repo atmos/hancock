@@ -11,6 +11,8 @@ require 'haml/engine'
 require 'sass'
 require 'guid'
 require 'pony'
+require 'json'
+require 'rack/contrib/accept_format'
 
 module Hancock; end
 
@@ -21,6 +23,7 @@ require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/defaults')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/sessions')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/users')
 require File.expand_path(File.dirname(__FILE__)+'/sinatra/hancock/openid_server')
+require File.expand_path(File.dirname(__FILE__)+'/sinatra/api')
 
 module Hancock
   class ConfigurationError < StandardError; end
