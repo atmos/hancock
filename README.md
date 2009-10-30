@@ -25,34 +25,20 @@ validate a user session on the consumer.
 
 Your Rackup File
 ================
-    #  thin start -p PORT -R config.ru
-    require 'rubygems'
     require 'hancock'
 
     DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
 
-    class Dragon < Hancock::App
+    class OneLove < Hancock::App
       set :views,  'views'
       set :public, 'public'
-      set :environment, :production
-
-      set :provider_name, 'Example SSO Provider'
-      set :do_not_reply,  'sso@atmos.org'
-      set :smtp, {
-        :host   => 'smtp.example.com',
-        :port   => '25',
-        :user   => 'sso',
-        :pass   => 'lolerskates',
-        :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
-        :domain => "example.com" # the HELO domain provided by the client to the server
-      }
 
       get '/' do
         redirect '/sso/login' unless session['hancock_server_user_id']
         erb "<h2>Hello <%= session_user.name %><!-- <%= session.inspect %>"
       end
     end
-    run Dragon
+    run OneLove
 
 Installation
 ============
@@ -61,7 +47,7 @@ in bin/ for generated gem executables.
 
     % sudo gem install bundler
     % gem bundle
-    % bin/rake 
+    % bin/rake
 
 Deployment Setup
 ================
@@ -82,8 +68,6 @@ on the example above.
 Consult the datamapper documentation if you need to connect to something other
 than sqlite.  This runs the initial user migration to bootstrap your db.
 
-    >> Hancock::Consumer.create(:url => 'http://hr.example.com/sso/login', :label => 'Human Resources', :internal => true)
-    => ...
     >> Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Local Rails Dev', :internal => false)
     => ...
     >> Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Local Merb Dev', :internal => false)
@@ -94,7 +78,7 @@ Here's how you setup most frameworks as consumers.  In a production environment 
 
 Feedback
 ========
-* [Google Group][googlegroup]
+* [Github Issues][githubissues]
 
 Sponsored By
 ============
@@ -117,3 +101,4 @@ Sponsored By
 [sreg]: http://openid.net/specs/openid-simple-registration-extension-1_0.html#response_format
 [simpledb]: http://aws.amazon.com/simpledb/
 [googlegroup]: http://groups.google.com/group/hancock-users
+[githubissues]: http://github.com/atmos/hancock/issues

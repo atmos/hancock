@@ -5,7 +5,7 @@ require 'date'
 require 'bundler'
 
 GEM = "hancock"
-GEM_VERSION = "0.0.9"
+GEM_VERSION = "0.1.0"
 AUTHOR = ["Corey Donohoe", "Tim Carey-Smith"]
 EMAIL = [ "atmos@atmos.org", "tim@spork.in" ]
 HOMEPAGE = "http://github.com/atmos/hancock"
