@@ -6,6 +6,7 @@ class Hancock::User
   property :last_name,        String
   property :email,            String, :unique => true, :unique_index => true
   property :internal,         Boolean, :default => false
+  property :admin,            Boolean, :default => false
 
   property :salt,             String
   property :crypted_password, String
@@ -15,6 +16,14 @@ class Hancock::User
   property :access_token,     String
 
   attr_accessor :password, :password_confirmation
+
+  def self.attributes_for_api
+    %w(id first_name last_name verified internal email admin)
+  end
+
+  def attributes_for_update
+    %w(first_name last_name verified internal email)
+  end
 
   def reset_access_token
     @access_token = Digest::SHA1.hexdigest(Guid.new.to_s)
@@ -62,19 +71,25 @@ class Hancock::User
     u && u.authenticated?(password) && u.enabled ? u : nil
   end
 
-  def full_name
-    "#{first_name} #{last_name}"
+  def attributes_for_api
+    result = { }
+    self.class.attributes_for_api.each do |key|
+      result[key] = self.send(key)
+    end
+    result
   end
 
-  def api_attributes
-    {
-      :id         => id,         :verified  => verified,
-      :first_name => first_name, :last_name => last_name,
-      :email      => email,      :internal  => internal
-    }
+  def update_from_params(params)
+    attributes_for_update.each do |key|
+      self.send("#{key}=", params[key]) if params[key]
+    end
   end
 
   def to_json
-    api_attributes.to_json
+    attributes_for_api.to_json
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 end
