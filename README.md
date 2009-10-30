@@ -28,7 +28,7 @@ Your Rackup File
 
       get '/' do
         redirect '/sso/login' unless session['hancock_server_user_id']
-        erb "<h2>Hello <%= session_user.name %><!-- <%= session.inspect %>"
+        erb :home
       end
     end
     run OneLove
