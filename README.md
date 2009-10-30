@@ -16,13 +16,6 @@ An [OpenID][openid] based [Single Sign On][sso] server that provides:
 * integration with the big ruby frameworks via [rack][hancock_examples].
 * configurable [sreg][sreg] parameters to consumers
 
-How it Works
-============
-![SSO Handshake](http://img.skitch.com/20090719-j3f895hp7h9dnkpjwc8ycqg29e.jpg)
-
-This handshake seems kind of complex but it only happens when you need to
-validate a user session on the consumer.
-
 Your Rackup File
 ================
     require 'hancock'
@@ -39,6 +32,13 @@ Your Rackup File
       end
     end
     run OneLove
+
+How it Works
+============
+![SSO Handshake](http://img.skitch.com/20090719-j3f895hp7h9dnkpjwc8ycqg29e.jpg)
+
+This handshake seems kind of complex but it only happens when you need to
+validate a user session on the consumer.
 
 Testing/Developing Locally
 ==========================
