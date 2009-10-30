@@ -12,7 +12,6 @@ require 'guid'
 require 'json'
 require 'rack/contrib/accept_format'
 
-module Hancock; end
 require File.expand_path(File.join(File.dirname(__FILE__), 'models'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'sso'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'api'))

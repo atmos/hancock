@@ -1,3 +1,4 @@
+# TODO MY EYES!
 module Sinatra
   module Hancock
     module OpenIDServer
