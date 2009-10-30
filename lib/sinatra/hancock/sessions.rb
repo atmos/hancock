@@ -34,6 +34,10 @@ module Sinatra
           end
           throw(:halt, [401, haml(:unauthenticated)]) unless session_user
         end
+
+        def forbidden!
+          throw :halt, [403, 'Forbidden']
+        end
       end
 
       def self.registered(app)
