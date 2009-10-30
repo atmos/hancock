@@ -1,17 +1,4 @@
-Bundler.require_env(:test)
-require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock')
-
-require File.join(File.dirname(__FILE__), 'app')
-require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'fixtures')
-require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'matchers')
-
-DataMapper.setup(:default, 'sqlite3::memory:')
-
-Webrat.configure do |config|
-  config.mode = :rack
-  config.application_framework = :rack
-  config.application_port = 4567
-end
+require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'spec_helper')
 
 World do
   def app

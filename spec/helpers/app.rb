@@ -4,7 +4,7 @@ module Sinatra
       module Helpers
         def landing_page
           <<-HAML
-%h3 Hello #{session_user.first_name} #{session_user.last_name}!
+%h2 Hello #{session_user.first_name} #{session_user.last_name}!
 - unless @consumers.empty?
   %ul#consumers
     - @consumers.each do |consumer|
@@ -25,5 +25,7 @@ HAML
       end
     end
   end
-  ::Hancock::App.register(Hancock::TestApp)
+  class SsoServer < ::Hancock::App
+    register(Hancock::TestApp)
+  end
 end

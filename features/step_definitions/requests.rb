@@ -17,8 +17,3 @@ When \
   }
   visit "/sso", :get, params
 end
-
-When \
-  /^I click signup$/ do
-  visit "/sso/signup"
-end

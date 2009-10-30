@@ -23,20 +23,5 @@ end
 
 Then \
   /^I am greeted$/ do
-  last_response.should have_selector("h2:contains('#{@user.first_name} #{@user.last_name}')")
-end
-
-Then \
-  /^I should be redirected to the consumer app with openid params$/ do
-  last_response.should be_a_redirect_to_the_consumer(@consumer, @user)
-end
-
-Then \
-  /^I should receive an associate response from the sso server$/ do
-  last_response.should be_an_openid_associate_response(@openid_session)
-end
-
-Then \
-  /^I should not be redirected to the consumer app with openid params$/ do
-  last_response.status.should eql(403)
+  last_response.should have_selector("h3:contains('Hello #{@user.full_name}')")
 end

@@ -10,7 +10,7 @@ gem 'rack-contrib',   '~>0.9.2',  :require_as => [ ]
 gem 'json'
 
 only :test do
-  gem 'rack-test',     '=0.3.0',  :require_as => 'rack/test'
+  gem 'rack-test',     '~>0.5.0',  :require_as => 'rack/test'
   gem 'webrat',        '~>0.5.0'
   gem 'rspec',         '~>1.2.9', :require_as => 'spec'
   gem 'rake'

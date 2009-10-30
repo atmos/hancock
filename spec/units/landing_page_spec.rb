@@ -14,7 +14,7 @@ describe "visiting /" do
         login(@user)
         get '/'
 
-        last_response.body.to_s.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
+        last_response.body.to_s.should have_selector("h2:contains('Hello #{@user.first_name} #{@user.last_name}')")
         last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
         last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
@@ -27,7 +27,7 @@ describe "visiting /" do
         login(@user)
         get '/'
 
-        last_response.body.to_s.should have_selector("h3:contains('Hello #{@user.first_name} #{@user.last_name}')")
+        last_response.body.to_s.should have_selector("h2:contains('Hello #{@user.first_name} #{@user.last_name}')")
         last_response.body.to_s.should have_selector("ul#consumers li a[href='#{@first.url}']:contains('#{@first.label}')")
         last_response.body.to_s.should_not have_selector("ul#consumers li a[href='#{@last.url}']:contains('#{@last.label}')")
       end
