@@ -4,11 +4,6 @@ Then \
 end
 
 Then \
-  /^I should see the signup form$/ do
-  last_response.should be_a_signup_form
-end
-
-Then \
   /^I am redirected to the consumer app$/ do
   last_response.headers['Location'].should eql(@consumer.url)
 end

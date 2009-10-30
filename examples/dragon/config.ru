@@ -2,7 +2,7 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'vendor', 'gems', 'environments', 'default')
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lib', 'hancock'))
 
-DataMapper.setup(:default, "sqlite3://:memory:")
+DataMapper.setup(:default, "sqlite3://#{File.dirname(__FILE__)}/development.rb")
 DataMapper.auto_migrate!
 
 Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Rails Dev', :internal => false)
