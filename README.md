@@ -40,9 +40,9 @@ Your Rackup File
     end
     run OneLove
 
-Installation
-============
-You need the rubygem bundler to function, and you MUST use the files
+Testing/Developing Locally
+==========================
+You need the [Gem Bundler][bundler] to function, and you MUST use the files
 in bin/ for generated gem executables.
 
     % sudo gem install bundler
@@ -102,3 +102,4 @@ Sponsored By
 [simpledb]: http://aws.amazon.com/simpledb/
 [googlegroup]: http://groups.google.com/group/hancock-users
 [githubissues]: http://github.com/atmos/hancock/issues
+[bundler]: http://github.com/wycats/bundler
