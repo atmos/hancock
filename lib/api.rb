@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), 'api', 'user'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'api', 'consumer'))
+
 module Hancock
   module API
     def self.app
