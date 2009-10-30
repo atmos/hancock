@@ -16,10 +16,10 @@ describe "Hancock::User API" do
   end
   describe '(POST /users)' do
     it 'creates a user' do
+      size = Hancock::User.count
       params = { :email => /\w{3,8}@\w{6,8}.\w{2,3}/.gen.downcase, :first_name => Randgen.first_name, :last_name => Randgen.last_name }
-      response = post('/users', params, { 'HTTP_ACCEPT' => 'application/json'})
-      json = JSON.parse(response.body)
-      json.should_not have_key(:errors)
+      lambda { post('/users', params, { 'HTTP_ACCEPT' => 'application/json'}) }.should 
+        change(Hancock::User, :count).from(size).to(size + 1)
     end
   end
   describe "given an existing user" do
@@ -48,7 +48,7 @@ describe "Hancock::User API" do
     describe '(DELETE /users/:id.json)' do
       it 'destroys a user' do
         size = Hancock::User.count
-        lambda { response = delete("/users/#{@user.id}", { }, { 'HTTP_ACCEPT' => 'application/json'}) }.should 
+        lambda { delete("/users/#{@user.id}", { }, { 'HTTP_ACCEPT' => 'application/json'}) }.should 
           change(Hancock::User, :count).from(size).to(size - 1)
       end
     end
