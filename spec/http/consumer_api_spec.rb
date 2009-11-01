@@ -14,11 +14,18 @@ describe "Hancock::Consumer API" do
   end
   describe '(POST /consumers)' do
     it 'creates a consumer' do
-      pending
       size = Hancock::Consumer.count
-      params = { }
+      params = { :url => "http://#{/\w{4,8}/.gen}.example.com", :label => /\w{4,12}/.gen }
       lambda { post('/consumers', params, { 'HTTP_ACCEPT' => 'application/json'}) }.should 
         change(Hancock::Consumer, :count).from(size).to(size + 1)
+    end
+    it 'creates an internal consumer' do
+      size = Hancock::Consumer.count
+      params = { :url => "http://#{/\w{4,8}/.gen}.example.com", :label => /\w{4,12}/.gen, :internal => 'true'  }
+      lambda do
+        response = post('/consumers', params, { 'HTTP_ACCEPT' => 'application/json'}) 
+        pp response
+      end.should change(Hancock::Consumer, :count).from(size).to(size + 1)
     end
   end
   describe "given an existing consumer" do

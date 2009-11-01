@@ -11,8 +11,12 @@ module Hancock
       %w(id url label internal)
     end
 
-    def attributes_for_update
+    def self.attributes_for_create
       %w(url label internal)
+    end
+
+    def attributes_for_update
+      self.class.attributes_for_create
     end
 
     def self.allowed?(host)
@@ -29,6 +33,14 @@ module Hancock
       all(:internal => true).select do |c|
         c.label
       end
+    end
+
+    def self.params_for_create(params)
+      params.reject { |key, value| !attributes_for_create.include?(key) }
+    end
+
+    def self.create_from_params(params)
+      create(params_for_create(params))
     end
   end
 end
