@@ -13,9 +13,13 @@ require 'json'
 require 'rack/contrib/accept_format'
 
 lib_dir = File.expand_path(File.join(File.dirname(__FILE__), 'hancock'))
-%w(models sso api).each do |library|
-  require File.join(lib_dir, library)
-end
+
+require File.join(lib_dir, 'api')
+require File.join(lib_dir, 'sso', 'sessions')
+require File.join(lib_dir, 'sso', 'openid_server')
+require File.join(lib_dir, 'models', 'model')
+require File.join(lib_dir, 'models', 'user')
+require File.join(lib_dir, 'models', 'consumer')
 
 module Hancock
   class ConfigurationError < StandardError; end
