@@ -1,7 +1,7 @@
-require 'pp'
-Bundler.require_env(:test)
 project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+Bundler.require_env(:test)
 
+require 'pp'
 require File.join(project_root, 'lib', 'hancock')
 %w(app matchers fixtures).each do |helper|
   require File.join(project_root, 'spec', 'helpers', helper)

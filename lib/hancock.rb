@@ -7,6 +7,7 @@ require 'openid/store/filesystem'
 require 'openid/extensions/sreg'
 
 require 'sinatra/base'
+require 'haml/util'
 require 'haml/engine'
 require 'guid'
 require 'json'

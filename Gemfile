@@ -1,13 +1,13 @@
-gem 'sinatra',        '~>0.9.0'
-gem 'haml',           '~>2.2.0'
-gem 'do_sqlite3',     '~>0.9.12'
-gem 'dm-validations', '~>0.9.11'
-gem 'dm-timestamps',  '~>0.9.11'
-gem 'dm-types',       '~>0.9.11'
-gem 'ruby-openid',    '~>2.1.7',  :require_as => 'openid'
-gem 'guid',           '~>0.1.1'
+gem 'sinatra',        '~>0.9.0',  :require_as => [ ]
+gem 'haml',           '~>2.2.0',  :require_as => [ ]
+gem 'do_sqlite3',     '~>0.9.12', :require_as => [ ]
+gem 'dm-validations', '~>0.9.11', :require_as => [ ]
+gem 'dm-timestamps',  '~>0.9.11', :require_as => [ ]
+gem 'dm-types',       '~>0.9.11', :require_as => [ ]
+gem 'ruby-openid',    '~>2.1.7',  :require_as => [ ]
+gem 'guid',           '~>0.1.1',  :require_as => [ ]
 gem 'rack-contrib',   '~>0.9.2',  :require_as => [ ]
-gem 'json'
+gem 'json',                       :require_as => [ ]
 
 only :test do
   gem 'rack-test',     '~>0.5.0', :require_as => 'rack/test'
