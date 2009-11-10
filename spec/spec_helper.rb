@@ -19,7 +19,7 @@ Spec::Runner.configure do |config|
   def app
     @app = Rack::Builder.app do
       use Rack::Session::Cookie
-      run Sinatra::SsoServer
+      run Hancock::SsoServer
     end
   end
 

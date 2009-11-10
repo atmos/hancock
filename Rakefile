@@ -54,7 +54,6 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov_opts << '--text-summary'
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
   t.rcov_opts << '--exclude' << '.gem/,spec,examples'
-  #t.rcov_opts << '--only-uncovered'
 end
 
 require 'cucumber/rake/task'

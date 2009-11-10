@@ -15,22 +15,12 @@ require 'rack/contrib/accept_format'
 
 lib_dir = File.expand_path(File.join(File.dirname(__FILE__), 'hancock'))
 
+%w(sessions sso).each do |lib|
+  require File.join(lib_dir, 'sso', 'helpers', lib)
+  require File.join(lib_dir, 'sso', lib)
+end
 require File.join(lib_dir, 'api')
-require File.join(lib_dir, 'sso', 'sessions')
-require File.join(lib_dir, 'sso', 'openid_server')
+require File.join(lib_dir, 'sso')
 require File.join(lib_dir, 'models', 'model')
 require File.join(lib_dir, 'models', 'user')
 require File.join(lib_dir, 'models', 'consumer')
-
-module Hancock
-  class ConfigurationError < StandardError; end
-
-  class App < Sinatra::Base
-    disable :show_exceptions
-
-    set :sreg_params, [:id, :email, :first_name, :last_name, :internal, :admin]
-
-    register Sinatra::Hancock::Sessions
-    register Sinatra::Hancock::OpenIDServer
-  end
-end
