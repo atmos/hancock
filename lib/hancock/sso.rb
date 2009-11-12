@@ -1,7 +1,4 @@
-require 'hancock/sso/helpers/sessions'
 require 'hancock/sso/sessions'
-
-require 'hancock/sso/helpers/sso'
 require 'hancock/sso/sso'
 
 module Hancock
