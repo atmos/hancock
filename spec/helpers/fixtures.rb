@@ -38,5 +38,5 @@ Hancock::Consumer.fix(:visible_to_all) {{
 
 Hancock::Consumer.fix(:hidden) {{
   :url      => 'http://localhost:9292/login',
-  :internal => false
+  :internal => true
 }}

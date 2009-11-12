@@ -14,7 +14,6 @@ HAML
     end
     def self.registered(app)
       app.helpers Helpers
-      app.set :sessions, true
       app.get '/' do
         ensure_authenticated
         @consumers = ::Hancock::Consumer.visible

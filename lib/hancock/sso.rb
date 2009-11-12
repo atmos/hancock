@@ -1,3 +1,9 @@
+require 'hancock/sso/helpers/sessions'
+require 'hancock/sso/sessions'
+
+require 'hancock/sso/helpers/sso'
+require 'hancock/sso/sso'
+
 module Hancock
   module SSO
     def self.app
@@ -5,8 +11,6 @@ module Hancock
         run ::Hancock::SSO::App
       end
     end
-    class ConfigurationError < StandardError; end
-
     class App < Sinatra::Base
       disable :show_exceptions
 

@@ -1,7 +1,7 @@
 module Hancock
   module API
     module Users
-      class App < Hancock::API::JSON::App
+      class App < JSON::App
         get '/users.json' do
           Hancock::User.all.map { |user| user.attributes_for_api }.to_json
         end

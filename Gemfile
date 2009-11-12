@@ -20,7 +20,7 @@ only :test do
   gem 'dm-sweatshop',  '~>0.9.11'
   gem 'randexp'
   gem 'ParseTree',                :require_as => 'parse_tree'
-  gem 'bundler',       '>=0.6.0'
+  gem 'bundler',       '>=0.7.0'
 end
 
 disable_system_gems
