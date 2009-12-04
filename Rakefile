@@ -25,7 +25,7 @@ spec = Gem::Specification.new do |s|
 
   manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
   manifest.dependencies.each do |d|
-    next if d.only && d.only.include?('test')
+    next unless d.only && d.only.include?('release')
     s.add_dependency(d.name, d.version)
   end
 

@@ -4,8 +4,8 @@ module Hancock
 
     property :id,           Serial
     property :url,          String,  :nullable => false, :unique => true, :unique_index => true, :length => 2048
-    property :label,        String,  :nullable => true,  :default => nil
-    property :internal,     Boolean, :nullable => true,  :defalut  => false
+    property :label,        String,  :nullable => true
+    property :internal,     Boolean, :nullable => true, :default => false
 
     def self.attributes_for_api
       %w(id url label internal)

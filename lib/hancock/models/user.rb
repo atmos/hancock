@@ -44,7 +44,7 @@ module Hancock
 
     def encrypt_password
       return if password.blank?
-      @salt = Digest::SHA1.hexdigest("--#{Guid.new.to_s}}--email--") if new_record?
+      @salt = Digest::SHA1.hexdigest("--#{Guid.new.to_s}}--email--") if new?
       @crypted_password = encrypt(password)
     end
 

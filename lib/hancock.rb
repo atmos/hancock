@@ -13,10 +13,10 @@ require 'guid'
 require 'json'
 require 'rack/contrib/accept_format'
 
-$:.push File.expand_path(File.join(File.dirname(__FILE__)))
+lib_dir = File.expand_path(File.join(File.dirname(__FILE__)))
 
-require 'hancock/api'
-require 'hancock/sso'
-require 'hancock/models/model'
-require 'hancock/models/user'
-require 'hancock/models/consumer'
+require File.join(lib_dir, 'hancock', 'api')
+require File.join(lib_dir, 'hancock', 'sso')
+require File.join(lib_dir, 'hancock', 'models', 'model')
+require File.join(lib_dir, 'hancock', 'models', 'user')
+require File.join(lib_dir, 'hancock', 'models', 'consumer')
