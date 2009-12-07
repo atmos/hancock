@@ -1,5 +1,5 @@
-require 'hancock/sso/sessions'
-require 'hancock/sso/sso'
+require File.dirname(__FILE__) + '/sso/sessions'
+require File.dirname(__FILE__) + '/sso/sso'
 
 module Hancock
   module SSO

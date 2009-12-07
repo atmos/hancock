@@ -59,12 +59,14 @@ module Hancock
     end
 
     def self.signup(params)
-      seed = Guid.new.to_s
-      new(:email                 => params['email'],
-          :first_name            => params['first_name'],
-          :last_name             => params['last_name'],
-          :password              => Digest::SHA1.hexdigest(seed),
-          :password_confirmation => Digest::SHA1.hexdigest(seed))
+      pass = Digest::SHA1.hexdigest(Guid.new.to_s)
+      user = new(:email                 => params['email'],
+                 :first_name            => params['first_name'],
+                 :last_name             => params['last_name'],
+                 :password              => pass,
+                 :password_confirmation => pass)
+      user.save
+      user
     end
 
     def self.authenticate(email, password)
@@ -73,9 +75,9 @@ module Hancock
     end
 
     def attributes_for_api
-      result = { }
+      result = { :errors => errors.to_hash, :user => { } }
       self.class.attributes_for_api.each do |key|
-        result[key] = self.send(key)
+        result[:user][key] = self.send(key)
       end
       result
     end
@@ -84,6 +86,7 @@ module Hancock
       attributes_for_update.each do |key|
         self.send("#{key}=", params[key]) if params[key]
       end
+      save
     end
 
     def to_json

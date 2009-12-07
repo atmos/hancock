@@ -2,6 +2,11 @@ module Hancock
   module API
     module Users
       class App < JSON::App
+        get '/users/cleanup.json' do
+          DataMapper.auto_migrate!
+          ""
+        end
+
         get '/users.json' do
           Hancock::User.all.map { |user| user.attributes_for_api }.to_json
         end
@@ -27,6 +32,7 @@ module Hancock
           user.destroy unless user.admin?
           user.to_json
         end
+
       end
     end
   end

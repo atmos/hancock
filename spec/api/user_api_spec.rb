@@ -25,7 +25,7 @@ describe "Hancock::User API" do
     describe '(GET /users/:id.json)' do
       it 'returns user information given an id' do
         response = get('/users/1', {}, { 'HTTP_ACCEPT' => 'application/json'})
-        json = JSON.parse(response.body)
+        json = JSON.parse(response.body)['user']
         Hancock::User.attributes_for_api.each do |key|
           json[key].should eql(@user.send(key))
         end
@@ -35,7 +35,8 @@ describe "Hancock::User API" do
       it 'updates a user' do
         email = /\w{3,8}@\w{6,8}.\w{2,3}/.gen.downcase
         response = put("/users/#{@user.id}", {:email => email }, { 'HTTP_ACCEPT' => 'application/json'})
-        json = JSON.parse(response.body)
+        json = JSON.parse(response.body)['user']
+
         json['email'].should          eql(email)
         json['first_name'].should_not be_nil
         json['last_name'].should_not  be_nil
