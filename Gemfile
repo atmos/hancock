@@ -1,14 +1,17 @@
-do_version = '~>0.10.0'
-dm_version = '~>0.10.1'
+source :gemcutter
 
-gem 'dm-core',          dm_version
+do_version = '~>0.10.1'
+dm_version = '~>0.10.2'
 
-only :release do
-  gem 'sinatra',        '~>0.9.0' 
-  gem 'haml',           '~>2.2.0' 
+group :runtime do
+  gem 'dm-core',        dm_version
+  gem 'extlib',         '~>0.9.14'
+  gem 'sinatra',        '~>0.9.0'
+  gem 'haml',           '~>2.2.0'
   gem 'do_sqlite3',     do_version
   gem 'dm-validations', dm_version
   gem 'dm-timestamps',  dm_version
+  gem 'dm-aggregates',  dm_version
   gem 'dm-types',       dm_version
   gem 'ruby-openid',    '~>2.1.7'
   gem 'guid',           '~>0.1.1'
@@ -16,18 +19,15 @@ only :release do
   gem 'json'
 end
 
-only :test do
-  gem 'rack-test',      '~>0.5.0',  :require_as => 'rack/test'
-  gem 'webrat',         '~>0.5.0'
-  gem 'rspec',          '~>1.2.9',  :require_as => 'spec'
+group :test do
+  gem 'rack-test',      '~>0.5.0',  :require => 'rack/test'
+  gem 'webrat',         '~>0.7.0'
+  gem 'rspec',          '~>1.2.9',  :require => 'spec'
   gem 'rake'
   gem 'rcov'
   gem 'cucumber'
-  gem 'dm-aggregates',  dm_version
   gem 'dm-sweatshop',   dm_version
   gem 'randexp'
-  gem 'ParseTree',                  :require_as => 'parse_tree'
-  gem 'bundler',        '>=0.7.0'
+  gem 'ParseTree',                  :require => 'parse_tree'
+  gem 'bundler',        '~>0.8.1'
 end
-
-disable_system_gems

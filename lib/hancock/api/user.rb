@@ -2,7 +2,7 @@ module Hancock
   module API
     module Users
       class App < JSON::App
-        get '/users/cleanup.json' do
+        get '/users/auto_migrate.json' do
           DataMapper.auto_migrate!
           ""
         end

@@ -3,9 +3,9 @@ module Hancock
     include DataMapper::Resource
 
     property :id,           Serial
-    property :url,          String,  :nullable => false, :unique => true, :unique_index => true, :length => 2048
-    property :label,        String,  :nullable => true
-    property :internal,     Boolean, :nullable => true, :default => false
+    property :url,          String,  :required => true, :unique => true, :unique_index => true, :length => 2048
+    property :label,        String,  :required => false
+    property :internal,     Boolean, :required => false, :default => false
 
     def self.attributes_for_api
       %w(id url label internal)

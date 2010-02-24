@@ -2,6 +2,11 @@ module Hancock
   module API
     module Consumers
       class App < JSON::App
+        get '/consumers/auto_migrate.json' do
+          DataMapper.auto_migrate!
+          ""
+        end
+
         get '/consumers.json' do
           Hancock::Consumer.all.map { |consumer| consumer.attributes_for_api }.to_json
         end

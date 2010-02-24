@@ -1,6 +1,9 @@
+require 'extlib'
 require 'dm-core'
-require 'dm-validations'
+require 'dm-types'
+require 'dm-aggregates'
 require 'dm-timestamps'
+require 'dm-validations'
 
 require 'openid'
 require 'openid/store/filesystem'

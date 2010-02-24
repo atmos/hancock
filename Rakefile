@@ -1,7 +1,12 @@
+require 'rubygems'
+require 'bundler'
+
+Bundler.setup(:runtime, :test)
+require File.expand_path(File.join('..', 'lib', 'hancock'), __FILE__)
+Bundler.require(:test)
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
-require 'bundler'
 require 'lib/hancock/version'
 
 GEM = "hancock"
@@ -23,11 +28,10 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
-  manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
-  manifest.dependencies.each do |d|
-    next unless d.only && d.only.include?('release')
-    s.add_dependency(d.name, d.version)
-  end
+  bundle = Bundler::Definition.from_gemfile("Gemfile")
+  bundle.dependencies.
+    select { |d| d.groups.include?(:runtime) }.
+    each   { |d| s.add_dependency(d.name, d.version_requirements.to_s)  }
 
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md Rakefile) + Dir.glob("{features,lib,spec}/**/*")
@@ -53,7 +57,7 @@ Spec::Rake::SpecTask.new do |t|
   t.rcov = true
   t.rcov_opts << '--text-summary'
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
-  t.rcov_opts << '--exclude' << '.gem/,spec,examples'
+  t.rcov_opts << '--exclude' << '.gem/,.bundle,spec,examples'
 end
 
 require 'cucumber/rake/task'

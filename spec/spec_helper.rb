@@ -1,8 +1,12 @@
-project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-Bundler.require_env(:test)
-
 require 'pp'
-require File.join(project_root, 'lib', 'hancock')
+require 'rubygems'
+require 'bundler'
+project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+
+Bundler.setup(:runtime, :test)
+require File.expand_path(File.join('..', '..', 'lib', 'hancock'), __FILE__)
+Bundler.require(:test)
+
 %w(app matchers fixtures).each do |helper|
   require File.join(project_root, 'spec', 'helpers', helper)
 end
