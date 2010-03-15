@@ -1,6 +1,12 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec', 'spec_helper')
 
-World do
+class Webrat::Field
+  def escaped_value
+    @value.to_s
+  end
+end
+
+module HancockAppHelper
   def app
     @app ||= Rack::Builder.new do
       use Rack::Session::Cookie
@@ -13,11 +19,7 @@ World do
   include Hancock::Matchers
 end
 
-class Webrat::Field
-  def escaped_value
-    @value.to_s
-  end
-end
+World(HancockAppHelper)
 
 Before do
   DataMapper.auto_migrate!
