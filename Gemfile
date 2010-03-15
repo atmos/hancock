@@ -12,6 +12,7 @@ group :runtime do
   gem 'dm-validations', dm_version
   gem 'dm-timestamps',  dm_version
   gem 'dm-aggregates',  dm_version
+  gem 'dm-migrations',  dm_version
   gem 'dm-types',       dm_version
   gem 'ruby-openid',    '~>2.1.7'
   gem 'guid',           '~>0.1.1'
@@ -29,5 +30,5 @@ group :test do
   gem 'dm-sweatshop',   dm_version
   gem 'randexp'
   gem 'ParseTree',                  :require => 'parse_tree'
-  gem 'bundler',        '~>0.8.1'
+  gem 'bundler',        '~>0.9.11'
 end

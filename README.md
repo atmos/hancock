@@ -46,8 +46,9 @@ You need the [Gem Bundler][bundler] to function, and you MUST use the files
 in bin/ for generated gem executables.
 
     % sudo gem install bundler
-    % gem bundle
-    % bin/rake
+    % bundle install
+    % bundle exec rake
+
 
 Deployment Setup
 ================

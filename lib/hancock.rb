@@ -2,6 +2,7 @@ require 'extlib'
 require 'dm-core'
 require 'dm-types'
 require 'dm-aggregates'
+require 'dm-migrations'
 require 'dm-timestamps'
 require 'dm-validations'
 
