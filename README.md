@@ -77,6 +77,13 @@ than sqlite.  This runs the initial user migration to bootstrap your db.
 
 Here's how you setup most frameworks as consumers.  In a production environment you'd lock this down
 
+Guidance
+========
+* http://openid.net/specs/openid-authentication-2_0.html
+* http://wiki.openid.net/OpenID_Authentication_2.0
+* http://jystewart.net/process/2007/10/a-ruby-on-rails-openid-server/
+* http://lists.openidenabled.com/pipermail/dev/2007-March/000347.html
+
 Feedback
 ========
 * [Github Issues][githubissues]
