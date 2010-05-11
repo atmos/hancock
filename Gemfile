@@ -26,7 +26,7 @@ group :test do
   gem 'rspec',          '~>1.2.9',  :require => 'spec'
   gem 'rake'
   gem 'rcov'
-  gem 'cucumber'
+  gem 'cucumber',       '~>0.5.1'
   gem 'dm-sweatshop',   dm_version
   gem 'randexp'
   gem 'ParseTree',                  :require => 'parse_tree'

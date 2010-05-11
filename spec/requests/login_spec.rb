@@ -24,6 +24,7 @@ describe "getting /sso/login" do
     @user = Hancock::User.gen
     @consumer = Hancock::Consumer.gen(:internal)
   end
+
   describe "with a valid session" do
     describe "from an invalid consumer" do
       it "should return forbidden" do
@@ -35,6 +36,7 @@ describe "getting /sso/login" do
       end
     end
   end
+
   describe "without a valid session" do
     it "should prompt the user to login" do
       get '/sso/login', { 'return_to' => @consumer.url }

@@ -5,6 +5,7 @@ project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 Bundler.setup(:runtime, :test)
 require File.expand_path(File.join('..', '..', 'lib', 'hancock'), __FILE__)
+
 Bundler.require(:test)
 
 %w(app matchers fixtures).each do |helper|
@@ -21,10 +22,7 @@ end
 
 Spec::Runner.configure do |config|
   def app
-    @app = Rack::Builder.app do
-      use Rack::Session::Cookie
-      run Hancock::SsoServer
-    end
+    Hancock::TestApp.app
   end
 
   def login(user)

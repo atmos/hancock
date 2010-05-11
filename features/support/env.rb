@@ -8,11 +8,9 @@ end
 
 module HancockAppHelper
   def app
-    @app ||= Rack::Builder.new do
-      use Rack::Session::Cookie
-      run MySweetSSOServer
-    end
+    Hancock::TestApp.app
   end
+
   include Rack::Test::Methods
   include Webrat::Methods
   include Webrat::Matchers

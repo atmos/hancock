@@ -11,27 +11,10 @@ Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
-* a single authoritative source for user authentication
+* a single source for user authentication using openid
 * a [whitelist][whitelist] for consumer applications
 * integration with the big ruby frameworks via [rack][hancock_examples].
 * configurable [sreg][sreg] parameters to consumers
-
-Your Rackup File
-================
-    require 'hancock'
-
-    DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
-
-    class OneLove < Hancock::App
-      set :views,  'views'
-      set :public, 'public'
-
-      get '/' do
-        redirect '/sso/login' unless session['hancock_server_user_id']
-        erb :home
-      end
-    end
-    run OneLove
 
 How it Works
 ============
@@ -42,40 +25,19 @@ validate a user session on the consumer.
 
 Testing/Developing Locally
 ==========================
-You need the [Gem Bundler][bundler] to function, and you MUST use the files
+You need the [Bundler][bundler] to function, and you MUST use the files
 in bin/ for generated gem executables.
 
-    % sudo gem install bundler
+    % gem install bundler
     % bundle install
     % bundle exec rake
 
-
 Deployment Setup
 ================
-You can deploy hancock on any rack compatible setup.  You need a database that
-datamapper can connect to.  Generate an example rackup file for yourself based
-on the example above.
 
-    % irb
-    >> require 'rubygems'
-    => false
-    >> require 'hancock'
-    => true
-    >> DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/development.db")
-    => #<DataMapper::Adapters::Sqlite3Adapter:0x1ae639c ...>
-    >> DataMapper.auto_migrate!
-    => [Hancock::User, Hancock::Consumer]
+Ideally you just drop the middleware into your existing application.
 
-Consult the datamapper documentation if you need to connect to something other
-than sqlite.  This runs the initial user migration to bootstrap your db.
-
-    >> Hancock::Consumer.create(:url => 'http://localhost:3000/sso/login', :label => 'Local Rails Dev', :internal => false)
-    => ...
-    >> Hancock::Consumer.create(:url => 'http://localhost:4000/sso/login', :label => 'Local Merb Dev', :internal => false)
-    => ...
-    >> Hancock::Consumer.create(:url => 'http://localhost:4567/sso/login', :label => 'Local Sinatra Dev', :internal => false)
-
-Here's how you setup most frameworks as consumers.  In a production environment you'd lock this down
+TBD
 
 Guidance
 ========

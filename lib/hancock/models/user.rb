@@ -18,14 +18,6 @@ module Hancock
 
     attr_accessor :password, :password_confirmation
 
-    def self.attributes_for_api
-      %w(id first_name last_name verified internal email admin)
-    end
-
-    def attributes_for_update
-      %w(first_name last_name verified internal email)
-    end
-
     def reset_access_token
       @access_token = Digest::SHA1.hexdigest(Guid.new.to_s)
     end
@@ -72,25 +64,6 @@ module Hancock
     def self.authenticate(email, password)
       u = first(:email => email)
       u && u.authenticated?(password) && u.enabled ? u : nil
-    end
-
-    def attributes_for_api
-      result = { :errors => errors.to_hash, :user => { } }
-      self.class.attributes_for_api.each do |key|
-        result[:user][key] = self.send(key)
-      end
-      result
-    end
-
-    def update_from_params(params)
-      attributes_for_update.each do |key|
-        self.send("#{key}=", params[key]) if params[key]
-      end
-      save
-    end
-
-    def to_json
-      attributes_for_api.to_json
     end
 
     def full_name
