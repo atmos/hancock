@@ -6,8 +6,8 @@ dm_version = '~>0.10.2'
 group :runtime do
   gem 'dm-core',        dm_version
   gem 'extlib',         '~>0.9.14'
-  gem 'sinatra',        '~>0.9.0'
-  gem 'haml',           '~>2.2.0'
+  gem 'sinatra',        '~>1.0'
+  gem 'haml',           '~>3.0.0'
   gem 'do_sqlite3',     do_version
   gem 'dm-validations', dm_version
   gem 'dm-timestamps',  dm_version
@@ -30,5 +30,5 @@ group :test do
   gem 'dm-sweatshop',   dm_version
   gem 'randexp'
   gem 'ParseTree',                  :require => 'parse_tree'
-  gem 'bundler',        '~>0.9.11'
+  gem 'bundler',        '~>0.9.24'
 end
