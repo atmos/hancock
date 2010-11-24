@@ -3,20 +3,15 @@
     %meta{'http-equiv' => "Content-Type", 'content' => "text/html; charset=utf-8"}
     %meta{'name' => "description", 'content' => "Hancock Single Sign On Server"}
     %meta{'name' => "author", 'content' => "Corey Donohoe  / Original design: Andreas Viklund - http://andreasviklund.com/"}
-    %link{'rel' => 'stylesheet', 'type' => 'text/css',  'href' => '/andreas05.css'} 
+    %link{'rel' => 'stylesheet', 'type' => 'text/css',  'href' => '/css/andreas05.css'}
     %title Step Right Up
   %body
     #title
       %h1 Hancock: Single Sign On
     #container
       #sidebar
-        - if session['user_id']
-          %h2 Applications
-          - ::Hancock::Consumer.visible.each do |consumer|
-            %a{:class => 'menu', :href => consumer.url}= consumer.label
-
         %h2 Interact
-        - if session['user_id']
+        - if session_user
           %a{:class => 'menu', :href => '/sso/logout'} Logout
         - else
           %a{:class => 'menu', :href => '/sso/login'} Login
@@ -26,13 +21,10 @@
         %h2 Thank You
         %a{:class => 'menu', :href => 'http://engineyard.com'} Engine Yard
         %a{:class => 'menu', :href => 'http://www.sinatrarb.com'} Sinatra
-        %a{:class => 'menu', :href => 'http://www.datamapper.org'} DataMapper
         %a{:class => 'menu', :href => 'http://andreasviklund.com'} Andreas Viklund
       #main
         %p= yield
-        - if session['user_id']
-          %h2
-            %a{:href => 'mailto:#{session[:email]}'}= "#{session[:first_name]} #{session[:last_name]}"
+        - if session_user
+          %h2= session_user
 
       #footer
-

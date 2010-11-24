@@ -2,9 +2,7 @@ module Hancock
   module TestApp
     module Helpers
       def landing_page
-          <<-HAML
-%h2 Hello #{session_user.inspect}!
-HAML
+        "%h2 Hello #{session_user.inspect}!"
       end
 
       def unauthenticated
@@ -12,11 +10,11 @@ HAML
 %fieldset
   %legend You need to log in, buddy.
   %form{:action => '/sso/login', :method => 'POST'}
-    %label{:for => 'email'} 
+    %label{:for => 'email'}
       Email:
       %input{:type => 'text', :name => 'email'}
       %br
-    %label{:for => 'password'} 
+    %label{:for => 'password'}
       Password:
       %input{:type => 'password', :name => 'password'}
       %br
