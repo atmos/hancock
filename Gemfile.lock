@@ -1,0 +1,68 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    ParseTree (3.0.6)
+      RubyInline (>= 3.7.0)
+      sexp_processor (>= 3.0.0)
+    RubyInline (3.8.6)
+      ZenTest (~> 4.3)
+    ZenTest (4.4.0)
+    addressable (2.2.2)
+    builder (3.0.0)
+    cucumber (0.5.3)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.2)
+      json_pure (>= 1.2.0)
+      polyglot (>= 0.2.9)
+      term-ansicolor (>= 1.0.4)
+      treetop (>= 1.4.2)
+    diff-lcs (1.1.2)
+    guid (0.1.1)
+    haml (3.0.24)
+    json (1.4.6)
+    json_pure (1.4.6)
+    nokogiri (1.4.4)
+    polyglot (0.3.1)
+    rack (1.2.1)
+    rack-contrib (0.9.2)
+      rack (>= 0.9.1)
+      test-spec (~> 0.9.0)
+    rack-test (0.5.6)
+      rack (>= 1.0)
+    rake (0.8.7)
+    randexp (0.1.5)
+      ParseTree
+    rspec (1.2.9)
+    ruby-openid (2.1.8)
+    sexp_processor (3.0.5)
+    sinatra (1.1.0)
+      rack (~> 1.1)
+      tilt (~> 1.1)
+    term-ansicolor (1.0.5)
+    test-spec (0.9.0)
+    tilt (1.1)
+    treetop (1.4.9)
+      polyglot (>= 0.3.1)
+    webrat (0.7.2)
+      nokogiri (>= 1.2.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ParseTree
+  addressable
+  cucumber (~> 0.5.1)
+  guid (~> 0.1.1)
+  haml (~> 3.0.0)
+  json
+  rack-contrib (~> 0.9.2)
+  rack-test (~> 0.5.0)
+  rake
+  randexp
+  rspec (~> 1.2.9)
+  ruby-openid (~> 2.1.7)
+  sinatra (~> 1.0)
+  webrat (~> 0.7.0)
