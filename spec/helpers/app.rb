@@ -3,12 +3,7 @@ module Hancock
     module Helpers
       def landing_page
           <<-HAML
-%h2 Hello #{session_user.first_name} #{session_user.last_name}!
-- unless @consumers.empty?
-  %ul#consumers
-    - @consumers.each do |consumer|
-      %li
-        %a{:href => consumer.url}= consumer.label
+%h2 Hello #{session_user.inspect}!
 HAML
       end
 
@@ -29,15 +24,14 @@ HAML
     or
     %a{:href => '/sso/signup'} Signup
 HAML
-      end
+       end
+
     end
 
     def self.registered(app)
       app.helpers Helpers
       app.get '/' do
         ensure_authenticated
-        @consumers = ::Hancock::Consumer.visible
-        @consumers += ::Hancock::Consumer.internal if session_user.internal?
         haml landing_page
       end
     end
@@ -50,6 +44,9 @@ HAML
     end
 
     class SsoServer < ::Hancock::SSO::App
+      enable  :raise_errors
+      disable :show_exceptions
+
       error Hancock::SSO::Unauthenticated do
         haml(unauthenticated)
       end

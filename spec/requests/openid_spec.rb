@@ -1,9 +1,14 @@
 require File.expand_path(File.dirname(__FILE__)+'/../spec_helper')
 
 describe "visiting /sso" do
-  let(:user)  { Hancock::User.gen }
-  let(:consumer) { Hancock::Consumer.gen(:internal) }
-  let(:identity_url) { "http://example.org/sso/users/#{user.id}" }
+  let(:user)      { 'atmos' }
+  let(:password)  { 'hancock' }
+  let(:consumer_url) { "http://foo.example.org" }
+  let(:identity_url) { "http://example.org/sso/users/#{user}" }
+
+  before(:all) do
+    Hancock::User.authentication_class = MyUserClass
+  end
 
   it "should throw a bad request if there aren't any openid params" do
     get '/sso'
@@ -31,30 +36,14 @@ describe "visiting /sso" do
         params = {
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_setup",
-            "openid.return_to"  => consumer.url,
+            "openid.return_to"  => consumer_url,
             "openid.identity"   => identity_url,
             "openid.claimed_id" => identity_url
         }
 
-        login(user) 
+        login(user, password)
         get "/sso", params
-        last_response.should be_a_redirect_to_the_consumer(consumer, user)
-      end
-
-      describe "attempting to access from an untrusted consumer" do
-        it "cancel the openid request" do
-          params = {
-            "openid.ns"         => "http://specs.openid.net/auth/2.0",
-            "openid.mode"       => "checkid_setup",
-            "openid.return_to"  => "http://rogueconsumerapp.com/",
-            "openid.identity"   => identity_url,
-            "openid.claimed_id" => identity_url
-          }
-
-          login(user)
-          get "/sso", params
-          last_response.status.should == 403
-        end
+        last_response.should be_a_redirect_to_the_consumer(consumer_url, user)
       end
     end
 
@@ -63,7 +52,7 @@ describe "visiting /sso" do
         params = {
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_setup",
-          "openid.return_to"  => consumer.url,
+          "openid.return_to"  => consumer_url,
           "openid.identity"   => identity_url,
           "openid.claimed_id" => identity_url
         }
@@ -80,7 +69,7 @@ describe "visiting /sso" do
         params = {
           "openid.ns"         => "http://specs.openid.net/auth/2.0",
           "openid.mode"       => "checkid_immediate",
-          "openid.return_to"  => consumer.url,
+          "openid.return_to"  => consumer_url,
           "openid.identity"   => identity_url,
           "openid.claimed_id" => identity_url
         }
@@ -96,30 +85,14 @@ describe "visiting /sso" do
           params = {
             "openid.ns"         => "http://specs.openid.net/auth/2.0",
             "openid.mode"       => "checkid_immediate",
-            "openid.return_to"  => consumer.url,
+            "openid.return_to"  => consumer_url,
             "openid.identity"   => identity_url,
             "openid.claimed_id" => identity_url
           }
 
-          login(user)
+          login(user, password)
           get "/sso", params
-          last_response.should be_an_openid_immediate_response(consumer, user)
-        end
-      end
-
-      describe "attempting to access from an untrusted consumer" do
-        it "cancel the openid request" do
-          params = {
-            "openid.ns"         => "http://specs.openid.net/auth/2.0",
-            "openid.mode"       => "checkid_immediate",
-            "openid.return_to"  => "http://rogueconsumerapp.com/",
-            "openid.identity"   => identity_url,
-            "openid.claimed_id" => identity_url
-          }
-
-          login(user)
-          get "/sso", params
-          last_response.status.should == 403
+          last_response.should be_an_openid_immediate_response(consumer_url, user)
         end
       end
     end

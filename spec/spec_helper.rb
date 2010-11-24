@@ -8,11 +8,8 @@ require File.expand_path(File.join('..', '..', 'lib', 'hancock'), __FILE__)
 
 Bundler.require(:test)
 
-%w(app matchers fixtures).each do |helper|
-  require File.join(project_root, 'spec', 'helpers', helper)
-end
-
-DataMapper.setup(:default, 'sqlite3::memory:')
+require File.join(project_root, 'spec', 'helpers', 'app')
+require File.join(project_root, 'spec', 'helpers', 'matchers')
 
 Webrat.configure do |config|
   config.mode = :rack
@@ -20,20 +17,23 @@ Webrat.configure do |config|
   config.application_port = 4567
 end
 
+class MyUserClass
+  def self.authenticated?(username, password)
+    username == 'atmos' && password == 'hancock'
+  end
+end
+
 Spec::Runner.configure do |config|
   def app
     Hancock::TestApp.app
   end
 
-  def login(user)
-    post '/sso/login', :email => user.email, :password => user.password
+  def login(username, password)
+    post '/sso/login', :username => username, :password => password
   end
 
   config.include(Rack::Test::Methods)
   config.include(Webrat::Methods)
   config.include(Webrat::Matchers)
   config.include(Hancock::Matchers)
-  config.before(:each) do
-    DataMapper.auto_migrate!
-  end
 end

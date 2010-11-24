@@ -1,9 +1,9 @@
 require 'rubygems'
-require 'bundler'
+require 'bundler/setup'
 
 Bundler.setup(:runtime, :test)
+
 require File.expand_path(File.join('..', 'lib', 'hancock'), __FILE__)
-Bundler.require(:test)
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
@@ -28,10 +28,11 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
 
-  bundle = Bundler::Definition.from_gemfile("Gemfile")
-  bundle.dependencies.
-    select { |d| d.groups.include?(:runtime) }.
-    each   { |d| s.add_dependency(d.name, d.version_requirements.to_s)  }
+  bundle = Bundler::Definition.build('Gemfile', 'Gemfile.lock', { })
+  bundle.dependencies.each do |dep|
+    next unless dep.groups.include?(:runtime)
+    s.add_dependency(dep.name, dep.version_requirements.to_s)
+  end
 
   s.require_path = 'lib'
   s.files = %w(LICENSE README.md Rakefile) + Dir.glob("{features,lib,spec}/**/*")
@@ -53,19 +54,10 @@ desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = %w(-fp --color)
-
-  t.rcov = true
-  t.rcov_opts << '--text-summary'
-  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
-  t.rcov_opts << '--exclude' << '.gem,.rvm,.bundle,spec,examples'
 end
 
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new do |t|
   t.libs << 'lib'
   t.cucumber_opts = "--format pretty"
-  t.rcov = true
-  t.rcov_opts << '--text-summary'
-  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
-  t.rcov_opts << '--exclude' << '.gem,.rvm,.bundle,spec,features,examples'
 end

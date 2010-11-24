@@ -3,7 +3,7 @@ module Hancock
     module Sessions
       module Helpers
         def session_user
-          ::Hancock::User.get(session[Hancock::SSO::SESSION_USER_KEY])
+          session[Hancock::SSO::SESSION_USER_KEY]
         end
 
         def session_return_to
@@ -12,11 +12,6 @@ module Hancock
         end
 
         def ensure_authenticated
-          if trust_root = session_return_to
-            unless ::Hancock::Consumer.allowed?(trust_root)
-              raise Hancock::SSO::Forbidden
-            end
-          end
           raise Hancock::SSO::Unauthenticated unless session_user
         end
       end
@@ -30,8 +25,8 @@ module Hancock
         end
 
         app.post '/sso/login' do
-          user = ::Hancock::User.authenticate(params['email'], params['password'])
-          session[Hancock::SSO::SESSION_USER_KEY] = user && user.id
+          user = ::Hancock::User.authenticated?(params['username'], params['password'])
+          session[Hancock::SSO::SESSION_USER_KEY] = params['username']
           ensure_authenticated
           redirect session_return_to || raise(Hancock::SSO::RouteMeHome)
         end

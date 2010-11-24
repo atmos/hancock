@@ -11,7 +11,7 @@ module Hancock
         end
 
         def url_for_user
-          absolute_url("/sso/users/#{session_user.id}")
+          absolute_url("/sso/users/#{session_user}")
         end
 
         def render_response(oidresp)
@@ -60,9 +60,7 @@ module Hancock
               oidreq.identity = oidreq.claimed_id = url_for_user
               oidresp = oidreq.answer(true, nil, oidreq.identity)
               sreg_data = {
-                'last_name'  => session_user.last_name,
-                'first_name' => session_user.first_name,
-                'email'      => session_user.email
+                'email'      => session[Hancock::SSO::SESSION_USER_KEY]
               }
               oidresp.add_extension(OpenID::SReg::Response.new(sreg_data))
             else # associate

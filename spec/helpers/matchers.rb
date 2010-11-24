@@ -3,6 +3,7 @@ module Hancock
     class LoginForm
       include ::Webrat::Methods
       include ::Webrat::Matchers
+
       def matches?(target)
         target.should have_selector("form[action='/sso/login'][method='POST']")
         target.should have_selector("form[action='/sso/login'][method='POST'] input[type='text'][name='email']")
@@ -10,6 +11,7 @@ module Hancock
         target.should have_selector("form[action='/sso/login'][method='POST'] input[type='submit'][value='Login']")
         true
       end
+
       def failure_message
         puts "Expected a login form to be displayed, it wasn't"
       end
@@ -44,9 +46,10 @@ module Hancock
       include Spec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
-      def initialize(consumer, user)
-        @consumer, @user = consumer, user
-        @identity_url = "http://example.org/sso/users/#{user.id}"
+
+      def initialize(consumer_url, username)
+        @consumer_url, @username = consumer_url, username
+        @identity_url = "http://example.org/sso/users/#{username}"
       end
 
       def matches?(target)
@@ -56,34 +59,34 @@ module Hancock
 
         redirect_params['openid.ns'].should               == 'http://specs.openid.net/auth/2.0'
         redirect_params['openid.mode'].should             == 'id_res'
-        redirect_params['openid.return_to'].should        == @consumer.url
+        redirect_params['openid.return_to'].should        == @consumer_url
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
-        redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
+        redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso'
         redirect_params['openid.claimed_id'].should       == @identity_url
         redirect_params['openid.identity'].should         == @identity_url
 
-        redirect_params['openid.sreg.email'].should         == @user.email
-        redirect_params['openid.sreg.last_name'].should     == @user.last_name
-        redirect_params['openid.sreg.first_name'].should    == @user.first_name
+        redirect_params['openid.sreg.email'].should       == @username
 
         redirect_params['openid.sig'].should_not be_nil
         redirect_params['openid.signed'].should_not be_nil
         redirect_params['openid.response_nonce'].should_not be_nil
         true
       end
+
       def failure_message
         puts "Expected a redirect to the consumer"
       end
     end
 
-    def be_a_redirect_to_the_consumer(consumer, user)
-      RedirectToConsumer.new(consumer, user)
+    def be_a_redirect_to_the_consumer(consumer_url, username)
+      RedirectToConsumer.new(consumer_url, username)
     end
 
     class ReturnAnOpenIDAssociateResponse
       include Spec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
+
       def initialize(session)
         @openid_session = session
       end
@@ -107,6 +110,7 @@ module Hancock
         puts "Expected an OpenID Associate Response"
       end
     end
+
     def be_an_openid_associate_response(openid_session)
       ReturnAnOpenIDAssociateResponse.new(openid_session)
     end
@@ -115,9 +119,10 @@ module Hancock
       include Spec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
-      def initialize(consumer, user)
-        @consumer, @user = consumer, user
-        @identity_url = "http://example.org/sso/users/#{user.id}"
+
+      def initialize(consumer_url, username)
+        @consumer_url, @username = consumer_url, username
+        @identity_url = "http://example.org/sso/users/#{username}"
       end
 
       def matches?(target)
@@ -127,15 +132,13 @@ module Hancock
 
         redirect_params['openid.ns'].should               == 'http://specs.openid.net/auth/2.0'
         redirect_params['openid.mode'].should             == 'id_res'
-        redirect_params['openid.return_to'].should        == @consumer.url
+        redirect_params['openid.return_to'].should        == @consumer_url
         redirect_params['openid.assoc_handle'].should     =~ /^\{HMAC-SHA1\}\{[^\}]{8}\}\{[^\}]{8}\}$/
-        redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso' 
+        redirect_params['openid.op_endpoint'].should      == 'http://example.org/sso'
         redirect_params['openid.claimed_id'].should       == @identity_url
         redirect_params['openid.identity'].should         == @identity_url
 
-        redirect_params['openid.sreg.email'].should         == @user.email
-        redirect_params['openid.sreg.last_name'].should     == @user.last_name
-        redirect_params['openid.sreg.first_name'].should    == @user.first_name
+        redirect_params['openid.sreg.email'].should       == @username
 
         redirect_params['openid.sig'].should_not be_nil
         redirect_params['openid.signed'].should_not be_nil
@@ -146,8 +149,9 @@ module Hancock
         puts "Expected an OpenID Associate Response"
       end
     end
-    def be_an_openid_immediate_response(consumer, user)
-      ReturnAnOpenIDImmediateResponse.new(consumer, user)
+
+    def be_an_openid_immediate_response(consumer_url, username)
+      ReturnAnOpenIDImmediateResponse.new(consumer_url, username)
     end
   end
 end
