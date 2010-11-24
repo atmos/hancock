@@ -1,20 +1,18 @@
 hancock
 =======
 
-It's like your [John Hancock][johnhancock] for all of your company's apps.  
+It's like your [John Hancock][johnhancock] for all of your company's apps.
 
 A lot of this is extracted from our internal single sign on server at [Engine
-Yard][ey].  We use a different [datamapper][datamapper] backend but it should
-be a great start for most people.
+Yard][ey].  You can easily add this middleware to authenticate your
+users with existing models.
 
 Features
 ========
 An [OpenID][openid] based [Single Sign On][sso] server that provides:
 
 * a single source for user authentication using openid
-* a [whitelist][whitelist] for consumer applications
-* integration with the big ruby frameworks via [rack][hancock_examples].
-* configurable [sreg][sreg] parameters to consumers
+* integration with ruby frameworks via [rack][hancock_examples].
 
 How it Works
 ============
@@ -25,8 +23,7 @@ validate a user session on the consumer.
 
 Testing/Developing Locally
 ==========================
-You need the [Bundler][bundler] to function, and you MUST use the files
-in bin/ for generated gem executables.
+You need the [Bundler][bundler] to function.
 
     % gem install bundler
     % bundle install
@@ -72,4 +69,4 @@ Sponsored By
 [simpledb]: http://aws.amazon.com/simpledb/
 [googlegroup]: http://groups.google.com/group/hancock-users
 [githubissues]: http://github.com/atmos/hancock/issues
-[bundler]: http://github.com/wycats/bundler
+[bundler]: http://gembundler.com
