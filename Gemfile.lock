@@ -8,6 +8,7 @@ GEM
       ZenTest (~> 4.3)
     ZenTest (4.4.0)
     addressable (2.2.2)
+    diff-lcs (1.1.2)
     guid (0.1.1)
     haml (3.0.24)
     json (1.4.6)
@@ -21,7 +22,14 @@ GEM
     rake (0.8.7)
     randexp (0.1.5)
       ParseTree
-    rspec (1.2.9)
+    rspec (2.1.0)
+      rspec-core (~> 2.1.0)
+      rspec-expectations (~> 2.1.0)
+      rspec-mocks (~> 2.1.0)
+    rspec-core (2.1.0)
+    rspec-expectations (2.1.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.1.0)
     ruby-openid (2.1.8)
     sexp_processor (3.0.5)
     sinatra (1.1.0)
@@ -47,7 +55,7 @@ DEPENDENCIES
   rack-test (~> 0.5.0)
   rake
   randexp
-  rspec (~> 1.2.9)
+  rspec (~> 2.1.0)
   ruby-openid (~> 2.1.7)
   sinatra (~> 1.0)
   webrat (~> 0.7.0)
