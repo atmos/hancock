@@ -24,7 +24,7 @@ module Hancock
     class IdentityProviderDocument
       include Webrat::Methods
       include Webrat::Matchers
-      include Spec::Matchers
+      include RSpec::Matchers
 
       def matches?(target)
         target.headers['Content-Type'].should eql('application/xrds+xml')
@@ -43,7 +43,7 @@ module Hancock
     end
 
     class RedirectToConsumer
-      include Spec::Matchers
+      include RSpec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
 
@@ -83,7 +83,7 @@ module Hancock
     end
 
     class ReturnAnOpenIDAssociateResponse
-      include Spec::Matchers
+      include RSpec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
 
@@ -116,7 +116,7 @@ module Hancock
     end
 
     class ReturnAnOpenIDImmediateResponse
-      include Spec::Matchers
+      include RSpec::Matchers
       include Webrat::Methods
       include Webrat::Matchers
 

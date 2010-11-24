@@ -23,7 +23,7 @@ class MyUserClass
   end
 end
 
-Spec::Runner.configure do |config|
+Rspec.configure do |config|
   def app
     Hancock::TestApp.app
   end
