@@ -47,17 +47,11 @@ task :make_spec do
   end
 end
 
-task :default => [:spec, :cucumber]
+task :default => [:spec]
 
 require 'spec/rake/spectask'
 desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = %w(-fp --color)
-end
-
-require 'cucumber/rake/task'
-Cucumber::Rake::Task.new do |t|
-  t.libs << 'lib'
-  t.cucumber_opts = "--format pretty"
 end

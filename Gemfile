@@ -10,12 +10,11 @@ group :runtime do
 end
 
 group :test do
-  gem 'rack-test',      '~>0.5.0',  :require => 'rack/test'
+  gem 'rake'
   gem 'webrat',         '~>0.7.0'
   gem 'rspec',          '~>1.2.9',  :require => 'spec'
-  gem 'rake'
-  gem 'addressable',                :require => 'addressable/uri'
-  gem 'cucumber',       '~>0.5.1'
+  gem 'rack-test',      '~>0.5.0',  :require => 'rack/test'
   gem 'randexp'
+  gem 'addressable',                :require => 'addressable/uri'
   gem 'ParseTree',                  :require => 'parse_tree'
 end
