@@ -10,9 +10,9 @@ module Hancock
 %fieldset
   %legend You need to log in, buddy.
   %form{:action => '/sso/login', :method => 'POST'}
-    %label{:for => 'email'}
-      Email:
-      %input{:type => 'text', :name => 'email'}
+    %label{:for => 'username'}
+      Username:
+      %input{:type => 'text', :name => 'username'}
       %br
     %label{:for => 'password'}
       Password:
